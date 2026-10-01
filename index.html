@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Prix Parc Astérix 2026</title>
+<meta name="description" content="Étude de marché et plafond tarifaire provisoire du Parc Astérix, relevé du 1er octobre 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Public+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout : une colonne de lecture large, rythmée comme une billetterie ; la grille des prix est la pièce centrale. */
+:root {
+  --bg: #F2F5FA;
+  --surface: #FFFFFF;
+  --fg: #13213B;
+  --muted: #56637A;
+  --line: #D5DDEA;
+  --accent: #1F4FB8;      /* bleu gaulois */
+  --gold: #F2B705;        /* jaune casque */
+  --gold-ink: #6B4E00;
+  --neutral-bar: #A9B5C9;
+  --neutral-bar-soft: #D6DEEA;
+  --ceiling: #C8262E;
+  --display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+  --body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0D1422; --surface: #152035; --fg: #E6ECF6; --muted: #9AA8C0; --line: #26344E;
+    --accent: #7FA6FF; --gold: #F5C431; --gold-ink: #F5C431;
+    --neutral-bar: #5A6984; --neutral-bar-soft: #2E3B55; --ceiling: #FF6B6B;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0D1422; --surface: #152035; --fg: #E6ECF6; --muted: #9AA8C0; --line: #26344E;
+  --accent: #7FA6FF; --gold: #F5C431; --gold-ink: #F5C431;
+  --neutral-bar: #5A6984; --neutral-bar-soft: #2E3B55; --ceiling: #FF6B6B;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: var(--body); font-size: 1rem; line-height: 1.6;
+  padding-inline: 16px;
+}
+a { color: var(--accent); text-underline-offset: 2px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.wrap { max-width: 64rem; margin-inline: auto; }
+.prose { max-width: 65ch; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; line-height: 1.05; }
+h2 { font-size: clamp(1.6rem, 3.5vw, 2.3rem); font-weight: 800; font-stretch: 85%; letter-spacing: -0.01em; }
+h3 { font-size: 1.1rem; font-weight: 700; font-stretch: 100%; }
+p { margin: 0; }
+.eyebrow {
+  font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+}
+.num { font-variant-numeric: tabular-nums; }
+
+/* Navigation */
+nav.top {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--line);
+  margin-inline: -16px; padding-inline: 16px;
+}
+nav.top .wrap { display: flex; gap: 1.25rem; align-items: center; overflow-x: auto; padding-block: 0.7rem; white-space: nowrap; scrollbar-width: none; }
+nav.top .brand { font-family: var(--display); font-weight: 900; font-stretch: 75%; font-size: 1.05rem; text-transform: uppercase; letter-spacing: 0.02em; color: var(--fg); text-decoration: none; }
+nav.top a:not(.brand) { color: var(--muted); text-decoration: none; font-size: 0.9rem; }
+nav.top a:not(.brand):hover { color: var(--fg); }
+
+/* Hero */
+header.hero { padding-block: 3.5rem 2.5rem; display: grid; gap: 2rem; }
+.hero h1 {
+  font-size: clamp(2.6rem, 8vw, 5.4rem); font-weight: 900; font-stretch: 70%;
+  text-transform: uppercase; letter-spacing: -0.01em; line-height: 0.92;
+}
+.hero h1 mark { background: none; color: inherit; box-shadow: inset 0 -0.28em 0 var(--gold); }
+.hero .lede { font-size: 1.15rem; color: var(--muted); max-width: 58ch; }
+.ticket {
+  display: grid; grid-template-columns: 1fr auto; align-items: stretch;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+  max-width: 36rem; position: relative;
+}
+.ticket .main { padding: 1.1rem 1.3rem; display: grid; gap: 0.3rem; min-width: 0; }
+.ticket .stub {
+  border-left: 2px dashed var(--line); padding: 1.1rem 1.3rem; display: grid; align-content: center; justify-items: center;
+  font-family: var(--display); font-weight: 900; font-stretch: 75%; font-size: 2.8rem; line-height: 1; color: var(--ceiling);
+}
+.ticket .stub small { font-family: var(--mono); font-size: 0.68rem; font-weight: 400; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; margin-top: 0.3rem; }
+
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.kpi { background: var(--surface); padding: 1rem 1.2rem; display: grid; gap: 0.15rem; align-content: start; }
+.kpi b { font-family: var(--display); font-size: 2rem; font-weight: 800; font-stretch: 80%; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.kpi span { color: var(--muted); font-size: 0.88rem; line-height: 1.4; }
+
+/* Sections */
+section { padding-block: 3rem; border-top: 1px solid var(--line); display: grid; gap: 1.4rem; scroll-margin-top: 3.5rem; }
+.head { display: grid; gap: 0.5rem; }
+.note {
+  font-size: 0.92rem; color: var(--muted); border-left: 3px solid var(--gold); padding: 0.2rem 0 0.2rem 0.9rem; max-width: 65ch;
+}
+.sources { font-size: 0.82rem; color: var(--muted); line-height: 1.7; }
+.sources a { color: var(--muted); }
+
+/* Cercles de concurrence */
+.rings { display: grid; gap: 0; }
+.ring { border: 1.5px solid var(--line); border-radius: 22px; padding: 1rem; display: grid; gap: 0.9rem; }
+.ring.r3 { background: var(--surface); }
+.ring.r2 { border-color: var(--neutral-bar); }
+.ring.r1 { border-color: var(--accent); border-width: 2px; }
+.ring > .lbl { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; align-items: baseline; }
+.ring > .lbl h3 { font-size: 1rem; }
+.chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.chip { border: 1px solid var(--line); background: var(--bg); border-radius: 999px; padding: 0.3rem 0.8rem; font-size: 0.88rem; line-height: 1.35; }
+.chip em { font-style: normal; color: var(--muted); }
+.core {
+  background: var(--gold); color: #1A1400; border-radius: 14px; padding: 0.9rem 1.1rem;
+  font-family: var(--display); font-weight: 900; font-stretch: 75%; text-transform: uppercase; font-size: 1.3rem; line-height: 1.1;
+}
+.core small { display: block; font-family: var(--body); text-transform: none; font-weight: 400; font-size: 0.85rem; font-stretch: 100%; margin-top: 0.2rem; }
+
+/* Graphique des prix */
+.chart { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 1.2rem 1.2rem 1rem; display: grid; gap: 0.9rem; }
+.legend { display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; font-size: 0.82rem; color: var(--muted); }
+.legend i { display: inline-block; width: 12px; height: 12px; border-radius: 2px; vertical-align: -1px; margin-right: 0.35rem; }
+.legend i.ast { background: var(--accent); }
+.legend i.oth { background: var(--neutral-bar); }
+.legend i.rng { background: var(--neutral-bar-soft); border: 1px solid var(--neutral-bar); }
+.legend i.ceil { width: 0; border-left: 2px dashed var(--ceiling); border-radius: 0; height: 13px; }
+.bars { display: grid; grid-template-columns: minmax(8.5rem, 13rem) 1fr; row-gap: 0.45rem; column-gap: 0.9rem; align-items: center; }
+.bars .name { font-size: 0.88rem; line-height: 1.25; min-width: 0; }
+.bars .name small { display: block; color: var(--muted); font-size: 0.76rem; }
+.bars .name.ast { font-weight: 600; }
+.track { position: relative; height: 26px; }
+.track::after { content: ""; position: absolute; top: -4px; bottom: -4px; left: calc(59 / 130 * 100%); border-left: 2px dashed var(--ceiling); }
+.bar { position: absolute; top: 3px; height: 20px; left: 0; border-radius: 0 3px 3px 0; background: var(--neutral-bar); }
+.bar.ast { background: var(--accent); }
+.bar.range { background: var(--neutral-bar-soft); border: 1px solid var(--neutral-bar); border-left: none; }
+.val.in { transform: translateX(-100%); padding: 0 0.45rem 0 0; color: var(--fg); }
+.val { position: absolute; top: 3px; line-height: 20px; font-family: var(--mono); font-size: 0.78rem; padding-left: 0.4rem; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.axis { display: grid; grid-template-columns: minmax(8.5rem, 13rem) 1fr; column-gap: 0.9rem; }
+.ticks { position: relative; height: 1.2rem; border-top: 1px solid var(--line); font-family: var(--mono); font-size: 0.7rem; color: var(--muted); }
+.ticks span { position: absolute; top: 0.15rem; transform: translateX(-50%); }
+.ticks span:first-child { transform: none; }
+.ticks span.c { color: var(--ceiling); font-weight: 500; }
+
+/* Tables */
+.tablebox { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.9rem; min-width: 40rem; }
+th, td { text-align: left; vertical-align: top; padding: 0.7rem 0.9rem; border-bottom: 1px solid var(--line); }
+tr:last-child td { border-bottom: none; }
+thead th { font-family: var(--mono); font-size: 0.7rem; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); background: var(--bg); }
+td.price { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+th.price { text-align: right; }
+tr.ast td:first-child { box-shadow: inset 3px 0 0 var(--accent); font-weight: 600; }
+td .muted { color: var(--muted); }
+
+/* Finances */
+.fin { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: 1rem; }
+.fin article { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 1.1rem 1.2rem; display: grid; gap: 0.7rem; align-content: start; min-width: 0; }
+.fin dl { margin: 0; display: grid; grid-template-columns: 1fr auto; gap: 0.3rem 1rem; font-size: 0.9rem; }
+.fin dt { color: var(--muted); }
+.fin dd { margin: 0; text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.fin .caveat { font-size: 0.82rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 0.6rem; }
+.fin article.ast { border-color: var(--accent); }
+
+/* Investissements */
+.inv { display: grid; gap: 0; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); overflow: hidden; }
+.inv .row { display: grid; grid-template-columns: 9.5rem 1fr; gap: 0.3rem 1.2rem; padding: 1rem 1.2rem; border-bottom: 1px solid var(--line); }
+.inv .row:last-child { border-bottom: none; }
+.inv .amt { font-family: var(--display); font-weight: 800; font-stretch: 80%; font-size: 1.5rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.inv .amt small { display: block; font-family: var(--body); font-weight: 400; font-stretch: 100%; font-size: 0.8rem; color: var(--muted); }
+.inv .what { display: grid; gap: 0.25rem; min-width: 0; }
+.inv .what p { font-size: 0.92rem; }
+.inv .what p.why { color: var(--muted); }
+.inv .row.ast .amt { color: var(--accent); }
+
+.chain { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; font-size: 0.85rem; }
+.chain span { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 0.35rem 0.7rem; }
+.chain span.end { background: var(--gold); color: #1A1400; border-color: var(--gold); font-weight: 600; }
+.chain b { color: var(--muted); font-weight: 400; }
+
+/* Plafond */
+.ceiling-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 1rem; }
+.cmp { border-top: 3px solid var(--line); padding-top: 0.8rem; display: grid; gap: 0.35rem; align-content: start; }
+.cmp .big { font-family: var(--display); font-weight: 900; font-stretch: 75%; font-size: 2.6rem; line-height: 1; font-variant-numeric: tabular-nums; }
+.cmp p { font-size: 0.92rem; color: var(--muted); }
+.cmp.warn { border-top-color: var(--ceiling); }
+.cmp.ok { border-top-color: var(--accent); }
+.verdict { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 1.2rem 1.3rem; max-width: 70ch; display: grid; gap: 0.5rem; }
+
+/* Offre test */
+.offer { display: grid; grid-template-columns: 1fr; gap: 0; border-radius: 12px; overflow: hidden; border: 2px solid var(--fg); }
+.offer .hd { background: var(--fg); color: var(--bg); padding: 1rem 1.3rem; display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; align-items: baseline; }
+.offer .hd h3 { font-size: 1.6rem; font-weight: 900; font-stretch: 72%; text-transform: uppercase; }
+.offer .hd .eyebrow { color: inherit; opacity: 0.75; }
+.offer .bd { background: var(--surface); display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
+.offer .bd div { padding: 1rem 1.3rem; display: grid; gap: 0.3rem; align-content: start; border-right: 1px dashed var(--line); }
+.offer .bd div:last-child { border-right: none; }
+.offer .bd strong { font-family: var(--display); font-size: 2.2rem; font-weight: 900; font-stretch: 75%; line-height: 1; }
+
+ul.limits { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.45rem; max-width: 70ch; }
+
+footer { border-top: 1px solid var(--line); padding-block: 2rem 3rem; color: var(--muted); font-size: 0.85rem; }
+
+@media (max-width: 560px) {
+  .bars, .axis { grid-template-columns: 7.2rem 1fr; column-gap: 0.6rem; }
+  .bars .name small { display: none; }
+  .inv .row { grid-template-columns: 1fr; }
+  .ticket .stub { font-size: 2.2rem; padding-inline: 0.9rem; }
+  .ring { padding: 0.75rem; border-radius: 16px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .bar { transform-origin: left; animation: grow 700ms cubic-bezier(.2,.7,.2,1) both; }
+  @keyframes grow { from { transform: scaleX(0.02); } to { transform: scaleX(1); } }
+}
+</style>
+</head>
+<body>
+
+<nav class="top" aria-label="Sections">
+  <div class="wrap">
+    <a class="brand" href="#haut">Prix Astérix</a>
+    <a href="#marche">Marché</a>
+    <a href="#concurrence">Concurrence</a>
+    <a href="#tarifs">Tarifs</a>
+    <a href="#finances">Finances</a>
+    <a href="#investissements">Investissements</a>
+    <a href="#plafond">Plafond</a>
+    <a href="#offre">Offre test</a>
+    <a href="#methode">Méthode</a>
+  </div>
+</nav>
+
+<main class="wrap" id="haut">
+  <header class="hero">
+    <p class="eyebrow">Étude de marché · relevé du 1er octobre 2026</p>
+    <h1>Jusqu'où peut monter<br>le billet du <mark>Parc Astérix</mark>&nbsp;?</h1>
+    <p class="lede">Positionnement concurrentiel et plafond tarifaire provisoire pour une sortie familiale ou entre amis, à la journée ou en court séjour, en France.</p>
+    <div class="ticket" role="group" aria-label="Plafond provisoire">
+      <div class="main">
+        <span class="eyebrow">Plafond de comparaison provisoire</span>
+        <strong style="font-size:1.05rem">Billet adulte daté, 1 jour / 1 parc, période verte</strong>
+        <span style="color:var(--muted);font-size:0.9rem">Repère Disneyland Paris 52 à 59 €. À recalculer pour la même date chez les concurrents.</span>
+      </div>
+      <div class="stub num">59 €<small>plafond</small></div>
+    </div>
+  </header>
+
+  <section id="marche" aria-labelledby="t-marche">
+    <div class="head">
+      <p class="eyebrow">Délimitation du marché</p>
+      <h2 id="t-marche">Un besoin : sortir pour une journée immersive à un prix acceptable</h2>
+    </div>
+    <p class="prose">Le Parc Astérix répond au besoin de <strong>sortir en famille ou entre amis pour vivre une journée ou un court séjour de loisirs immersifs, à un prix jugé acceptable</strong>, principalement en Île-de-France et dans le nord de la France.</p>
+    <div class="kpis">
+      <div class="kpi"><b>2,9 M</b><span>visiteurs annoncés par le Parc Astérix, saison 2024-2025</span></div>
+      <div class="kpi"><b>2,842 M</b><span>visites au Parc Astérix en 2024 (classement TEA)</span></div>
+      <div class="kpi"><b>10,214 M</b><span>visites au Parc Disneyland en 2024 (TEA)</span></div>
+      <div class="kpi"><b>5,598 M</b><span>visites au second parc Disney en 2024 (TEA)</span></div>
+    </div>
+    <p class="note">Le classement TEA compte des visites par parc, et non des visiteurs uniques du complexe Disney. Il porte sur l'année civile 2024, alors que le chiffre de 2,9 M concerne une saison.</p>
+    <p class="sources">Sources : <a href="https://newsroom.parcasterix.fr/entreprise/chiffres-cles/">chiffres clés Parc Astérix</a> · <a href="https://interpark.co.uk/latest-news/tea-2024-index-releases-visitor-attendance-report/">classement TEA 2024</a></p>
+  </section>
+
+  <section id="concurrence" aria-labelledby="t-conc">
+    <div class="head">
+      <p class="eyebrow">Les trois cercles de concurrence</p>
+      <h2 id="t-conc">Du parc à thème concurrent à la sortie gratuite</h2>
+    </div>
+    <div class="rings">
+      <div class="ring r3">
+        <div class="lbl"><h3>3. Alternatives qui captent le budget</h3><span class="eyebrow">temps libre et budget</span></div>
+        <div class="chips">
+          <span class="chip">Parcs publics <em>forêts et pique-nique</em></span>
+          <span class="chip">Cinéma <em>loisirs indoor</em></span>
+          <span class="chip">Sortie gratuite <em>ou activité à domicile</em></span>
+        </div>
+        <div class="ring r2">
+          <div class="lbl"><h3>2. Concurrents indirects</h3><span class="eyebrow">autre promesse</span></div>
+          <div class="chips">
+            <span class="chip">Puy du Fou <em>spectacles et séjours</em></span>
+            <span class="chip">Autres parcs de loisirs <em>sorties et week-ends</em></span>
+          </div>
+          <div class="ring r1">
+            <div class="lbl"><h3>1. Concurrents directs</h3><span class="eyebrow">même journée en parc</span></div>
+            <div class="chips">
+              <span class="chip">Disneyland Paris <em>destination premium, deux parcs</em></span>
+              <span class="chip">La Mer de Sable <em>parc familial régional, tarif plus bas</em></span>
+              <span class="chip">Parc Saint-Paul <em>parc familial régional, tarif plus bas</em></span>
+            </div>
+            <div class="core">Parc Astérix<small>Journée familiale, attractions et spectacles</small></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="prose">Disneyland Paris est le comparable premium pour une journée dans un parc à thème. La Mer de Sable et le Parc Saint-Paul exercent une pression surtout sur le budget des familles de la région ; leur taille et leur offre sont différentes. Le Puy du Fou répond davantage à une demande de spectacles et de séjours.</p>
+  </section>
+
+  <section id="tarifs" aria-labelledby="t-tarifs">
+    <div class="head">
+      <p class="eyebrow">Comparaison des tarifs</p>
+      <h2 id="t-tarifs">Prix d'appel adulte pour une entrée à la journée</h2>
+    </div>
+    <p class="note">Ce sont des points d'entrée et non des paniers comparables à date égale. La présence de deux parcs, la date choisie, la flexibilité et les services inclus changent la valeur de l'offre.</p>
+
+    <figure class="chart" style="margin:0" aria-label="Graphique des prix d'appel adulte en euros, avec le plafond provisoire à 59 €">
+      <div class="legend">
+        <span><i class="ast"></i>Parc Astérix</span>
+        <span><i class="oth"></i>Concurrents</span>
+        <span><i class="rng"></i>Fourchette selon la date</span>
+        <span><i class="ceil"></i>Plafond provisoire 59 €</span>
+      </div>
+      <div class="bars" id="bars"></div>
+      <div class="axis" aria-hidden="true"><span></span><div class="ticks" id="ticks"></div></div>
+    </figure>
+
+    <div class="tablebox">
+      <table>
+        <thead><tr><th>Acteur</th><th>Offre observée</th><th class="price">Prix adulte</th><th>Conditions et comparabilité</th></tr></thead>
+        <tbody>
+          <tr class="ast"><td>Parc Astérix</td><td>Billet Malin</td><td class="price">49 €</td><td>Tarif unique, quantité limitée, billet daté</td></tr>
+          <tr class="ast"><td>Parc Astérix</td><td>Billet Futé</td><td class="price">dès 56 €</td><td>Billet daté, réservation au plus tard à J-7</td></tr>
+          <tr class="ast"><td>Parc Astérix</td><td>Liberté Flex</td><td class="price">68 €</td><td>Billet adulte modifiable, réservation possible jusqu'au jour J</td></tr>
+          <tr><td>Disneyland Paris</td><td>Billet daté, 1 jour / 1 parc</td><td class="price">52 à 59 €</td><td>Période verte. Prix variable selon la date et la demande</td></tr>
+          <tr><td>Disneyland Paris</td><td>Billet daté, 1 jour / 2 parcs</td><td class="price">87 à 94 €</td><td>Période verte. Deux parcs : offre différente d'une journée Astérix</td></tr>
+          <tr><td>Disneyland Paris</td><td>Billet Liberté, 1 jour / 1 parc</td><td class="price">119 €</td><td>Date flexible</td></tr>
+          <tr><td>La Mer de Sable</td><td>Billet daté Citrouille</td><td class="price">dès 28 €</td><td>Achat web, places limitées <span class="muted">· guichet : 34,90 €</span></td></tr>
+          <tr><td>Parc Saint-Paul</td><td>Billet non daté</td><td class="price">dès 29 €</td><td>Parking gratuit ; plus de 35 attractions annoncées</td></tr>
+          <tr><td>Puy du Fou</td><td>Billet journée</td><td class="price">dès 47 €</td><td>Offre centrée sur les spectacles ; tarifs variables selon la date</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="prose" style="font-size:0.95rem">Le Billet Malin d'Astérix n'est pas une référence de prix garantie pour toutes les dates. Inversement, le minimum Disney est un tarif de période verte. Une comparaison rigoureuse demande de relever les calendriers le même jour, pour la même date de visite, les mêmes âges et la même flexibilité.</p>
+    <p class="sources">Sources : <a href="https://www.parcasterix.fr/offres/billets">billetterie Astérix</a> · <a href="https://tickets.disneylandparis.com/fr-fr/tickets">billetterie Disney</a> et <a href="https://disneyland-pratique.fr/tarifs-disneyland-paris-2026.html">grille 2026 indépendante</a> · <a href="https://www.merdesable.fr/tarifs-reservations">tarifs Mer de Sable</a> · <a href="https://www.parcsaintpaul.fr/">site Parc Saint-Paul</a> · <a href="https://www.puydufou.com/france/fr/billets-puy-du-fou-france">tarifs Puy du Fou</a></p>
+  </section>
+
+  <section id="finances" aria-labelledby="t-fin">
+    <div class="head">
+      <p class="eyebrow">Santé financière et capacité d'investissement</p>
+      <h2 id="t-fin">Qui a les moyens d'investir</h2>
+    </div>
+    <div class="fin">
+      <article class="ast">
+        <h3>Parc Astérix · Compagnie des Alpes</h3>
+        <dl>
+          <dt>CA groupe 2024-2025</dt><dd>1 397 M€</dd>
+          <dt>EBO groupe</dt><dd>409 M€</dd>
+          <dt>Résultat net part du groupe</dt><dd>107 M€</dd>
+          <dt>EBO division Parcs de loisirs</dt><dd>176 M€</dd>
+          <dt>Marge d'EBO division</dt><dd>26 %</dd>
+        </dl>
+        <p class="caveat">Pas de comptes autonomes du parc dans les sources consultées : chiffres consolidés de groupe et de division.</p>
+      </article>
+      <article>
+        <h3>Disneyland Paris · Euro Disney Associés SAS</h3>
+        <dl>
+          <dt>CA 2024-2025</dt><dd>2,68 Md€</dd>
+          <dt>Résultat d'exploitation</dt><dd>271 M€</dd>
+          <dt>Résultat net</dt><dd>260 M€</dd>
+        </dl>
+        <p class="caveat">Comptes de l'exploitant de la destination. Le résultat net bénéficie aussi de pertes fiscales antérieures reportées.</p>
+      </article>
+      <article>
+        <h3>Puy du Fou France</h3>
+        <dl>
+          <dt>CA 2024</dt><dd>184,2 M€</dd>
+          <dt>EBE</dt><dd>48,2 M€</dd>
+          <dt>Résultat net</dt><dd>26,1 M€</dd>
+        </dl>
+        <p class="caveat">Comptes de la société Puy du Fou France ; la destination ne se résume pas à un seul billet de parc.</p>
+      </article>
+      <article>
+        <h3>La Mer de Sable · Looping</h3>
+        <dl>
+          <dt>CA annuel du parc</dt><dd>&gt; 12 M€</dd>
+          <dt>Visiteurs 2025</dt><dd>400 000</dd>
+          <dt>CA groupe Looping 2025</dt><dd>&gt; 250 M€</dd>
+          <dt>Sites européens Looping</dt><dd>21</dd>
+        </dl>
+        <p class="caveat">Chiffre du parc publié dans la presse, non audité ici ; Looping est le groupe, pas le seul parc.</p>
+      </article>
+      <article>
+        <h3>Parc Saint-Paul</h3>
+        <dl>
+          <dt>CA 2024</dt><dd>9,85 M€</dd>
+          <dt>CA 2025</dt><dd>7,49 M€</dd>
+          <dt>Variation</dt><dd>−24 %</dd>
+        </dl>
+        <p class="caveat">Baisse à surveiller ; les données ne suffisent pas à en établir la cause ni à conclure sur la rentabilité.</p>
+      </article>
+    </div>
+    <p class="sources">Sources : <a href="https://news.compagniedesalpes.com/resultats-2024-2025-perspectives/">résultats CDA 2024-2025</a> · <a href="https://www.lechotouristique.com/article/en-2025-disneyland-paris-a-triple-son-resultat-net">L'Écho touristique</a> · <a href="https://www.lejournaldesentreprises.com/breve/la-mer-de-sable-conserve-son-niveau-de-frequentation-apres-un-printemps-complique-2145363">Mer de Sable en 2026</a> · <a href="https://www.lejournaldesentreprises.com/breve/le-breton-looping-acquiert-le-parc-saint-paul-dans-loise-2117693">acquisition de Saint-Paul par Looping</a> · <a href="https://www.lejournaldesentreprises.com/breve/le-parc-saint-paul-investit-5-millions-deuros-pour-accelerer-sa-relance-2146434">investissements Saint-Paul 2026</a> · <a href="https://www.pappers.fr/entreprise/puy-du-fou-france-347490070">comptes Puy du Fou France</a></p>
+  </section>
+
+  <section id="investissements" aria-labelledby="t-inv">
+    <div class="head">
+      <p class="eyebrow">Investissements et stratégies</p>
+      <h2 id="t-inv">Chacun investit pour justifier son prix</h2>
+    </div>
+    <div class="inv">
+      <div class="row ast"><div class="amt">250 M€<small>à l'horizon 2030</small></div><div class="what"><h3>Parc Astérix</h3><p>Hôtel de 300 chambres ; capacité visée en hausse de 20 %, dont deux tiers en intérieur.</p><p class="why">Renouveler l'offre, augmenter la capacité, réduire la dépendance à la météo et accroître les séjours et les dépenses sur place.</p></div></div>
+      <div class="row"><div class="amt">2 Md€<small>second parc</small></div><div class="what"><h3>Disneyland Paris</h3><p>Disney Adventure World et World of Frozen ouverts le 29 mars 2026.</p><p class="why">Renforcer les licences propriétaires et l'attractivité internationale, notamment pour des séjours de plusieurs jours.</p></div></div>
+      <div class="row"><div class="amt">70 M€<small>programme 2026</small></div><div class="what"><h3>Puy du Fou</h3><p>Dont 50 M€ en France ; 100 chambres supplémentaires et saison portée à 196 jours.</p><p class="why">Étendre les séjours et la saison, augmenter la valeur dépensée par visiteur et monter en gamme.</p></div></div>
+      <div class="row"><div class="amt">5,5 M€<small>ouvert en 2025</small></div><div class="what"><h3>La Mer de Sable</h3><p>Coaster Wild Buffalo ; la direction vise 20 000 visiteurs supplémentaires.</p><p class="why">Rajeunir l'offre régionale avec une nouveauté à sensations accessible aux familles.</p></div></div>
+      <div class="row"><div class="amt">5 M€<small>annoncés pour 2026</small></div><div class="what"><h3>Parc Saint-Paul</h3><p>Dont 3 M€ pour la tour SkyFall de 60 mètres.</p><p class="why">Moderniser le parc et développer les sensations fortes en gardant un positionnement familial et des prix bas.</p></div></div>
+    </div>
+    <div class="head" style="margin-top:0.5rem"><p class="eyebrow">Logique du plan Astérix</p></div>
+    <div class="chain" aria-label="Chaîne de valeur du plan d'investissement Astérix">
+      <span>250 M€ investis</span><b>→</b>
+      <span>Nouvelles attractions</span><span>Hôtel, 750 chambres au total</span><span>Capacité +20 %, deux tiers en intérieur</span><b>→</b>
+      <span>Moins de dépendance à la météo</span><b>→</b>
+      <span>Séjours plus longs, dépenses sur place</span><b>→</b>
+      <span class="end">Valeur perçue plus forte pour justifier le prix</span>
+    </div>
+    <p class="sources">Sources : <a href="https://newsroom.parcasterix.fr/entreprise/projets-et-developpement/">plan de développement Astérix</a> · <a href="https://news.disneylandparis.com/en/disneyland-paris-enters-a-new-era-with-the-inauguration-of-world-of-frozen-and-the-many-new-experiences-at-disney-adventure-world-its-reimagined-second-park/">communiqué Disney</a> · <a href="https://www.lejournaldesentreprises.com/article/la-mer-de-sable-investit-55-millions-deuros-dans-une-nouvelle-attraction-2115029">Mer de Sable</a> · <a href="https://www.lejournaldesentreprises.com/article/le-puy-du-fou-investit-70-millions-deuros-pour-soutenir-sa-croissance-2140517">Puy du Fou</a></p>
+  </section>
+
+  <section id="plafond" aria-labelledby="t-plaf">
+    <div class="head">
+      <p class="eyebrow">Prix plafond provisoire</p>
+      <h2 id="t-plaf">59 € pour un billet daté en période verte, pas toute l'année</h2>
+    </div>
+    <p class="prose">Le prix plafond ne peut pas être unique pour toutes les dates. Pour un adulte, un billet daté 1 jour / 1 parc en période verte, le repère Disney publié est de 52 à 59 €. Ce plafond est à vérifier à date égale dans la billetterie officielle Disney, dont les tarifs varient avec la date et la demande.</p>
+    <div class="ceiling-grid">
+      <div class="cmp warn"><span class="eyebrow">Billet daté</span><span class="big num">56 €</span><p>Le Billet Futé est déjà proche du plafond de 59 €. Une hausse générale effacerait l'avantage prix sur les périodes calmes.</p></div>
+      <div class="cmp ok"><span class="eyebrow">Billet flexible</span><span class="big num">68 €</span><p>Le Liberté Flex reste nettement sous le billet flexible Disney à 119 €.</p></div>
+      <div class="cmp"><span class="eyebrow">Concurrents régionaux</span><span class="big num">28–29 €</span><p>La Mer de Sable et Saint-Paul contraignent l'image d'accessibilité, sans offre équivalente en taille ni en contenu.</p></div>
+    </div>
+    <div class="verdict">
+      <p class="eyebrow">Conclusion</p>
+      <p>Le Parc Astérix peut relever certains prix, plutôt sur les <strong>dates de forte demande</strong> et les <strong>options de flexibilité</strong>. Il devrait protéger un tarif d'appel visible et financer sa montée en gamme aussi par l'hôtellerie, la restauration et la hausse de fréquentation, plutôt que par le seul billet d'entrée.</p>
+    </div>
+  </section>
+
+  <section id="offre" aria-labelledby="t-offre">
+    <div class="head">
+      <p class="eyebrow">Première idée en trois lignes</p>
+      <h2 id="t-offre">Une offre à tester</h2>
+    </div>
+    <div class="offer">
+      <div class="hd"><h3>Billet Gaulois Malin</h3><span class="eyebrow">daté · réservé à l'avance · jours calmes</span></div>
+      <div class="bd">
+        <div><span class="eyebrow">Offre</span><p>Billet daté, réservé à l'avance, disponible en semaine ou les jours de faible affluence.</p></div>
+        <div><span class="eyebrow">Public</span><p>Familles sensibles au prix, capables d'adapter leur date, qui cherchent une journée complète d'attractions et de spectacles.</p></div>
+        <div><span class="eyebrow">Prix d'essai</span><strong class="num">49 €</strong><p>par personne, sur une sélection limitée de dates. Garder le billet standard dès 56 € et le Flex à 68 €, puis mesurer la réaction avant d'élargir.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="methode" aria-labelledby="t-meth">
+    <div class="head">
+      <p class="eyebrow">Méthode et limites</p>
+      <h2 id="t-meth">Comment lire ces chiffres</h2>
+    </div>
+    <ul class="limits">
+      <li>Tarifs relevés le 1er octobre 2026 sur les pages citées. Les offres « à partir de » dépendent des disponibilités et peuvent évoluer.</li>
+      <li>Pour la version finale du dossier, conserver une capture d'écran datée de chaque tarif et relever Disney pour exactement la même date.</li>
+      <li>Les fréquentations citées couvrent des périodes différentes : année civile 2024, saison 2024-2025 ou année 2025 selon la source.</li>
+      <li>Quand les comptes propres au parc ne sont pas accessibles, les résultats du groupe ou de sa division sont indiqués comme tels, sans les attribuer à l'établissement.</li>
+      <li>Les alternatives gratuites n'ont pas de comptes financiers comparables ; elles sont citées comme concurrence pour le temps libre et le budget, sans chiffres inventés.</li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">Projet prix marketing · Données : étude de marché du dépôt <a href="https://github.com/axelfp-ctrl/Asterix">axelfp-ctrl/Asterix</a>, relevé du 1er octobre 2026.</div>
+</footer>
+
+<script>
+(function () {
+  var MAX = 130;
+  var rows = [
+    { n: "La Mer de Sable", s: "Billet daté Citrouille", v: 28, from: true },
+    { n: "Parc Saint-Paul", s: "Billet non daté", v: 29, from: true },
+    { n: "Puy du Fou", s: "Billet journée", v: 47, from: true },
+    { n: "Astérix Malin", s: "Daté, quantité limitée", v: 49, ast: true },
+    { n: "Disney 1 parc", s: "Daté, période verte", v: 52, hi: 59 },
+    { n: "Astérix Futé", s: "Daté, J-7", v: 56, from: true, ast: true },
+    { n: "Astérix Liberté Flex", s: "Modifiable", v: 68, ast: true },
+    { n: "Disney 2 parcs", s: "Daté, période verte", v: 87, hi: 94 },
+    { n: "Disney Liberté", s: "1 parc, date flexible", v: 119 }
+  ];
+  var pct = function (x) { return (x / MAX * 100) + "%"; };
+  var bars = document.getElementById("bars");
+  rows.forEach(function (r, i) {
+    var name = document.createElement("div");
+    name.className = "name" + (r.ast ? " ast" : "");
+    name.innerHTML = r.n + "<small>" + r.s + "</small>";
+    var track = document.createElement("div");
+    track.className = "track";
+    var top = r.hi || r.v;
+    if (r.hi) {
+      var rg = document.createElement("div");
+      rg.className = "bar range";
+      rg.style.width = pct(r.hi);
+      rg.style.animationDelay = (i * 50) + "ms";
+      track.appendChild(rg);
+    }
+    var b = document.createElement("div");
+    b.className = "bar" + (r.ast ? " ast" : "");
+    b.style.width = pct(r.v);
+    b.style.animationDelay = (i * 50) + "ms";
+    track.appendChild(b);
+    var lab = document.createElement("span");
+    lab.className = "val";
+    lab.style.left = pct(top);
+    if (top >= 100) lab.className += " in";
+    lab.textContent = (r.from ? "dès " : "") + (r.hi ? r.v + "–" + r.hi : r.v) + " €";
+    track.appendChild(lab);
+    bars.appendChild(name);
+    bars.appendChild(track);
+  });
+  var ticks = document.getElementById("ticks");
+  [0, 25, 50, 75, 100, 125].forEach(function (t) {
+    var s = document.createElement("span");
+    s.style.left = pct(t);
+    s.textContent = t + " €";
+    ticks.appendChild(s);
+  });
+})();
+</script>
+</body>
+</html>
