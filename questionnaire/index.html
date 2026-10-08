@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Questionnaire parcs d'attractions</title>
+<meta name="description" content="Questionnaire anonyme sur le prix d'une journée au Parc Astérix et à Disneyland Paris (étude de Master 1).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Public+Sans:wght@400;600&display=swap">
+<style>
+:root {
+  --bg: #F2F5FA; --surface: #FFFFFF; --fg: #13213B; --muted: #56637A; --line: #D5DDEA;
+  --accent: #1F4FB8; --accent-ink: #FFFFFF; --gold: #F2B705; --error: #C8262E;
+  --display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+  --body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0D1422; --surface: #152035; --fg: #E6ECF6; --muted: #9AA8C0; --line: #26344E;
+    --accent: #7FA6FF; --accent-ink: #0D1422; --gold: #F5C431; --error: #FF6B6B; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0D1422; --surface: #152035; --fg: #E6ECF6; --muted: #9AA8C0; --line: #26344E;
+  --accent: #7FA6FF; --accent-ink: #0D1422; --gold: #F5C431; --error: #FF6B6B; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--body); line-height: 1.55; padding: 0 16px 64px; }
+.wrap { max-width: 40rem; margin-inline: auto; }
+header { padding: 40px 0 24px; border-bottom: 4px solid var(--gold); margin-bottom: 24px; }
+h1 { font-family: var(--display); font-weight: 800; font-stretch: 85%; font-size: clamp(1.7rem, 5vw, 2.4rem); line-height: 1.05; margin: 0 0 12px; text-wrap: balance; }
+header p { margin: 0; color: var(--muted); }
+fieldset { border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 20px; margin: 0 0 16px; }
+legend { font-family: var(--display); font-weight: 700; font-size: 1.1rem; padding: 0 6px; }
+.q-num { color: var(--accent); margin-right: 6px; }
+.hint { color: var(--muted); font-size: 0.92rem; margin: 0 0 12px; }
+label.opt { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; cursor: pointer; }
+label.opt input { margin-top: 4px; accent-color: var(--accent); width: 18px; height: 18px; flex: none; }
+input[type=number], input[type=text], select {
+  font: inherit; color: var(--fg); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; width: 100%;
+}
+input:focus-visible, select:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.euro { display: flex; align-items: center; gap: 8px; }
+.euro input { max-width: 8rem; }
+.vw { width: 100%; border-collapse: collapse; }
+.vw th, .vw td { text-align: left; padding: 10px 6px; border-top: 1px solid var(--line); vertical-align: top; }
+.vw thead th { border-top: 0; font-size: 0.9rem; color: var(--muted); font-weight: 600; }
+.vw td input { max-width: 6.5rem; }
+@media (max-width: 520px) {
+  .vw thead { display: none; }
+  .vw tr { display: block; border-top: 1px solid var(--line); padding: 8px 0; }
+  .vw th, .vw td { display: block; border: 0; padding: 4px 0; }
+  .vw td::before { content: attr(data-label); display: block; font-size: 0.85rem; color: var(--muted); }
+}
+.vw-stem { display: none; font-weight: 600; margin: 0; }
+@media (max-width: 520px) { .vw-stem { display: block; } }
+.sub { margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--line); display: grid; gap: 10px; }
+.sub[hidden] { display: none; }
+.err { color: var(--error); font-size: 0.92rem; margin: 8px 0 0; }
+.err:empty { display: none; }
+button.send { font: inherit; font-weight: 600; background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 8px; padding: 12px 22px; cursor: pointer; }
+button.send:disabled { opacity: 0.6; cursor: wait; }
+.thanks { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--gold); border-radius: 10px; padding: 24px; }
+.thanks h2 { font-family: var(--display); margin: 0 0 8px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Quel prix seriez-vous prêt(e) à payer pour une journée dans un parc d'attractions ?</h1>
+  <p>Questionnaire anonyme réalisé dans le cadre d'un Master 1. Il prend environ 5 minutes. Il n'y a pas de bonne ou de mauvaise réponse.</p>
+</header>
+
+<form id="f" novalidate>
+
+<fieldset data-q="parcs_visites">
+  <legend><span class="q-num">1.</span>Quels parcs avez-vous déjà visités ?</legend>
+  <label class="opt"><input type="radio" name="parcs_visites" value="Asterix uniquement" required>Parc Astérix uniquement</label>
+  <label class="opt"><input type="radio" name="parcs_visites" value="Disneyland uniquement">Disneyland Paris uniquement</label>
+  <label class="opt"><input type="radio" name="parcs_visites" value="Les deux">Les deux</label>
+  <label class="opt"><input type="radio" name="parcs_visites" value="Aucun">Aucun des deux</label>
+  <p class="err"></p>
+</fieldset>
+
+<fieldset data-q="criteres">
+  <legend><span class="q-num">2.</span>Qu'est-ce qui compte le plus pour vous dans le choix d'un parc ?</legend>
+  <p class="hint">Choisissez jusqu'à trois réponses.</p>
+  <label class="opt"><input type="checkbox" name="criteres" value="Prix du billet">Le prix du billet</label>
+  <label class="opt"><input type="checkbox" name="criteres" value="Attractions et sensations fortes">Les attractions et les sensations fortes</label>
+  <label class="opt"><input type="checkbox" name="criteres" value="Univers et decors">L'univers et les décors</label>
+  <label class="opt"><input type="checkbox" name="criteres" value="Spectacles">Les spectacles</label>
+  <label class="opt"><input type="checkbox" name="criteres" value="Activites enfants">Les activités adaptées aux enfants</label>
+  <label class="opt"><input type="checkbox" name="criteres" value="Temps d'attente">Le temps d'attente</label>
+  <label class="opt"><input type="checkbox" name="criteres" value="Facilite d'acces">La facilité d'accès</label>
+  <label class="opt"><input type="checkbox" name="criteres" value="Autre" data-other="criteres_autre">Autre</label>
+  <div class="sub" id="criteres_autre" hidden><input type="text" name="criteres_autre" aria-label="Précisez" placeholder="Précisez"></div>
+  <p class="err"></p>
+</fieldset>
+
+<fieldset data-q="ab_intention">
+  <legend><span class="q-num">3.</span>Si un billet adulte d'une journée au Parc Astérix, sans transport ni hôtel, coûtait <strong id="ab-prix"></strong>, l'achèteriez-vous ?</legend>
+  <label class="opt"><input type="radio" name="ab_intention" value="Certainement" required>Certainement</label>
+  <label class="opt"><input type="radio" name="ab_intention" value="Probablement">Probablement</label>
+  <label class="opt"><input type="radio" name="ab_intention" value="Probablement pas">Probablement pas</label>
+  <label class="opt"><input type="radio" name="ab_intention" value="Certainement pas">Certainement pas</label>
+  <p class="err"></p>
+</fieldset>
+
+<fieldset data-q="vw">
+  <legend><span class="q-num">4.</span>Vos seuils de prix</legend>
+  <p class="hint">Pour un billet adulte d'une journée, donnant accès à un seul parc, sans transport ni hôtel. Indiquez le prix qui vous vient spontanément, en euros.</p>
+  <p class="vw-stem">À partir de quel prix le billet vous semblerait-il…</p>
+  <table class="vw">
+    <thead><tr><th scope="col">À partir de quel prix le billet vous semblerait-il…</th><th scope="col">Parc Astérix</th><th scope="col">Disneyland Paris</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">… si peu cher que vous douteriez de la qualité de l'expérience ?</th>
+        <td data-label="Parc Astérix (€)"><input type="number" min="0" max="500" step="1" inputmode="numeric" name="vw_trop_bon_marche_asterix" aria-label="Trop bon marché, Parc Astérix, en euros"></td>
+        <td data-label="Disneyland Paris (€)"><input type="number" min="0" max="500" step="1" inputmode="numeric" name="vw_trop_bon_marche_disney" aria-label="Trop bon marché, Disneyland Paris, en euros"></td></tr>
+      <tr><th scope="row">… une bonne affaire ?</th>
+        <td data-label="Parc Astérix (€)"><input type="number" min="0" max="500" step="1" inputmode="numeric" name="vw_bonne_affaire_asterix" aria-label="Bonne affaire, Parc Astérix, en euros"></td>
+        <td data-label="Disneyland Paris (€)"><input type="number" min="0" max="500" step="1" inputmode="numeric" name="vw_bonne_affaire_disney" aria-label="Bonne affaire, Disneyland Paris, en euros"></td></tr>
+      <tr><th scope="row">… cher, mais vous pourriez encore l'acheter ?</th>
+        <td data-label="Parc Astérix (€)"><input type="number" min="0" max="500" step="1" inputmode="numeric" name="vw_cher_asterix" aria-label="Cher, Parc Astérix, en euros"></td>
+        <td data-label="Disneyland Paris (€)"><input type="number" min="0" max="500" step="1" inputmode="numeric" name="vw_cher_disney" aria-label="Cher, Disneyland Paris, en euros"></td></tr>
+      <tr><th scope="row">… trop cher pour envisager de l'acheter ?</th>
+        <td data-label="Parc Astérix (€)"><input type="number" min="0" max="500" step="1" inputmode="numeric" name="vw_trop_cher_asterix" aria-label="Trop cher, Parc Astérix, en euros"></td>
+        <td data-label="Disneyland Paris (€)"><input type="number" min="0" max="500" step="1" inputmode="numeric" name="vw_trop_cher_disney" aria-label="Trop cher, Disneyland Paris, en euros"></td></tr>
+    </tbody>
+  </table>
+  <p class="err"></p>
+</fieldset>
+
+<fieldset data-q="choix_meme_prix">
+  <legend><span class="q-num">5.</span>Si les deux billets coûtaient le même prix, quel parc choisiriez-vous ?</legend>
+  <label class="opt"><input type="radio" name="choix_meme_prix" value="Asterix" required>Parc Astérix</label>
+  <label class="opt"><input type="radio" name="choix_meme_prix" value="Disneyland">Disneyland Paris</label>
+  <label class="opt"><input type="radio" name="choix_meme_prix" value="Aucune preference">Aucune préférence</label>
+  <label class="opt"><input type="radio" name="choix_meme_prix" value="Aucun">Aucun des deux</label>
+  <p class="err"></p>
+</fieldset>
+
+<fieldset data-q="supplement">
+  <legend><span class="q-num">6.</span>Seriez-vous prêt(e) à payer plus cher pour l'un des deux parcs ? Si oui, lequel ?</legend>
+  <label class="opt"><input type="radio" name="supplement" value="Asterix" required data-show="supp_detail">Oui, pour le Parc Astérix</label>
+  <label class="opt"><input type="radio" name="supplement" value="Disneyland" data-show="supp_detail">Oui, pour Disneyland Paris</label>
+  <label class="opt"><input type="radio" name="supplement" value="Non">Non</label>
+  <div class="sub" id="supp_detail" hidden>
+    <label>Combien d'euros en plus ?
+      <span class="euro"><input type="number" min="0" max="300" step="1" inputmode="numeric" name="supplement_montant"> €</span></label>
+    <label>Pour quelle raison ?
+      <input type="text" name="supplement_raison"></label>
+  </div>
+  <p class="err"></p>
+</fieldset>
+
+<fieldset data-q="accompagnement">
+  <legend><span class="q-num">7.</span>Avec qui envisageriez-vous cette visite ?</legend>
+  <p class="hint">Une seule réponse : la situation la plus probable.</p>
+  <label class="opt"><input type="radio" name="accompagnement" value="Seul" required>Seul(e)</label>
+  <label class="opt"><input type="radio" name="accompagnement" value="En couple">En couple</label>
+  <label class="opt"><input type="radio" name="accompagnement" value="Entre amis">Entre amis</label>
+  <label class="opt"><input type="radio" name="accompagnement" value="Famille avec enfants">En famille avec enfants</label>
+  <label class="opt"><input type="radio" name="accompagnement" value="Famille sans enfants">En famille sans enfants</label>
+  <label class="opt"><input type="radio" name="accompagnement" value="Autre">Autre</label>
+  <p class="err"></p>
+</fieldset>
+
+<fieldset data-q="budget_total">
+  <legend><span class="q-num">8.</span>Quel budget total pourriez-vous consacrer à cette sortie, par personne, en incluant le billet, le transport et les repas ?</legend>
+  <span class="euro"><input type="number" min="0" max="1000" step="1" inputmode="numeric" name="budget_total" aria-label="Budget total en euros" required> €</span>
+  <p class="err"></p>
+</fieldset>
+
+<fieldset data-q="profil">
+  <legend><span class="q-num">9.</span>Pour mieux vous connaître</legend>
+  <div style="display:grid; gap:14px">
+    <label>Votre âge
+      <select name="age" required>
+        <option value="">Choisir</option><option>Moins de 18 ans</option><option>18 à 24 ans</option><option>25 à 34 ans</option>
+        <option>35 à 49 ans</option><option>50 ans et plus</option>
+      </select></label>
+    <label>Votre situation
+      <select name="situation" required>
+        <option value="">Choisir</option><option>Étudiant(e)</option><option>En activité</option><option>Sans emploi</option><option>Retraité(e)</option><option>Autre</option>
+      </select></label>
+    <label>Où habitez-vous ?
+      <select name="residence" required>
+        <option value="">Choisir</option><option>Île-de-France</option><option>Hauts-de-France</option><option>Autre région de France</option><option>Hors de France</option>
+      </select></label>
+  </div>
+  <p class="err"></p>
+</fieldset>
+
+<p class="err" id="global-err" role="alert"></p>
+<button class="send" type="submit">Envoyer mes réponses</button>
+</form>
+
+<div class="thanks" id="thanks" hidden>
+  <h2>Merci !</h2>
+  <p>Vos réponses ont bien été enregistrées.</p>
+</div>
+</div>
+
+<script>
+// Adresse de collecte : URL du script Google Apps Script (voir README). Vide = mode test, rien n'est envoyé.
+const ENDPOINT = "";
+
+// Test A/B : chaque répondant voit un seul prix, tiré au hasard et gardé s'il recharge la page.
+let version;
+try { version = localStorage.getItem("ab_version"); } catch (e) {}
+if (version !== "A" && version !== "B") {
+  version = Math.random() < 0.5 ? "A" : "B";
+  try { localStorage.setItem("ab_version", version); } catch (e) {}
+}
+const abPrix = version === "A" ? 55 : 65;
+document.getElementById("ab-prix").textContent = abPrix + " €";
+
+const form = document.getElementById("f");
+
+// Champs conditionnels
+form.addEventListener("change", (e) => {
+  const fs = e.target.closest("fieldset");
+  if (fs) fs.querySelector(".err").textContent = "";
+  if (e.target.name === "supplement") {
+    document.getElementById("supp_detail").hidden = !e.target.dataset.show;
+  }
+  if (e.target.dataset.other) {
+    document.getElementById(e.target.dataset.other).hidden = !e.target.checked;
+  }
+  if (e.target.name === "criteres") {
+    const checked = form.querySelectorAll('input[name="criteres"]:checked').length;
+    form.querySelectorAll('input[name="criteres"]').forEach((c) => { c.disabled = !c.checked && checked >= 3; });
+  }
+});
+
+const VW = ["trop_bon_marche", "bonne_affaire", "cher", "trop_cher"];
+
+function validate() {
+  let firstBad = null;
+  const fail = (q, msg) => {
+    const fs = form.querySelector(`[data-q="${q}"]`);
+    fs.querySelector(".err").textContent = msg;
+    if (!firstBad) firstBad = fs;
+  };
+  form.querySelectorAll(".err").forEach((p) => (p.textContent = ""));
+  const val = (n) => (form.elements[n] ? form.elements[n].value : "");
+
+  ["parcs_visites", "ab_intention", "choix_meme_prix", "supplement", "accompagnement"].forEach((n) => {
+    if (!val(n)) fail(n, "Merci de choisir une réponse.");
+  });
+  if (!form.querySelectorAll('input[name="criteres"]:checked').length) fail("criteres", "Merci de choisir au moins une réponse.");
+
+  for (const parc of ["asterix", "disney"]) {
+    const nums = VW.map((k) => val(`vw_${k}_${parc}`));
+    if (nums.some((v) => v === "")) { fail("vw", "Merci de remplir les huit cases."); break; }
+    const n = nums.map(Number);
+    if (!(n[0] < n[1] && n[1] < n[2] && n[2] < n[3])) {
+      fail("vw", "Pour chaque parc, les prix doivent augmenter de haut en bas (de « trop peu cher » à « trop cher »).");
+      break;
+    }
+  }
+  if (val("budget_total") === "") fail("budget_total", "Merci d'indiquer un montant.");
+  if (!val("age") || !val("situation") || !val("residence")) fail("profil", "Merci de répondre aux trois questions.");
+
+  if (firstBad) firstBad.scrollIntoView({ behavior: "smooth", block: "start" });
+  return !firstBad;
+}
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  if (!validate()) return;
+  const fd = new FormData(form);
+  const data = new URLSearchParams();
+  data.set("horodatage", new Date().toISOString());
+  data.set("version_ab", version);
+  data.set("prix_ab", String(abPrix));
+  for (const [k, v] of fd.entries()) {
+    if (k === "criteres") continue;
+    data.set(k, v);
+  }
+  data.set("criteres", fd.getAll("criteres").join(" | "));
+
+  const btn = form.querySelector("button.send");
+  btn.disabled = true;
+  try {
+    if (ENDPOINT) {
+      await fetch(ENDPOINT, { method: "POST", mode: "no-cors", body: data });
+    } else {
+      console.log("Mode test, réponses non envoyées :", JSON.stringify(Object.fromEntries(data)));
+    }
+    form.hidden = true;
+    document.getElementById("thanks").hidden = false;
+    window.scrollTo({ top: 0 });
+  } catch (err) {
+    document.getElementById("global-err").textContent = "L'envoi a échoué. Vérifiez votre connexion et réessayez.";
+    btn.disabled = false;
+  }
+});
+</script>
+</body>
+</html>

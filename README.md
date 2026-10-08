@@ -5,3 +5,5 @@ Site statique présentant l'étude de marché du Parc Astérix : concurrence, ta
 Données : étude de marché du dépôt [axelfp-ctrl/Asterix](https://github.com/axelfp-ctrl/Asterix).
 
 Pour le mettre en ligne : Settings → Pages → Deploy from a branch → `main` / racine.
+
+Questionnaire en ligne : dossier [`questionnaire/`](questionnaire/), publié à l'adresse `/questionnaire/` du site.
