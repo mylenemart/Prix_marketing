@@ -56,6 +56,14 @@ input:focus-visible, select:focus-visible, button:focus-visible { outline: 2px s
 }
 .vw-stem { display: none; font-weight: 600; margin: 0; }
 @media (max-width: 520px) { .vw-stem { display: block; } }
+.rank { display: grid; gap: 10px; }
+.rank label { display: grid; grid-template-columns: 6.5rem 1fr; align-items: center; gap: 8px; }
+.ab-prix { list-style: none; padding: 0; margin: 0 0 12px; display: grid; gap: 4px; }
+.ab-prix li { display: flex; justify-content: space-between; max-width: 20rem; padding: 6px 10px; background: var(--bg); border-radius: 6px; }
+.ab-prix strong { font-variant-numeric: tabular-nums; }
+form { counter-reset: q; }
+legend .q-num::before { counter-increment: q; content: counter(q) "."; }
+.part { font-family: var(--display); font-weight: 700; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 28px 0 10px; }
 .sub { margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--line); display: grid; gap: 10px; }
 .sub[hidden] { display: none; }
 .err { color: var(--error); font-size: 0.92rem; margin: 8px 0 0; }
@@ -75,41 +83,89 @@ button.send:disabled { opacity: 0.6; cursor: wait; }
 
 <form id="f" novalidate>
 
-<fieldset data-q="parcs_visites">
-  <legend><span class="q-num">1.</span>Quels parcs avez-vous déjà visités ?</legend>
-  <label class="opt"><input type="radio" name="parcs_visites" value="Asterix uniquement" required>Parc Astérix uniquement</label>
-  <label class="opt"><input type="radio" name="parcs_visites" value="Disneyland uniquement">Disneyland Paris uniquement</label>
-  <label class="opt"><input type="radio" name="parcs_visites" value="Les deux">Les deux</label>
-  <label class="opt"><input type="radio" name="parcs_visites" value="Aucun">Aucun des deux</label>
+<p class="part">Vous</p>
+<fieldset data-q="age" data-kind="number">
+  <legend><span class="q-num"></span> Quel âge avez-vous ?</legend>
+  <span class="euro"><input type="number" min="10" max="99" step="1" inputmode="numeric" name="age" aria-label="Âge en années"> ans</span>
+  <p class="err"></p>
+</fieldset>
+<fieldset data-q="situation_familiale" data-kind="radio">
+  <legend><span class="q-num"></span> Quelle est votre situation familiale ?</legend>
+  <label class="opt"><input type="radio" name="situation_familiale" value="Célibataire sans enfant">Célibataire sans enfant</label>
+  <label class="opt"><input type="radio" name="situation_familiale" value="En couple sans enfant">En couple sans enfant</label>
+  <label class="opt"><input type="radio" name="situation_familiale" value="En couple avec enfant(s)">En couple avec enfant(s)</label>
+  <label class="opt"><input type="radio" name="situation_familiale" value="Parent seul avec enfant(s)">Parent seul avec enfant(s)</label>
+  <label class="opt"><input type="radio" name="situation_familiale" value="Autre">Autre</label>
+  <p class="err"></p>
+</fieldset>
+<fieldset data-q="profil" data-kind="selects">
+  <legend><span class="q-num"></span> Votre situation et votre lieu de résidence</legend>
+  <div style="display:grid; gap:14px">
+    <label>Votre situation
+      <select name="situation"><option value="">Choisir</option><option>Étudiant(e)</option><option>En activité</option><option>Sans emploi</option><option>Retraité(e)</option><option>Autre</option></select></label>
+    <label>Où habitez-vous ?
+      <select name="residence"><option value="">Choisir</option><option>Île-de-France</option><option>Hauts-de-France</option><option>Autre région de France</option><option>Hors de France</option></select></label>
+  </div>
   <p class="err"></p>
 </fieldset>
 
-<fieldset data-q="criteres">
-  <legend><span class="q-num">2.</span>Qu'est-ce qui compte le plus pour vous dans le choix d'un parc ?</legend>
-  <p class="hint">Choisissez jusqu'à trois réponses.</p>
-  <label class="opt"><input type="checkbox" name="criteres" value="Prix du billet">Le prix du billet</label>
-  <label class="opt"><input type="checkbox" name="criteres" value="Attractions et sensations fortes">Les attractions et les sensations fortes</label>
-  <label class="opt"><input type="checkbox" name="criteres" value="Univers et decors">L'univers et les décors</label>
-  <label class="opt"><input type="checkbox" name="criteres" value="Spectacles">Les spectacles</label>
-  <label class="opt"><input type="checkbox" name="criteres" value="Activites enfants">Les activités adaptées aux enfants</label>
-  <label class="opt"><input type="checkbox" name="criteres" value="Temps d'attente">Le temps d'attente</label>
-  <label class="opt"><input type="checkbox" name="criteres" value="Facilite d'acces">La facilité d'accès</label>
-  <label class="opt"><input type="checkbox" name="criteres" value="Autre" data-other="criteres_autre">Autre</label>
-  <div class="sub" id="criteres_autre" hidden><input type="text" name="criteres_autre" aria-label="Précisez" placeholder="Précisez"></div>
+<p class="part">Vos habitudes</p>
+<fieldset data-q="frequence" data-kind="radio">
+  <legend><span class="q-num"></span> À quelle fréquence allez-vous dans un parc d'attractions ?</legend>
+  <label class="opt"><input type="radio" name="frequence" value="Plusieurs fois par an">Plusieurs fois par an</label>
+  <label class="opt"><input type="radio" name="frequence" value="Environ une fois par an">Environ une fois par an</label>
+  <label class="opt"><input type="radio" name="frequence" value="Tous les deux ou trois ans">Tous les deux ou trois ans</label>
+  <label class="opt"><input type="radio" name="frequence" value="Plus rarement">Plus rarement</label>
+  <label class="opt"><input type="radio" name="frequence" value="Jamais">Jamais</label>
+  <p class="err"></p>
+</fieldset>
+<fieldset data-q="occasions" data-kind="check">
+  <legend><span class="q-num"></span> À quelles occasions y allez-vous ?</legend>
+  <p class="hint">Plusieurs réponses possibles.</p>
+  <label class="opt"><input type="checkbox" name="occasions" value="Vacances scolaires">Vacances scolaires</label>
+  <label class="opt"><input type="checkbox" name="occasions" value="Week-end">Week-end</label>
+  <label class="opt"><input type="checkbox" name="occasions" value="Anniversaire">Anniversaire</label>
+  <label class="opt"><input type="checkbox" name="occasions" value="Sortie entre amis">Sortie entre amis</label>
+  <label class="opt"><input type="checkbox" name="occasions" value="Sortie en famille">Sortie en famille</label>
+  <label class="opt"><input type="checkbox" name="occasions" value="Événement saisonnier (Halloween, Noël…)">Événement saisonnier (Halloween, Noël…)</label>
+  <label class="opt"><input type="checkbox" name="occasions" value="Sortie organisée (école, entreprise, association)">Sortie organisée (école, entreprise, association)</label>
+  <label class="opt"><input type="checkbox" name="occasions" value="Autre">Autre</label>
+  <p class="err"></p>
+</fieldset>
+<fieldset data-q="parcs_visites" data-kind="check">
+  <legend><span class="q-num"></span> Quels parcs avez-vous déjà visités ?</legend>
+  <p class="hint">Plusieurs réponses possibles.</p>
+  <label class="opt"><input type="checkbox" name="parcs_visites" value="Asterix">Parc Astérix</label>
+  <label class="opt"><input type="checkbox" name="parcs_visites" value="Disneyland">Disneyland Paris</label>
+  <label class="opt"><input type="checkbox" name="parcs_visites" value="Aucun" data-exclusive>Aucun des deux</label>
+  <p class="err"></p>
+</fieldset>
+<fieldset data-q="achat_billet" data-kind="check">
+  <legend><span class="q-num"></span> Comment avez-vous obtenu vos billets de parc ?</legend>
+  <p class="hint">Plusieurs réponses possibles.</p>
+  <label class="opt"><input type="checkbox" name="achat_billet" value="Achat personnel sur le site du parc">Achat personnel sur le site du parc</label>
+  <label class="opt"><input type="checkbox" name="achat_billet" value="Achat personnel via un revendeur ou un site de réduction">Achat personnel via un revendeur ou un site de réduction</label>
+  <label class="opt"><input type="checkbox" name="achat_billet" value="Comité d'entreprise ou CSE">Comité d'entreprise ou CSE</label>
+  <label class="opt"><input type="checkbox" name="achat_billet" value="Cadeau">Cadeau</label>
+  <label class="opt"><input type="checkbox" name="achat_billet" value="Offre d'une marque ou d'un partenaire">Offre d'une marque ou d'un partenaire</label>
+  <label class="opt"><input type="checkbox" name="achat_billet" value="Pass annuel">Pass annuel</label>
+  <label class="opt"><input type="checkbox" name="achat_billet" value="Je n'ai jamais acheté ni reçu de billet" data-exclusive>Je n'ai jamais acheté ni reçu de billet</label>
   <p class="err"></p>
 </fieldset>
 
-<fieldset data-q="ab_intention">
-  <legend><span class="q-num">3.</span>Si un billet adulte d'une journée au Parc Astérix, sans transport ni hôtel, coûtait <strong id="ab-prix"></strong>, l'achèteriez-vous ?</legend>
-  <label class="opt"><input type="radio" name="ab_intention" value="Certainement" required>Certainement</label>
-  <label class="opt"><input type="radio" name="ab_intention" value="Probablement">Probablement</label>
-  <label class="opt"><input type="radio" name="ab_intention" value="Probablement pas">Probablement pas</label>
-  <label class="opt"><input type="radio" name="ab_intention" value="Certainement pas">Certainement pas</label>
+<p class="part">Vos choix</p>
+<fieldset data-q="criteres" data-kind="rank">
+  <legend><span class="q-num"></span> Qu'est-ce qui compte le plus pour vous dans le choix d'un parc ?</legend>
+  <p class="hint">Classez vos trois critères principaux, du plus important au moins important.</p>
+  <div class="rank">
+    <label><span>1<sup>er</sup> choix</span><select name="critere_1"><option value="">Choisir</option><option value="Prix du billet">Le prix du billet</option><option value="Attractions et sensations fortes">Les attractions et les sensations fortes</option><option value="Univers et decors">L'univers et les décors</option><option value="Spectacles">Les spectacles</option><option value="Activites enfants">Les activités adaptées aux enfants</option><option value="Temps d'attente">Le temps d'attente</option><option value="Facilite d'acces">La facilité d'accès</option><option value="Autre">Autre</option></select></label>
+    <label><span>2<sup>e</sup> choix</span><select name="critere_2"><option value="">Choisir</option><option value="Prix du billet">Le prix du billet</option><option value="Attractions et sensations fortes">Les attractions et les sensations fortes</option><option value="Univers et decors">L'univers et les décors</option><option value="Spectacles">Les spectacles</option><option value="Activites enfants">Les activités adaptées aux enfants</option><option value="Temps d'attente">Le temps d'attente</option><option value="Facilite d'acces">La facilité d'accès</option><option value="Autre">Autre</option></select></label>
+    <label><span>3<sup>e</sup> choix</span><select name="critere_3"><option value="">Choisir</option><option value="Prix du billet">Le prix du billet</option><option value="Attractions et sensations fortes">Les attractions et les sensations fortes</option><option value="Univers et decors">L'univers et les décors</option><option value="Spectacles">Les spectacles</option><option value="Activites enfants">Les activités adaptées aux enfants</option><option value="Temps d'attente">Le temps d'attente</option><option value="Facilite d'acces">La facilité d'accès</option><option value="Autre">Autre</option></select></label>
+  </div>
   <p class="err"></p>
 </fieldset>
-
-<fieldset data-q="vw">
-  <legend><span class="q-num">4.</span>Vos seuils de prix</legend>
+<fieldset data-q="vw" data-kind="vw">
+  <legend><span class="q-num"></span> Vos seuils de prix</legend>
   <p class="hint">Pour un billet adulte d'une journée, donnant accès à un seul parc, sans transport ni hôtel. Indiquez le prix qui vous vient spontanément, en euros.</p>
   <p class="vw-stem">À partir de quel prix le billet vous semblerait-il…</p>
   <table class="vw">
@@ -131,65 +187,29 @@ button.send:disabled { opacity: 0.6; cursor: wait; }
   </table>
   <p class="err"></p>
 </fieldset>
-
-<fieldset data-q="choix_meme_prix">
-  <legend><span class="q-num">5.</span>Si les deux billets coûtaient le même prix, quel parc choisiriez-vous ?</legend>
-  <label class="opt"><input type="radio" name="choix_meme_prix" value="Asterix" required>Parc Astérix</label>
-  <label class="opt"><input type="radio" name="choix_meme_prix" value="Disneyland">Disneyland Paris</label>
-  <label class="opt"><input type="radio" name="choix_meme_prix" value="Aucune preference">Aucune préférence</label>
-  <label class="opt"><input type="radio" name="choix_meme_prix" value="Aucun">Aucun des deux</label>
+<fieldset data-q="choix_ab" data-kind="radio">
+  <legend><span class="q-num"></span> Pour un billet adulte d'une journée, sans transport ni hôtel, quel parc choisiriez-vous avec les prix suivants ?</legend>
+  <ul class="ab-prix"><li>Parc Astérix <strong id="ab-asterix"></strong></li><li>Disneyland Paris <strong id="ab-disney"></strong></li></ul>
+  <label class="opt"><input type="radio" name="choix_ab" value="Asterix">Parc Astérix</label>
+  <label class="opt"><input type="radio" name="choix_ab" value="Disneyland">Disneyland Paris</label>
+  <label class="opt"><input type="radio" name="choix_ab" value="Aucune preference">Aucune préférence</label>
+  <label class="opt"><input type="radio" name="choix_ab" value="Aucun">Aucun des deux</label>
   <p class="err"></p>
 </fieldset>
-
-<fieldset data-q="supplement">
-  <legend><span class="q-num">6.</span>Seriez-vous prêt(e) à payer plus cher pour l'un des deux parcs ? Si oui, lequel ?</legend>
-  <label class="opt"><input type="radio" name="supplement" value="Asterix" required data-show="supp_detail">Oui, pour le Parc Astérix</label>
-  <label class="opt"><input type="radio" name="supplement" value="Disneyland" data-show="supp_detail">Oui, pour Disneyland Paris</label>
-  <label class="opt"><input type="radio" name="supplement" value="Non">Non</label>
-  <div class="sub" id="supp_detail" hidden>
-    <label>Combien d'euros en plus ?
-      <span class="euro"><input type="number" min="0" max="300" step="1" inputmode="numeric" name="supplement_montant"> €</span></label>
-    <label>Pour quelle raison ?
-      <input type="text" name="supplement_raison"></label>
-  </div>
+<fieldset data-q="accompagnement" data-kind="check">
+  <legend><span class="q-num"></span> Avec qui envisageriez-vous cette visite ?</legend>
+  <p class="hint">Plusieurs réponses possibles.</p>
+  <label class="opt"><input type="checkbox" name="accompagnement" value="Seul(e)">Seul(e)</label>
+  <label class="opt"><input type="checkbox" name="accompagnement" value="En couple">En couple</label>
+  <label class="opt"><input type="checkbox" name="accompagnement" value="Entre amis">Entre amis</label>
+  <label class="opt"><input type="checkbox" name="accompagnement" value="En famille avec enfants">En famille avec enfants</label>
+  <label class="opt"><input type="checkbox" name="accompagnement" value="En famille sans enfants">En famille sans enfants</label>
+  <label class="opt"><input type="checkbox" name="accompagnement" value="Autre">Autre</label>
   <p class="err"></p>
 </fieldset>
-
-<fieldset data-q="accompagnement">
-  <legend><span class="q-num">7.</span>Avec qui envisageriez-vous cette visite ?</legend>
-  <p class="hint">Une seule réponse : la situation la plus probable.</p>
-  <label class="opt"><input type="radio" name="accompagnement" value="Seul" required>Seul(e)</label>
-  <label class="opt"><input type="radio" name="accompagnement" value="En couple">En couple</label>
-  <label class="opt"><input type="radio" name="accompagnement" value="Entre amis">Entre amis</label>
-  <label class="opt"><input type="radio" name="accompagnement" value="Famille avec enfants">En famille avec enfants</label>
-  <label class="opt"><input type="radio" name="accompagnement" value="Famille sans enfants">En famille sans enfants</label>
-  <label class="opt"><input type="radio" name="accompagnement" value="Autre">Autre</label>
-  <p class="err"></p>
-</fieldset>
-
-<fieldset data-q="budget_total">
-  <legend><span class="q-num">8.</span>Quel budget total pourriez-vous consacrer à cette sortie, par personne, en incluant le billet, le transport et les repas ?</legend>
-  <span class="euro"><input type="number" min="0" max="1000" step="1" inputmode="numeric" name="budget_total" aria-label="Budget total en euros" required> €</span>
-  <p class="err"></p>
-</fieldset>
-
-<fieldset data-q="profil">
-  <legend><span class="q-num">9.</span>Pour mieux vous connaître</legend>
-  <div style="display:grid; gap:14px">
-    <label>Votre âge
-      <select name="age" required>
-        <option value="">Choisir</option><option>Moins de 18 ans</option><option>18 à 24 ans</option><option>25 à 34 ans</option>
-        <option>35 à 49 ans</option><option>50 ans et plus</option>
-      </select></label>
-    <label>Votre situation
-      <select name="situation" required>
-        <option value="">Choisir</option><option>Étudiant(e)</option><option>En activité</option><option>Sans emploi</option><option>Retraité(e)</option><option>Autre</option>
-      </select></label>
-    <label>Où habitez-vous ?
-      <select name="residence" required>
-        <option value="">Choisir</option><option>Île-de-France</option><option>Hauts-de-France</option><option>Autre région de France</option><option>Hors de France</option>
-      </select></label>
-  </div>
+<fieldset data-q="budget_total" data-kind="number">
+  <legend><span class="q-num"></span> Quel budget total pourriez-vous consacrer à cette sortie, par personne, en incluant le billet, le transport et les repas ?</legend>
+  <span class="euro"><input type="number" min="0" max="1000" step="1" inputmode="numeric" name="budget_total" aria-label="Budget total en euros"> €</span>
   <p class="err"></p>
 </fieldset>
 
@@ -207,31 +227,28 @@ button.send:disabled { opacity: 0.6; cursor: wait; }
 // Adresse de collecte : URL du script Google Apps Script (voir README). Vide = mode test, rien n'est envoyé.
 const ENDPOINT = "";
 
-// Test A/B : chaque répondant voit un seul prix, tiré au hasard et gardé s'il recharge la page.
+// Test A/B : chaque répondant voit un seul jeu de prix, tiré au hasard et gardé s'il recharge la page.
+const AB = { A: { asterix: 55, disney: 55 }, B: { asterix: 65, disney: 55 } };
 let version;
-try { version = localStorage.getItem("ab_version"); } catch (e) {}
-if (version !== "A" && version !== "B") {
+try { version = localStorage.getItem("ab_choix_version"); } catch (e) {}
+if (!AB[version]) {
   version = Math.random() < 0.5 ? "A" : "B";
-  try { localStorage.setItem("ab_version", version); } catch (e) {}
+  try { localStorage.setItem("ab_choix_version", version); } catch (e) {}
 }
-const abPrix = version === "A" ? 55 : 65;
-document.getElementById("ab-prix").textContent = abPrix + " €";
+document.getElementById("ab-asterix").textContent = AB[version].asterix + " €";
+document.getElementById("ab-disney").textContent = AB[version].disney + " €";
 
 const form = document.getElementById("f");
 
-// Champs conditionnels
 form.addEventListener("change", (e) => {
   const fs = e.target.closest("fieldset");
   if (fs) fs.querySelector(".err").textContent = "";
-  if (e.target.name === "supplement") {
-    document.getElementById("supp_detail").hidden = !e.target.dataset.show;
-  }
-  if (e.target.dataset.other) {
-    document.getElementById(e.target.dataset.other).hidden = !e.target.checked;
-  }
-  if (e.target.name === "criteres") {
-    const checked = form.querySelectorAll('input[name="criteres"]:checked').length;
-    form.querySelectorAll('input[name="criteres"]').forEach((c) => { c.disabled = !c.checked && checked >= 3; });
+  // Une réponse exclusive (« Aucun des deux »…) décoche les autres, et inversement.
+  if (e.target.type === "checkbox" && e.target.checked) {
+    const group = form.querySelectorAll(`input[name="${e.target.name}"]`);
+    group.forEach((c) => {
+      if (c !== e.target && (e.target.hasAttribute("data-exclusive") || c.hasAttribute("data-exclusive"))) c.checked = false;
+    });
   }
 });
 
@@ -239,31 +256,33 @@ const VW = ["trop_bon_marche", "bonne_affaire", "cher", "trop_cher"];
 
 function validate() {
   let firstBad = null;
-  const fail = (q, msg) => {
-    const fs = form.querySelector(`[data-q="${q}"]`);
-    fs.querySelector(".err").textContent = msg;
-    if (!firstBad) firstBad = fs;
-  };
-  form.querySelectorAll(".err").forEach((p) => (p.textContent = ""));
   const val = (n) => (form.elements[n] ? form.elements[n].value : "");
-
-  ["parcs_visites", "ab_intention", "choix_meme_prix", "supplement", "accompagnement"].forEach((n) => {
-    if (!val(n)) fail(n, "Merci de choisir une réponse.");
-  });
-  if (!form.querySelectorAll('input[name="criteres"]:checked').length) fail("criteres", "Merci de choisir au moins une réponse.");
-
-  for (const parc of ["asterix", "disney"]) {
-    const nums = VW.map((k) => val(`vw_${k}_${parc}`));
-    if (nums.some((v) => v === "")) { fail("vw", "Merci de remplir les huit cases."); break; }
-    const n = nums.map(Number);
-    if (!(n[0] < n[1] && n[1] < n[2] && n[2] < n[3])) {
-      fail("vw", "Pour chaque parc, les prix doivent augmenter de haut en bas (de « trop peu cher » à « trop cher »).");
-      break;
+  form.querySelectorAll(".err").forEach((p) => (p.textContent = ""));
+  for (const fs of form.querySelectorAll("fieldset[data-kind]")) {
+    const kind = fs.dataset.kind, q = fs.dataset.q;
+    let msg = "";
+    if (kind === "radio" && !val(q)) msg = "Merci de choisir une réponse.";
+    if (kind === "check" && !fs.querySelector("input:checked")) msg = "Merci de choisir au moins une réponse.";
+    if (kind === "number" && val(q) === "") msg = "Merci d'indiquer un nombre.";
+    if (kind === "selects" && [...fs.querySelectorAll("select")].some((s) => !s.value)) msg = "Merci de répondre aux deux questions.";
+    if (kind === "rank") {
+      const r = [1, 2, 3].map((i) => val(`critere_${i}`));
+      if (r.some((v) => !v)) msg = "Merci de choisir vos trois critères.";
+      else if (new Set(r).size < 3) msg = "Merci de choisir trois critères différents.";
     }
+    if (kind === "vw") {
+      for (const parc of ["asterix", "disney"]) {
+        const nums = VW.map((k) => val(`vw_${k}_${parc}`));
+        if (nums.some((v) => v === "")) { msg = "Merci de remplir les huit cases."; break; }
+        const n = nums.map(Number);
+        if (!(n[0] < n[1] && n[1] < n[2] && n[2] < n[3])) {
+          msg = "Pour chaque parc, les prix doivent augmenter de haut en bas (de « trop peu cher » à « trop cher »).";
+          break;
+        }
+      }
+    }
+    if (msg) { fs.querySelector(".err").textContent = msg; firstBad ??= fs; }
   }
-  if (val("budget_total") === "") fail("budget_total", "Merci d'indiquer un montant.");
-  if (!val("age") || !val("situation") || !val("residence")) fail("profil", "Merci de répondre aux trois questions.");
-
   if (firstBad) firstBad.scrollIntoView({ behavior: "smooth", block: "start" });
   return !firstBad;
 }
@@ -275,12 +294,9 @@ form.addEventListener("submit", async (e) => {
   const data = new URLSearchParams();
   data.set("horodatage", new Date().toISOString());
   data.set("version_ab", version);
-  data.set("prix_ab", String(abPrix));
-  for (const [k, v] of fd.entries()) {
-    if (k === "criteres") continue;
-    data.set(k, v);
-  }
-  data.set("criteres", fd.getAll("criteres").join(" | "));
+  data.set("prix_asterix_ab", String(AB[version].asterix));
+  data.set("prix_disney_ab", String(AB[version].disney));
+  for (const k of new Set(fd.keys())) data.set(k, fd.getAll(k).join(" | "));
 
   const btn = form.querySelector("button.send");
   btn.disabled = true;
