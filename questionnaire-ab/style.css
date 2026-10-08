@@ -1,0 +1,242 @@
+/* ==========================================================================
+   style.css — apparence du questionnaire
+   Sobre et neutre, pensé d'abord pour le téléphone.
+   Pour changer une couleur ou une taille, modifie les variables juste en dessous.
+   ========================================================================== */
+
+:root {
+  --fond: #f3f4f6;              /* fond de la page */
+  --carte: #ffffff;             /* fond du bloc de questions */
+  --texte: #1f2328;
+  --texte-doux: #57606a;
+  --bordure: #d0d7de;
+  --principal: #2b3137;         /* boutons et barre : gris foncé, neutre (ne rappelle aucun des deux parcs) */
+  --principal-survol: #444c56;
+  --selection: #eef0f3;         /* fond d'une réponse cochée */
+  --erreur: #b42318;
+  --erreur-fond: #fef3f2;
+  --couleur-parc: #57606a;      /* remplacée par la couleur du parc (voir VERSIONS dans script.js) */
+  --rayon: 12px;
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+
+[hidden] { display: none !important; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--fond);
+  color: var(--texte);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 1.125rem;
+  line-height: 1.5;
+}
+
+/* ---------- Bandeau de test (visible seulement pendant les essais) ---------- */
+.bandeau-test {
+  padding: 8px 16px;
+  background: #fff3c4;
+  color: #4d3800;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* ---------- Barre de progression ---------- */
+.entete {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--fond);
+  padding: 12px 16px;
+}
+.progression {
+  max-width: 36rem;
+  height: 8px;
+  margin: 0 auto;
+  background: #dde1e6;
+  border-radius: 999px;
+  overflow: hidden;
+}
+.progression-remplissage {
+  width: 0;
+  height: 100%;
+  background: var(--principal);
+  transition: width 0.3s ease;
+}
+
+/* ---------- Zone principale ---------- */
+.contenu {
+  flex: 1;
+  width: 100%;
+  max-width: 36rem;
+  margin: 0 auto;
+  padding: 4px 16px 16px;
+}
+.carte {
+  background: var(--carte);
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon);
+  padding: 24px 20px;
+}
+
+/* Un seul écran visible à la fois */
+.ecran { display: none; }
+.ecran.actif { display: block; }
+
+h1 {
+  margin: 0 0 16px;
+  font-size: 1.375rem;
+  line-height: 1.3;
+  font-weight: 650;
+}
+h1:focus { outline: none; }
+
+p { margin: 0 0 12px; }
+
+.infos { padding-left: 1.25rem; margin: 0 0 12px; }
+.infos li { margin: 6px 0; }
+
+.aide { color: var(--texte-doux); font-size: 1rem; margin-top: 8px; }
+.consigne { display: block; color: var(--texte-doux); font-size: 1rem; margin-bottom: 8px; }
+
+fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+legend { padding: 0; width: 100%; }
+
+/* ---------- Réponses à choisir (gros boutons) ---------- */
+.option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  margin-top: 12px;
+  padding: 12px 16px;
+  border: 2px solid var(--bordure);
+  border-radius: var(--rayon);
+  background: var(--carte);
+  cursor: pointer;
+}
+.option:hover { border-color: #8c959f; }
+.option input {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  accent-color: var(--principal);
+}
+.option:has(input:checked) {
+  border-color: var(--principal);
+  background: var(--selection);
+  font-weight: 600;
+}
+.option:has(input:focus-visible) {
+  outline: 3px solid var(--principal);
+  outline-offset: 2px;
+}
+.option-accord { margin-top: 20px; }
+
+/* ---------- Champ de prix en euros ---------- */
+.champ-prix {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+.champ-prix input {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 14px;
+  font: inherit;
+  font-size: 1.5rem;
+  border: 2px solid var(--bordure);
+  border-radius: var(--rayon);
+}
+.champ-prix input:focus {
+  outline: 3px solid var(--principal);
+  outline-offset: 1px;
+  border-color: var(--principal);
+}
+.champ-prix span { font-size: 1.5rem; font-weight: 600; }
+
+/* ---------- Fiche de l'offre (seuls le nom et la couleur changent entre A et B) ---------- */
+.offre {
+  margin: 8px 0 16px;
+  border: 2px solid var(--couleur-parc);
+  border-radius: var(--rayon);
+  overflow: hidden;
+}
+.offre-parc {
+  margin: 0;
+  padding: 16px 20px;
+  background: var(--couleur-parc);
+  color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+.offre-details { padding: 16px 20px; }
+.offre-titre { font-weight: 700; margin-bottom: 8px; }
+.offre ul { margin: 0; padding-left: 1.25rem; }
+.offre li { margin: 4px 0; }
+
+/* ---------- Messages ---------- */
+.message {
+  margin: 16px 0 0;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+.message-erreur {
+  color: var(--erreur);
+  background: var(--erreur-fond);
+  border: 1px solid #f4b4ad;
+}
+.message-verification {
+  background: #f6f8fa;
+  border-left: 4px solid var(--texte-doux);
+}
+
+/* État de l'envoi des réponses, sur l'écran de fin */
+.etat-envoi {
+  margin: 16px 0 0;
+  color: var(--texte-doux);
+  font-size: 1rem;
+}
+
+/* ---------- Bouton Suivant ---------- */
+.bouton {
+  display: block;
+  width: 100%;
+  min-height: 56px;
+  margin-top: 24px;
+  border: 0;
+  border-radius: var(--rayon);
+  background: var(--principal);
+  color: #ffffff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.bouton:hover { background: var(--principal-survol); }
+.bouton:focus-visible { outline: 3px solid var(--principal); outline-offset: 3px; }
+
+/* ---------- Pied de page ---------- */
+.pied {
+  padding: 8px 16px 20px;
+  text-align: center;
+  color: var(--texte-doux);
+  font-size: 0.875rem;
+}
+
+/* ---------- Écrans plus larges (ordinateur) ---------- */
+@media (min-width: 640px) {
+  .contenu { padding-top: 24px; }
+  .carte { padding: 32px; }
+  h1 { font-size: 1.5rem; }
+}

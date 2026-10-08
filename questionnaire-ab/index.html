@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Empêche le questionnaire d'apparaître dans les moteurs de recherche -->
+  <meta name="robots" content="noindex">
+  <title>Questionnaire – étude universitaire</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+
+  <!-- Bandeau affiché seulement avec ?test=1 ou ?version=A / ?version=B dans l'adresse -->
+  <div class="bandeau-test" id="bandeau-test" hidden></div>
+
+  <!-- Barre de progression : script.js la fait avancer à chaque écran -->
+  <header class="entete">
+    <div class="progression" id="progression" role="progressbar"
+         aria-label="Progression du questionnaire"
+         aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <div class="progression-remplissage" id="progression-remplissage"></div>
+    </div>
+  </header>
+
+  <main class="contenu">
+    <!--
+      Chaque <section class="ecran"> est UN écran du questionnaire.
+      Un seul écran est visible à la fois : script.js passe au suivant
+      quand on clique sur le bouton.
+    -->
+    <form id="questionnaire" class="carte" novalidate>
+
+      <!-- ============ 1. ACCUEIL ============ -->
+      <section class="ecran actif" data-bouton="Commencer">
+        <h1 tabindex="-1">Étude sur le prix d'une journée en parc d'attractions</h1>
+        <p>Dans le cadre d'un cours de marketing (Master 1, IAE Clermont Auvergne), nous étudions comment les consommateurs perçoivent le prix d'un billet de parc d'attractions.</p>
+        <ul class="infos">
+          <li><strong>Durée&nbsp;:</strong> environ 5 minutes.</li>
+          <li><strong>Anonyme&nbsp;:</strong> nous ne demandons ni votre nom, ni votre adresse e-mail, et nous n'enregistrons pas votre adresse IP.</li>
+          <li><strong>Utilisation&nbsp;:</strong> vos réponses servent uniquement à un travail universitaire.</li>
+        </ul>
+        <p>Il n'y a pas de bonne ou de mauvaise réponse. Vous pouvez arrêter à tout moment en fermant la page.</p>
+        <label class="option option-accord">
+          <input type="checkbox" name="accord" value="oui">
+          <span>J'accepte de participer</span>
+        </label>
+      </section>
+
+      <!-- ============ 2. FILTRE ============ -->
+      <!-- data-filtre : si la personne répond « Non », le questionnaire s'arrête (statut « filtré ») -->
+      <section class="ecran" data-filtre>
+        <fieldset>
+          <legend><h1 tabindex="-1">Avez-vous 18 ans ou plus&nbsp;?</h1></legend>
+          <label class="option"><input type="radio" name="filtre_18ans" value="oui"><span>Oui</span></label>
+          <label class="option"><input type="radio" name="filtre_18ans" value="non"><span>Non</span></label>
+        </fieldset>
+      </section>
+
+      <section class="ecran" data-filtre>
+        <fieldset>
+          <legend><h1 tabindex="-1">Avez-vous visité un parc d'attractions au cours des 3 dernières années, ou envisagez-vous d'en visiter un dans les 12 prochains mois&nbsp;?</h1></legend>
+          <label class="option"><input type="radio" name="filtre_parc" value="oui"><span>Oui</span></label>
+          <label class="option"><input type="radio" name="filtre_parc" value="non"><span>Non</span></label>
+        </fieldset>
+      </section>
+
+      <!-- ============ 3. L'OFFRE ============ -->
+      <!-- Le texte est le même pour A et B. Seuls le nom et la couleur du parc
+           changent : script.js les écrit dans l'élément marqué data-nom-parc. -->
+      <section class="ecran">
+        <h1 tabindex="-1">Voici une offre de billet. Prenez le temps de la lire.</h1>
+        <article class="offre">
+          <p class="offre-parc" data-nom-parc></p>
+          <div class="offre-details">
+            <p class="offre-titre">Billet 1 jour adulte</p>
+            <ul>
+              <li>Accès à toutes les attractions</li>
+              <li>Spectacles inclus</li>
+              <li>Parking non inclus</li>
+              <li>Ouvert de 10h à 20h</li>
+            </ul>
+          </div>
+        </article>
+        <p class="aide">Les questions suivantes portent sur ce billet.</p>
+      </section>
+
+      <!-- ============ 4a. VAN WESTENDORP (réponse libre en euros) ============ -->
+      <!-- data-precedente : nom de la question d'avant. Si la réponse est plus basse,
+           un message poli invite à vérifier (sans bloquer). -->
+      <section class="ecran">
+        <h1 id="q-vw1" tabindex="-1">À quel prix trouveriez-vous ce billet si bon marché que vous douteriez de sa qualité&nbsp;?</h1>
+        <div class="champ-prix">
+          <input type="text" inputmode="decimal" autocomplete="off" name="vw_trop_bon_marche" aria-labelledby="q-vw1" aria-describedby="aide-vw1">
+          <span aria-hidden="true">€</span>
+        </div>
+        <p class="aide" id="aide-vw1">Indiquez un montant en euros.</p>
+      </section>
+
+      <section class="ecran" data-precedente="vw_trop_bon_marche">
+        <h1 id="q-vw2" tabindex="-1">À quel prix trouveriez-vous ce billet bon marché, une bonne affaire&nbsp;?</h1>
+        <div class="champ-prix">
+          <input type="text" inputmode="decimal" autocomplete="off" name="vw_bon_marche" aria-labelledby="q-vw2" aria-describedby="aide-vw2">
+          <span aria-hidden="true">€</span>
+        </div>
+        <p class="aide" id="aide-vw2">Indiquez un montant en euros.</p>
+      </section>
+
+      <section class="ecran" data-precedente="vw_bon_marche">
+        <h1 id="q-vw3" tabindex="-1">À quel prix commenceriez-vous à trouver ce billet cher, tout en l'achetant quand même&nbsp;?</h1>
+        <div class="champ-prix">
+          <input type="text" inputmode="decimal" autocomplete="off" name="vw_cher" aria-labelledby="q-vw3" aria-describedby="aide-vw3">
+          <span aria-hidden="true">€</span>
+        </div>
+        <p class="aide" id="aide-vw3">Indiquez un montant en euros.</p>
+      </section>
+
+      <section class="ecran" data-precedente="vw_cher">
+        <h1 id="q-vw4" tabindex="-1">À quel prix trouveriez-vous ce billet trop cher pour l'acheter&nbsp;?</h1>
+        <div class="champ-prix">
+          <input type="text" inputmode="decimal" autocomplete="off" name="vw_trop_cher" aria-labelledby="q-vw4" aria-describedby="aide-vw4">
+          <span aria-hidden="true">€</span>
+        </div>
+        <p class="aide" id="aide-vw4">Indiquez un montant en euros.</p>
+      </section>
+
+      <!-- ============ 4b. GABOR-GRANGER (Oui / Non) ============ -->
+      <!-- Ce modèle est recopié par script.js pour chaque prix de la liste PRIX_GG,
+           du plus élevé au plus bas. {prix} est remplacé par le montant. -->
+      <template id="modele-gabor-granger">
+        <section class="ecran">
+          <fieldset>
+            <legend><h1 tabindex="-1">Achèteriez-vous ce billet à {prix}&nbsp;€&nbsp;?</h1></legend>
+            <label class="option"><input type="radio" name="gg_{prix}" value="oui"><span>Oui</span></label>
+            <label class="option"><input type="radio" name="gg_{prix}" value="non"><span>Non</span></label>
+          </fieldset>
+        </section>
+      </template>
+
+      <!-- ============ 5. CONTRÔLE ============ -->
+      <section class="ecran">
+        <fieldset>
+          <legend><h1 tabindex="-1">Quel parc était présenté dans l'offre&nbsp;?</h1></legend>
+          <label class="option"><input type="radio" name="controle" value="Disneyland Paris"><span>Disneyland Paris</span></label>
+          <label class="option"><input type="radio" name="controle" value="Parc Astérix"><span>Parc Astérix</span></label>
+          <label class="option"><input type="radio" name="controle" value="Je ne sais pas"><span>Je ne sais pas</span></label>
+        </fieldset>
+      </section>
+
+      <!-- ============ 6. PERCEPTION (Likert de 1 à 5) ============ -->
+      <section class="ecran">
+        <fieldset>
+          <legend>
+            <span class="consigne">Dans quelle mesure êtes-vous d'accord avec cette affirmation&nbsp;?</span>
+            <h1 tabindex="-1">« Cette offre me paraît de bonne qualité. »</h1>
+          </legend>
+          <label class="option"><input type="radio" name="likert_qualite" value="1"><span>Pas du tout d'accord</span></label>
+          <label class="option"><input type="radio" name="likert_qualite" value="2"><span>Plutôt pas d'accord</span></label>
+          <label class="option"><input type="radio" name="likert_qualite" value="3"><span>Ni d'accord, ni pas d'accord</span></label>
+          <label class="option"><input type="radio" name="likert_qualite" value="4"><span>Plutôt d'accord</span></label>
+          <label class="option"><input type="radio" name="likert_qualite" value="5"><span>Tout à fait d'accord</span></label>
+        </fieldset>
+      </section>
+
+      <section class="ecran">
+        <fieldset>
+          <legend>
+            <span class="consigne">Dans quelle mesure êtes-vous d'accord avec cette affirmation&nbsp;?</span>
+            <h1 tabindex="-1">« Cette offre me donne envie. »</h1>
+          </legend>
+          <label class="option"><input type="radio" name="likert_envie" value="1"><span>Pas du tout d'accord</span></label>
+          <label class="option"><input type="radio" name="likert_envie" value="2"><span>Plutôt pas d'accord</span></label>
+          <label class="option"><input type="radio" name="likert_envie" value="3"><span>Ni d'accord, ni pas d'accord</span></label>
+          <label class="option"><input type="radio" name="likert_envie" value="4"><span>Plutôt d'accord</span></label>
+          <label class="option"><input type="radio" name="likert_envie" value="5"><span>Tout à fait d'accord</span></label>
+        </fieldset>
+      </section>
+
+      <section class="ecran">
+        <fieldset>
+          <legend>
+            <span class="consigne">Dans quelle mesure êtes-vous d'accord avec cette affirmation&nbsp;?</span>
+            <h1 tabindex="-1">« Je fais confiance à ce parc. »</h1>
+          </legend>
+          <label class="option"><input type="radio" name="likert_confiance" value="1"><span>Pas du tout d'accord</span></label>
+          <label class="option"><input type="radio" name="likert_confiance" value="2"><span>Plutôt pas d'accord</span></label>
+          <label class="option"><input type="radio" name="likert_confiance" value="3"><span>Ni d'accord, ni pas d'accord</span></label>
+          <label class="option"><input type="radio" name="likert_confiance" value="4"><span>Plutôt d'accord</span></label>
+          <label class="option"><input type="radio" name="likert_confiance" value="5"><span>Tout à fait d'accord</span></label>
+        </fieldset>
+      </section>
+
+      <!-- ============ 7. PROFIL (strict nécessaire) ============ -->
+      <section class="ecran">
+        <fieldset>
+          <legend><h1 tabindex="-1">Quelle est votre tranche d'âge&nbsp;?</h1></legend>
+          <label class="option"><input type="radio" name="age" value="18-24 ans"><span>18 à 24 ans</span></label>
+          <label class="option"><input type="radio" name="age" value="25-34 ans"><span>25 à 34 ans</span></label>
+          <label class="option"><input type="radio" name="age" value="35-49 ans"><span>35 à 49 ans</span></label>
+          <label class="option"><input type="radio" name="age" value="50-64 ans"><span>50 à 64 ans</span></label>
+          <label class="option"><input type="radio" name="age" value="65 ans et plus"><span>65 ans et plus</span></label>
+        </fieldset>
+      </section>
+
+      <section class="ecran">
+        <fieldset>
+          <legend><h1 tabindex="-1">Quel est votre genre&nbsp;?</h1></legend>
+          <label class="option"><input type="radio" name="genre" value="Femme"><span>Femme</span></label>
+          <label class="option"><input type="radio" name="genre" value="Homme"><span>Homme</span></label>
+          <label class="option"><input type="radio" name="genre" value="Autre"><span>Autre</span></label>
+          <label class="option"><input type="radio" name="genre" value="Ne souhaite pas répondre"><span>Je préfère ne pas répondre</span></label>
+        </fieldset>
+      </section>
+
+      <section class="ecran">
+        <fieldset>
+          <legend><h1 tabindex="-1">Quelle est votre situation actuelle&nbsp;?</h1></legend>
+          <label class="option"><input type="radio" name="situation" value="Étudiant(e)"><span>Étudiant(e)</span></label>
+          <label class="option"><input type="radio" name="situation" value="Actif(ve)"><span>Actif(ve)</span></label>
+          <label class="option"><input type="radio" name="situation" value="Autre"><span>Autre</span></label>
+        </fieldset>
+      </section>
+
+      <section class="ecran" data-bouton="Envoyer mes réponses">
+        <fieldset>
+          <legend><h1 tabindex="-1">Combien de fois avez-vous visité un parc d'attractions au cours des 3 dernières années&nbsp;?</h1></legend>
+          <label class="option"><input type="radio" name="nb_visites" value="0"><span>Aucune fois</span></label>
+          <label class="option"><input type="radio" name="nb_visites" value="1"><span>1 fois</span></label>
+          <label class="option"><input type="radio" name="nb_visites" value="2-3"><span>2 à 3 fois</span></label>
+          <label class="option"><input type="radio" name="nb_visites" value="4 et plus"><span>4 fois ou plus</span></label>
+        </fieldset>
+      </section>
+
+      <!-- ============ ÉCRANS DE FIN ============ -->
+      <section class="ecran ecran-fin" id="fin-filtre">
+        <h1 tabindex="-1">Merci pour votre intérêt</h1>
+        <p>Cette étude s'adresse à un profil de participants précis : le questionnaire s'arrête donc ici pour vous.</p>
+        <p>Merci pour votre temps !</p>
+      </section>
+
+      <section class="ecran ecran-fin" id="fin-complet">
+        <h1 tabindex="-1">Merci pour votre participation !</h1>
+        <p>Vous pouvez maintenant fermer cette page.</p>
+      </section>
+
+      <!-- Messages affichés sous la question si besoin -->
+      <p class="message message-erreur" id="message-erreur" role="alert" hidden></p>
+      <p class="message message-verification" id="message-verification" role="status" hidden></p>
+      <p class="etat-envoi" id="etat-envoi" role="status" hidden></p>
+      <button type="button" class="bouton" id="bouton-reessayer" hidden>Réessayer l'envoi</button>
+
+      <button type="submit" class="bouton" id="bouton-suivant">Commencer</button>
+    </form>
+  </main>
+
+  <footer class="pied">Questionnaire anonyme — étude universitaire, IAE Clermont Auvergne</footer>
+
+</body>
+</html>
