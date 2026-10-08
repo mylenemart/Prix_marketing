@@ -11,7 +11,7 @@
 
 // Adresse de ton script Google Apps Script (voir README.md, étape 3).
 // Colle-la entre les guillemets. Elle se termine par /exec.
-const URL_GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbz2aQpeyu-K0h4307N1GE1sAkMTHErWHYc06_2cjfCWjz9jjn-4lhA8hHVXr_CSve_j/exec";
+const URL_GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbxfNRhGbhrHVOyy7_yTZtaWk4Z5uluFBhy6ou11u8ZQx_IhCJ86MDqNEb2-56LBsXIy/exec";
 
 // TEST A/B : prix affichés dans la question « quel parc choisiriez-vous ? ».
 // Seul le prix du Parc Astérix change entre les deux versions.
