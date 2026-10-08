@@ -142,6 +142,56 @@ legend { padding: 0; width: 100%; }
 }
 .option-accord { margin-top: 20px; }
 
+/* Petit titre de partie au-dessus de la question (« Vous », « Vos habitudes »…) */
+.partie {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--texte-doux);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Prix affichés dans la question du test A/B */
+.prix-ab {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+.prix-ab li {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: var(--selection);
+  border-radius: 8px;
+}
+.prix-ab strong { font-variant-numeric: tabular-nums; }
+
+/* Classement des critères : le rang (1er, 2e, 3e) s'affiche à droite */
+.option-classement .rang {
+  margin-left: auto;
+  flex: none;
+  min-width: 2.6rem;
+  text-align: center;
+  font-weight: 700;
+}
+.option-classement .rang:not(:empty) {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--principal);
+  color: #ffffff;
+}
+
+/* Un champ de prix par parc (Van Westendorp) */
+.champ-parc {
+  display: block;
+  margin-top: 16px;
+  font-weight: 600;
+}
+
 /* ---------- Champ de prix en euros ---------- */
 .champ-prix {
   display: flex;

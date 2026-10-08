@@ -1,11 +1,13 @@
 # Questionnaire d'étude de prix (test A/B)
 
-Petit site web qui sert de questionnaire **anonyme** pour mesurer le prix maximum accepté pour une même offre (une journée dans un parc d'attractions), présentée sous deux marques :
+Petit site web qui sert de questionnaire **anonyme** sur le prix d'une journée au Parc Astérix et à Disneyland Paris.
 
-- **Version A** : Disneyland Paris
-- **Version B** : Parc Astérix
+Il contient un **test A/B** : dans la question « quel parc choisiriez-vous avec les prix suivants ? », chaque répondant voit, tiré au hasard, l'un de ces deux jeux de prix :
 
-Une seule différence entre A et B : le nom et la couleur du parc. Tout le reste est identique, au mot près.
+- **Version A** : Parc Astérix 55 €, Disneyland Paris 55 €
+- **Version B** : Parc Astérix 65 €, Disneyland Paris 55 €
+
+Une seule différence entre A et B : le prix affiché pour le Parc Astérix. Tout le reste est identique, au mot près.
 
 Projet réalisé pour le cours « Prix et budgets marketing » (M1 Marketing, IAE Clermont Auvergne).
 
@@ -38,20 +40,24 @@ Une question par écran, une barre de progression en haut, un bouton « Suivant 
 | # | Écran | Ce qui est enregistré |
 |---|---|---|
 | 1 | Accueil : objet de l'étude, durée, anonymat, case « J'accepte de participer » | — |
-| 2 | Filtre : 18 ans ou plus ? Visite d'un parc (3 dernières années ou 12 prochains mois) ? | `filtre_18ans`, `filtre_parc` (un « Non » arrête le questionnaire : statut « filtré ») |
-| 3 | L'offre, en version A ou B | `version` |
-| 4 | Van Westendorp : 4 prix en euros, toujours dans le même ordre | `vw_trop_bon_marche`, `vw_bon_marche`, `vw_cher`, `vw_trop_cher`, `incoherent_vw` |
-| 4 | Gabor-Granger : « Achèteriez-vous ce billet à X € ? », de 115 € à 40 € | `gg_40` … `gg_115`, `incoherent_gg` |
-| 5 | Contrôle : quel parc était présenté ? | `controle` |
-| 6 | Perception : 3 affirmations, échelle de 1 à 5 | `likert_qualite`, `likert_envie`, `likert_confiance` |
-| 7 | Profil : âge, genre, situation, nombre de visites | `age`, `genre`, `situation`, `nb_visites` |
+| 2 | Filtre : 18 ans ou plus ? (un « Non » arrête le questionnaire : statut « filtré ») | `filtre_18ans` |
+| 3–6 | Vous : âge, situation familiale, situation, lieu de résidence | `age`, `situation_familiale`, `situation`, `residence` |
+| 7–10 | Vos habitudes : fréquence, occasions (sautée si « Jamais »), parcs visités, obtention des billets | `frequence`, `occasions`, `parcs_visites`, `achat_billet` |
+| 11 | **Test A/B** : quel parc choisiriez-vous avec les prix affichés ? | `version`, `prix_asterix_ab`, `prix_disney_ab`, `choix_ab` |
+| 12 | Classement des 3 critères les plus importants | `critere_1`, `critere_2`, `critere_3` |
+| 13–16 | Van Westendorp : 4 seuils de prix, pour chaque parc | `vw_…_asterix`, `vw_…_disney`, `incoherent_vw_asterix`, `incoherent_vw_disney` |
+| 17 | Contrôle : quel prix était affiché pour le Parc Astérix ? | `controle` |
+| 18 | Avec qui envisageriez-vous cette visite ? | `accompagnement` |
+| 19 | Budget total par personne | `budget_total` |
 | — | Écran de remerciement | — |
 
-**Les deux indicateurs de cohérence**
+Pour les questions à plusieurs réponses, les réponses cochées sont rangées dans la même case, séparées par « | ».
 
-- `incoherent_vw` = « oui » si une réponse Van Westendorp est plus basse que la précédente.
-  Pendant le questionnaire, un message poli invite la personne à vérifier, sans la bloquer.
-- `incoherent_gg` = « oui » si la personne accepte un prix élevé puis refuse un prix plus bas.
+**Les indicateurs de cohérence**
+
+- `incoherent_vw_asterix` (ou `_disney`) = « oui » si, pour ce parc, une réponse Van Westendorp est plus basse que la précédente.
+  Pendant le questionnaire, un message poli invite la personne à vérifier, sans la bloquer. Le cours demande d'écarter ces répondants à l'analyse et d'indiquer combien ont été écartés.
+- `controle` : compare-le avec `prix_asterix_ab` pour savoir si la personne a bien vu le prix de sa version.
 
 Les montants extrêmes (0 €, 10 000 €…) sont acceptés tels quels : comme le demande le cours, on les signale à l'analyse au lieu de les effacer.
 
@@ -60,12 +66,11 @@ Les montants extrêmes (0 €, 10 000 €…) sont acceptés tels quels : comme 
 | Je veux changer… | Où ? |
 |---|---|
 | Le texte d'une question ou d'une réponse | `index.html` (cherche le texte avec Ctrl+F, ou Cmd+F sur Mac) |
-| La description de l'offre | `index.html`, bloc `3. L'OFFRE` |
-| Le nom ou la couleur d'un parc | `script.js`, tout en haut : `VERSIONS` |
-| Les prix Gabor-Granger | `script.js`, tout en haut : `PRIX_GG` |
+| Les prix du test A/B | `script.js`, tout en haut : `VERSIONS` (pense aussi aux réponses de la question de contrôle dans `index.html`) |
+| Ajouter une question | `index.html` (copie un écran existant) **et** `script.js` : ajoute son nom dans `COLONNES` |
 | Les couleurs neutres, les tailles | `style.css`, les variables tout en haut |
 
-**Règle d'or du test A/B** : ne modifie jamais le texte d'une seule version. Le texte de l'offre est écrit une seule fois dans `index.html` et sert aux deux versions ; seuls le nom et la couleur du parc viennent de `VERSIONS`.
+**Règle d'or du test A/B** : ne modifie jamais le texte d'une seule version. Le texte est écrit une seule fois dans `index.html` et sert aux deux versions ; seuls les prix viennent de `VERSIONS`.
 
 ## Le tirage au sort A/B
 
@@ -82,8 +87,8 @@ Ajoute ces paramètres à la fin de l'adresse du questionnaire :
 | Adresse | Effet |
 |---|---|
 | `…/index.html?test=1` | Les réponses sont marquées comme tests (colonne `test` = oui). Version tirée au sort. |
-| `…/index.html?version=A` | Force la version A (Disneyland Paris). |
-| `…/index.html?version=B` | Force la version B (Parc Astérix). |
+| `…/index.html?version=A` | Force la version A (Astérix 55 €, Disneyland 55 €). |
+| `…/index.html?version=B` | Force la version B (Astérix 65 €, Disneyland 55 €). |
 | `…/index.html?test=1&version=B` | Les deux à la fois : **c'est le plus pratique pour tes essais**. |
 
 Un bandeau jaune s'affiche en haut de la page dans ces cas-là, pour que tu saches que tu es en mode essai. Les vrais participants ne le voient jamais.
@@ -132,14 +137,15 @@ par (avec TON adresse entre les guillemets) :
 const URL_GOOGLE_SCRIPT = "https://script.google.com/macros/s/xxxxxxxx/exec";
 ```
 
-L'onglet « Réponses » et sa ligne de titres se créent tout seuls à la première réponse reçue.
+L'onglet « Réponses questionnaire » et sa ligne de titres se créent tout seuls à la première réponse reçue.
 
 ### Ce qui est enregistré
 
-Une ligne par répondant, toujours dans cet ordre de colonnes :
+Une ligne par répondant, dans l'ordre de la liste `COLONNES` de `script.js` :
 
-`horodatage, id_aleatoire, version, statut, test, filtre_18ans, filtre_parc, vw_trop_bon_marche, vw_bon_marche, vw_cher, vw_trop_cher, gg_40, gg_55, gg_70, gg_85, gg_100, gg_115, controle, likert_qualite, likert_envie, likert_confiance, age, genre, situation, nb_visites, incoherent_vw, incoherent_gg`
+`horodatage, id_aleatoire, version, statut, test, prix_asterix_ab, prix_disney_ab, filtre_18ans, age, situation_familiale, situation, residence, frequence, occasions, parcs_visites, achat_billet, choix_ab, critere_1, critere_2, critere_3, vw_trop_bon_marche_asterix, vw_bonne_affaire_asterix, vw_cher_asterix, vw_trop_cher_asterix, vw_trop_bon_marche_disney, vw_bonne_affaire_disney, vw_cher_disney, vw_trop_cher_disney, controle, accompagnement, budget_total, incoherent_vw_asterix, incoherent_vw_disney`
 
+- Si tu ajoutes une question et son nom dans `COLONNES`, la colonne s'ajoute toute seule à droite dans la feuille : pas besoin de toucher au script Google.
 - Les personnes filtrées ont une ligne avec le statut « filtré » et seulement leurs réponses au filtre.
 - Aucune donnée personnelle : ni nom, ni e-mail, ni adresse IP (Google ne transmet pas l'IP au script).
 - Si la connexion est mauvaise, le questionnaire réessaie tout seul, puis propose un bouton « Réessayer l'envoi ».
@@ -148,7 +154,7 @@ Une ligne par répondant, toujours dans cet ordre de colonnes :
 
 ### Si tu modifies `apps-script.gs` plus tard
 
-Colle la nouvelle version dans l'éditeur, enregistre, puis **Déployer → Gérer les déploiements → crayon (Modifier) → Version : Nouvelle version → Déployer**. L'URL ne change pas.
+Colle la nouvelle version dans l'éditeur et enregistre. Le plus simple ensuite : **Déployer → Nouveau déploiement** (mêmes réglages : Application Web, Moi, Tout le monde), puis colle la nouvelle URL dans `script.js`.
 
 ## Étape 4 : mettre le questionnaire en ligne avec GitHub Pages
 
@@ -178,11 +184,11 @@ C'est **ce lien, sans rien derrière**, que tu partages aux participants.
 
 ### D. Vérifier que tout marche avant de lancer
 
-1. Ouvre `https://mylenemart.github.io/Prix_marketing/questionnaire-ab/?test=1&version=A` : le bandeau jaune affiche « Mode test · Version A forcée » et l'offre montre **Disneyland Paris**. Réponds jusqu'au bout : l'écran final doit dire « Vos réponses ont bien été enregistrées ».
-2. Ouvre ta Google Sheet, onglet « Réponses » : une ligne est arrivée avec `version` = A et `test` = oui.
-3. Recommence avec `?test=1&version=B` : l'offre montre **Parc Astérix**, et une 2e ligne arrive avec `version` = B.
+1. Ouvre `https://mylenemart.github.io/Prix_marketing/questionnaire-ab/?test=1&version=A` : le bandeau jaune affiche « Mode test · Version A forcée » et la question du choix entre les parcs montre **Astérix 55 €**. Réponds jusqu'au bout : l'écran final doit dire « Vos réponses ont bien été enregistrées ».
+2. Ouvre ta Google Sheet, onglet « Réponses questionnaire » : une ligne est arrivée avec `version` = A et `test` = oui.
+3. Recommence avec `?test=1&version=B` : la question montre **Astérix 65 €**, et une 2e ligne arrive avec `version` = B.
 4. Fais un essai en répondant « Non » au filtre : une ligne arrive avec `statut` = filtré.
-5. Ouvre le lien normal dans plusieurs fenêtres de navigation privée : tu dois voir tantôt Disneyland Paris, tantôt Parc Astérix (tirage au sort), sans bandeau jaune.
+5. Ouvre le lien normal dans plusieurs fenêtres de navigation privée : tu dois voir tantôt 55 €, tantôt 65 € pour Astérix (tirage au sort), sans bandeau jaune.
 6. Fais un essai sur ton téléphone.
 7. Comme le demande le cours, fais tester le questionnaire par quelques personnes extérieures (avec `?test=1`) avant de le lancer.
 
