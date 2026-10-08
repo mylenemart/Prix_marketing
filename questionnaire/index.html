@@ -154,6 +154,15 @@ button.send:disabled { opacity: 0.6; cursor: wait; }
 </fieldset>
 
 <p class="part">Vos choix</p>
+<fieldset data-q="choix_ab" data-kind="radio">
+  <legend><span class="q-num"></span> Pour un billet adulte d'une journée, sans transport ni hôtel, quel parc choisiriez-vous avec les prix suivants ?</legend>
+  <ul class="ab-prix"><li>Parc Astérix <strong id="ab-asterix"></strong></li><li>Disneyland Paris <strong id="ab-disney"></strong></li></ul>
+  <label class="opt"><input type="radio" name="choix_ab" value="Asterix">Parc Astérix</label>
+  <label class="opt"><input type="radio" name="choix_ab" value="Disneyland">Disneyland Paris</label>
+  <label class="opt"><input type="radio" name="choix_ab" value="Aucune preference">Aucune préférence</label>
+  <label class="opt"><input type="radio" name="choix_ab" value="Aucun">Aucun des deux</label>
+  <p class="err"></p>
+</fieldset>
 <fieldset data-q="criteres" data-kind="rank">
   <legend><span class="q-num"></span> Qu'est-ce qui compte le plus pour vous dans le choix d'un parc ?</legend>
   <p class="hint">Classez vos trois critères principaux, du plus important au moins important.</p>
@@ -185,15 +194,6 @@ button.send:disabled { opacity: 0.6; cursor: wait; }
         <td data-label="Disneyland Paris (€)"><input type="number" min="0" max="500" step="1" inputmode="numeric" name="vw_trop_cher_disney" aria-label="Trop cher, Disneyland Paris, en euros"></td></tr>
     </tbody>
   </table>
-  <p class="err"></p>
-</fieldset>
-<fieldset data-q="choix_ab" data-kind="radio">
-  <legend><span class="q-num"></span> Pour un billet adulte d'une journée, sans transport ni hôtel, quel parc choisiriez-vous avec les prix suivants ?</legend>
-  <ul class="ab-prix"><li>Parc Astérix <strong id="ab-asterix"></strong></li><li>Disneyland Paris <strong id="ab-disney"></strong></li></ul>
-  <label class="opt"><input type="radio" name="choix_ab" value="Asterix">Parc Astérix</label>
-  <label class="opt"><input type="radio" name="choix_ab" value="Disneyland">Disneyland Paris</label>
-  <label class="opt"><input type="radio" name="choix_ab" value="Aucune preference">Aucune préférence</label>
-  <label class="opt"><input type="radio" name="choix_ab" value="Aucun">Aucun des deux</label>
   <p class="err"></p>
 </fieldset>
 <fieldset data-q="accompagnement" data-kind="check">
