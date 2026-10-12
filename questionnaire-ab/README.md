@@ -21,6 +21,7 @@ Le site est fait en HTML, CSS et JavaScript « purs » : aucun outil à installe
 |---|---|
 | `index.html` | Le **contenu** : le texte de tous les écrans du questionnaire. |
 | `style.css` | L'**apparence** : couleurs, tailles, gros boutons, mise en page sur téléphone. |
+| `traduction.js` | La **version anglaise** : affichée automatiquement si l'appareil n'est pas en français. |
 | `script.js` | Le **fonctionnement** : passer d'un écran à l'autre, vérifier les réponses, calculer les indicateurs. |
 | `apps-script.gs` | Le script Google qui écrit les réponses dans la Google Sheet (voir étape 3). |
 | `README.md` | Ce mode d'emploi. |
@@ -68,6 +69,7 @@ Les montants extrêmes (0 €, 10 000 €…) sont acceptés tels quels : comme 
 | Le texte d'une question ou d'une réponse | `index.html` (cherche le texte avec Ctrl+F, ou Cmd+F sur Mac) |
 | Les prix du test A/B | `script.js`, tout en haut : `VERSIONS` (pense aussi aux réponses de la question de contrôle dans `index.html`) |
 | Ajouter une question | `index.html` (copie un écran existant) **et** `script.js` : ajoute son nom dans `COLONNES` |
+| La traduction anglaise d'un texte | `traduction.js` (si tu changes un texte français dans `index.html`, change aussi la même phrase française dans `traduction.js`) |
 | Les couleurs neutres, les tailles | `style.css`, les variables tout en haut |
 
 **Règle d'or du test A/B** : ne modifie jamais le texte d'une seule version. Le texte est écrit une seule fois dans `index.html` et sert aux deux versions ; seuls les prix viennent de `VERSIONS`.
@@ -89,6 +91,7 @@ Ajoute ces paramètres à la fin de l'adresse du questionnaire :
 | `…/index.html?test=1` | Les réponses sont marquées comme tests (colonne `test` = oui). Version tirée au sort. |
 | `…/index.html?version=A` | Force la version A (Astérix 55 €, Disneyland 55 €). |
 | `…/index.html?version=B` | Force la version B (Astérix 65 €, Disneyland 55 €). |
+| `…/index.html?lang=en` | Affiche le questionnaire en anglais (`?lang=fr` : en français), quelle que soit la langue de ton appareil. |
 | `…/index.html?test=1&version=B` | Les deux à la fois : **c'est le plus pratique pour tes essais**. |
 
 Un bandeau jaune s'affiche en haut de la page dans ces cas-là, pour que tu saches que tu es en mode essai. Les vrais participants ne le voient jamais.
@@ -143,8 +146,9 @@ L'onglet « Réponses questionnaire » et sa ligne de titres se créent tout seu
 
 Une ligne par répondant, dans l'ordre de la liste `COLONNES` de `script.js` :
 
-`horodatage, id_aleatoire, version, statut, test, prix_asterix_ab, prix_disney_ab, filtre_18ans, age, situation_familiale, situation, residence, frequence, occasions, parcs_visites, achat_billet, choix_ab, critere_1, critere_2, critere_3, vw_trop_bon_marche_asterix, vw_bonne_affaire_asterix, vw_cher_asterix, vw_trop_cher_asterix, vw_trop_bon_marche_disney, vw_bonne_affaire_disney, vw_cher_disney, vw_trop_cher_disney, controle, accompagnement, budget_total, incoherent_vw_asterix, incoherent_vw_disney`
+`horodatage, id_aleatoire, version, statut, test, langue, prix_asterix_ab, prix_disney_ab, filtre_18ans, age, situation_familiale, situation, residence, frequence, occasions, parcs_visites, achat_billet, choix_ab, critere_1, critere_2, critere_3, vw_trop_bon_marche_asterix, vw_bonne_affaire_asterix, vw_cher_asterix, vw_trop_cher_asterix, vw_trop_bon_marche_disney, vw_bonne_affaire_disney, vw_cher_disney, vw_trop_cher_disney, controle, accompagnement, budget_total, incoherent_vw_asterix, incoherent_vw_disney`
 
+- `langue` vaut `fr` ou `en` : la langue dans laquelle la personne a vu le questionnaire. Les réponses, elles, sont toujours écrites en français dans la feuille, quelle que soit la langue.
 - Si tu ajoutes une question et son nom dans `COLONNES`, la colonne s'ajoute toute seule à droite dans la feuille : pas besoin de toucher au script Google.
 - Les personnes filtrées ont une ligne avec le statut « filtré » et seulement leurs réponses au filtre.
 - Aucune donnée personnelle : ni nom, ni e-mail, ni adresse IP (Google ne transmet pas l'IP au script).
@@ -167,7 +171,7 @@ Colle la nouvelle version dans l'éditeur et enregistre. Le plus simple ensuite 
 ### B. Envoyer les fichiers
 
 1. Dans ton dépôt, clique sur **Add file → Upload files** (ou sur le lien « uploading an existing file » si le dépôt est vide).
-2. Glisse-dépose **les fichiers** `index.html`, `style.css`, `script.js`, `README.md` et `apps-script.gs`. Glisse bien les fichiers eux-mêmes, pas le dossier : `index.html` doit être à la racine du dépôt.
+2. Glisse-dépose **les fichiers** `index.html`, `style.css`, `script.js`, `traduction.js`, `README.md` et `apps-script.gs`. Glisse bien les fichiers eux-mêmes, pas le dossier : `index.html` doit être à la racine du dépôt.
 3. En bas, clique sur **Commit changes**.
 
 ### C. Activer GitHub Pages

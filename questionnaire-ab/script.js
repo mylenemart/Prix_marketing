@@ -24,7 +24,7 @@ const VERSIONS = {
 // Si tu ajoutes une question dans index.html, ajoute son nom ici :
 // la colonne apparaîtra toute seule dans la feuille.
 const COLONNES = [
-  "horodatage", "id_aleatoire", "version", "statut", "test",
+  "horodatage", "id_aleatoire", "version", "statut", "test", "langue",
   "prix_asterix_ab", "prix_disney_ab",
   "filtre_18ans",
   "age", "situation_familiale", "situation", "residence",
@@ -109,6 +109,7 @@ const remplissage = document.getElementById("progression-remplissage");
 const etatEnvoi = document.getElementById("etat-envoi");
 const boutonReessayer = document.getElementById("bouton-reessayer");
 
+traduireLaPage();          // version anglaise si l'appareil n'est pas en français (voir traduction.js)
 appliquerVersion(version);
 afficherBandeauTest();
 
@@ -125,7 +126,7 @@ let verificationAffichee = false;
 const dejaTermine = modeTest ? null : lireMemoire("termine");
 if (dejaTermine) {
   afficherFin(dejaTermine);
-  afficherMessage(etatEnvoi, "Vos réponses ont bien été enregistrées.");
+  afficherMessage(etatEnvoi, t("Vos réponses ont bien été enregistrées.", "Your answers have been saved."));
 } else {
   afficherEcran(0, false);
 }
@@ -169,8 +170,10 @@ function passerALaSuite() {
   if (alertes.length > 0 && !verificationAffichee) {
     verificationAffichee = true;
     afficherMessage(messageVerification,
-      "Petite vérification : " + alertes.join(" ; ") + ". Vous pouvez corriger, " +
-      "ou cliquer à nouveau sur « Suivant » pour garder vos réponses.");
+      t("Petite vérification : " + alertes.join(" ; ") + ". Vous pouvez corriger, " +
+        "ou cliquer à nouveau sur « Suivant » pour garder vos réponses.",
+        "Quick check: " + alertes.join("; ") + ". You can correct it, " +
+        "or click “Next” again to keep your answers."));
     return;
   }
 
@@ -210,7 +213,7 @@ function afficherEcran(numero, deplacerFocus) {
   const ecran = ecrans[numero];
   cacherTousLesEcrans();
   ecran.classList.add("actif");
-  boutonSuivant.textContent = ecran.dataset.bouton || "Suivant";
+  boutonSuivant.textContent = ecran.dataset.bouton || t("Suivant", "Next");
   verificationAffichee = false;
   cacherMessages();
   mettreAJourProgression(numero / ecrans.length);
@@ -248,7 +251,7 @@ async function envoyer(ligne, statut) {
     return;
   }
 
-  afficherMessage(etatEnvoi, "Enregistrement de vos réponses…");
+  afficherMessage(etatEnvoi, t("Enregistrement de vos réponses…", "Saving your answers…"));
 
   // Jusqu'à 3 essais, au cas où la connexion serait mauvaise
   for (let essai = 1; essai <= 3; essai++) {
@@ -265,7 +268,7 @@ async function envoyer(ligne, statut) {
       if (!resultat.colonnes) throw new Error("script Google pas à jour : recolle apps-script.gs et redéploie");
 
       ecrireMemoire("termine", statut);
-      afficherMessage(etatEnvoi, "Vos réponses ont bien été enregistrées. Merci !");
+      afficherMessage(etatEnvoi, t("Vos réponses ont bien été enregistrées. Merci !", "Your answers have been saved. Thank you!"));
       return;
     } catch (erreur) {
       console.warn("Envoi impossible (essai " + essai + ") :", erreur);
@@ -274,7 +277,8 @@ async function envoyer(ligne, statut) {
   }
 
   afficherMessage(etatEnvoi,
-    "Vos réponses n'ont pas pu être envoyées. Vérifiez votre connexion internet, puis réessayez.");
+    t("Vos réponses n'ont pas pu être envoyées. Vérifiez votre connexion internet, puis réessayez.",
+      "Your answers could not be sent. Check your internet connection, then try again."));
   boutonReessayer.hidden = false;
   boutonReessayer.onclick = function () { envoyer(ligne, statut); };
 }
@@ -296,7 +300,8 @@ function lireReponses(ecran) {
     const attendu = Number(ecran.dataset.nombreChoix);
     const ordre = classements[prefixe] || [];
     if (ordre.length < attendu) {
-      return { erreur: "Choisissez " + attendu + " critères, du plus important au moins important." };
+      return { erreur: t("Choisissez " + attendu + " critères, du plus important au moins important.",
+        "Choose " + attendu + " criteria, from most to least important.") };
     }
     ordre.forEach(function (valeur, i) { valeurs[prefixe + "_" + (i + 1)] = valeur; });
     return { valeurs: valeurs };
@@ -307,20 +312,20 @@ function lireReponses(ecran) {
   if (accord) {
     return accord.checked
       ? { valeurs: valeurs }
-      : { erreur: "Cochez la case « J'accepte de participer » pour commencer." };
+      : { erreur: t("Cochez la case « J'accepte de participer » pour commencer.", "Tick “I agree to take part” to start.") };
   }
 
   // Une seule réponse (boutons ronds)
   for (const nom of nomsDesChamps(ecran, 'input[type="radio"]')) {
     const coche = ecran.querySelector('input[name="' + nom + '"]:checked');
-    if (!coche) return { erreur: "Choisissez une réponse pour continuer." };
+    if (!coche) return { erreur: t("Choisissez une réponse pour continuer.", "Please choose an answer to continue.") };
     valeurs[nom] = coche.value;
   }
 
   // Plusieurs réponses possibles (cases carrées) : enregistrées ensemble, séparées par « | »
   for (const nom of nomsDesChamps(ecran, 'input[type="checkbox"]')) {
     const cochees = Array.from(ecran.querySelectorAll('input[name="' + nom + '"]:checked'));
-    if (cochees.length === 0) return { erreur: "Choisissez au moins une réponse pour continuer." };
+    if (cochees.length === 0) return { erreur: t("Choisissez au moins une réponse pour continuer.", "Please choose at least one answer to continue.") };
     valeurs[nom] = cochees.map(function (c) { return c.value; }).join(" | ");
   }
 
@@ -331,15 +336,16 @@ function lireReponses(ecran) {
       const min = Number(champ.dataset.min), max = Number(champ.dataset.max);
       const nombre = lireEntier(champ.value);
       if (nombre === null || nombre < min || nombre > max) {
-        return { erreur: "Indiquez votre âge en chiffres (entre " + min + " et " + max + " ans)." };
+        return { erreur: t("Indiquez votre âge en chiffres (entre " + min + " et " + max + " ans).",
+          "Enter your age in numbers (between " + min + " and " + max + ").") };
       }
       valeurs[champ.name] = nombre;
     } else {
       const montant = lireMontant(champ.value);
       if (montant === null) {
         return { erreur: champs.length > 1
-          ? "Indiquez un montant en euros pour chaque parc, en chiffres."
-          : "Indiquez un montant en euros, en chiffres." };
+          ? t("Indiquez un montant en euros pour chaque parc, en chiffres.", "Enter an amount in euros for each park, in numbers.")
+          : t("Indiquez un montant en euros, en chiffres.", "Enter an amount in euros, in numbers.") };
       }
       valeurs[champ.name] = montant;
     }
@@ -376,7 +382,8 @@ function verifierOrdreDesPrix(ecran) {
     const precedent = reponses[champ.dataset.precedent];
     if (reponses[champ.name] < precedent) {
       const parc = champ.name.endsWith("_asterix") ? NOMS_PARCS.asterix : NOMS_PARCS.disney;
-      alertes.push("pour " + parc + ", ce montant est plus bas que votre réponse précédente (" + formaterEuros(precedent) + ")");
+      alertes.push(t("pour " + parc + ", ce montant est plus bas que votre réponse précédente (" + formaterEuros(precedent) + ")",
+        "for " + parc.replace(/^le /, "") + ", this amount is lower than your previous answer (" + formaterEuros(precedent) + ")"));
     }
   });
   return alertes;
@@ -391,6 +398,7 @@ function preparerLigne(statut) {
     version: version,
     statut: statut,
     test: modeTest ? "oui" : "non",
+    langue: LANGUE,
     prix_asterix_ab: VERSIONS[version].asterix,
     prix_disney_ab: VERSIONS[version].disney,
   }, reponses);
@@ -448,8 +456,9 @@ function mettreAJourClassement(caseTouchee) {
   if (caseTouchee.checked) {
     if (ordre.length >= maximum) {
       caseTouchee.checked = false;
-      afficherMessage(messageErreur,
-        "Vous avez déjà choisi " + maximum + " critères. Touchez un critère choisi pour l'enlever.");
+      afficherMessage(messageErreur, t(
+        "Vous avez déjà choisi " + maximum + " critères. Touchez un critère choisi pour l'enlever.",
+        "You have already chosen " + maximum + " criteria. Tap a chosen criterion to remove it."));
       return;
     }
     ordre.push(caseTouchee.value);
@@ -460,7 +469,7 @@ function mettreAJourClassement(caseTouchee) {
   ecran.querySelectorAll(".option-classement").forEach(function (option) {
     const valeur = option.querySelector("input").value;
     const rang = ordre.indexOf(valeur);
-    option.querySelector(".rang").textContent = rang === -1 ? "" : (rang === 0 ? "1er" : (rang + 1) + "e");
+    option.querySelector(".rang").textContent = rang === -1 ? "" : t(rang === 0 ? "1er" : (rang + 1) + "e", ["1st", "2nd", "3rd"][rang] || (rang + 1) + "th");
   });
 }
 
