@@ -198,6 +198,8 @@ Avant l'analyse, retire les lignes où `test` = oui (avec un filtre dans la Goog
 
 ## Republier après une modification
 
+Avant d'envoyer tes fichiers, ouvre `index.html` et augmente le numéro `?v=` (par exemple `?v=7` devient `?v=8`) sur les 3 lignes `style.css`, `traduction.js` et `script.js`. Sinon, les navigateurs qui ont déjà ouvert le questionnaire peuvent garder l'ancienne version en mémoire.
+
 1. Sur GitHub, ouvre le fichier à changer (dans ton dépôt, il est dans le dossier `questionnaire-ab/`), clique sur le **crayon** (Edit), fais ta modification, puis **Commit changes**.
    Ou bien : **Add file → Upload files** et redépose le fichier modifié (il remplace l'ancien).
 2. Attends 1 à 2 minutes, puis recharge le site (sur ordinateur : Ctrl+Maj+R, ou Cmd+Maj+R sur Mac).
