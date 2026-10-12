@@ -23,6 +23,7 @@ Le site est fait en HTML, CSS et JavaScript « purs » : aucun outil à installe
 | `style.css` | L'**apparence** : couleurs, tailles, gros boutons, mise en page sur téléphone. |
 | `traduction.js` | La **version anglaise** : affichée automatiquement si l'appareil n'est pas en français. |
 | `script.js` | Le **fonctionnement** : passer d'un écran à l'autre, vérifier les réponses, calculer les indicateurs. |
+| `polices/` | La police des titres (Fraunces), rangée sur le site lui-même pour ne rien charger depuis Google. |
 | `apps-script.gs` | Le script Google qui écrit les réponses dans la Google Sheet (voir étape 3). |
 | `README.md` | Ce mode d'emploi. |
 
@@ -171,7 +172,7 @@ Colle la nouvelle version dans l'éditeur et enregistre. Le plus simple ensuite 
 ### B. Envoyer les fichiers
 
 1. Dans ton dépôt, clique sur **Add file → Upload files** (ou sur le lien « uploading an existing file » si le dépôt est vide).
-2. Glisse-dépose **les fichiers** `index.html`, `style.css`, `script.js`, `traduction.js`, `README.md` et `apps-script.gs`. Glisse bien les fichiers eux-mêmes, pas le dossier : `index.html` doit être à la racine du dépôt.
+2. Glisse-dépose **les fichiers** `index.html`, `style.css`, `script.js`, `traduction.js`, `README.md`, `apps-script.gs` et le dossier `polices`. Glisse bien les fichiers eux-mêmes, pas le dossier : `index.html` doit être à la racine du dépôt.
 3. En bas, clique sur **Commit changes**.
 
 ### C. Activer GitHub Pages
