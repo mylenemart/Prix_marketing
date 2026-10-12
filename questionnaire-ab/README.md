@@ -5,7 +5,7 @@ Petit site web qui sert de questionnaire **anonyme** sur le prix d'une journée 
 Il contient un **test A/B** : dans la question « quel parc choisiriez-vous avec les prix suivants ? », chaque répondant voit, tiré au hasard, l'un de ces deux jeux de prix :
 
 - **Version A** : Parc Astérix 55 €, Disneyland Paris 55 €
-- **Version B** : Parc Astérix 65 €, Disneyland Paris 55 €
+- **Version B** : Parc Astérix 65 € + une peluche offerte, Disneyland Paris 55 €
 
 Une seule différence entre A et B : le prix affiché pour le Parc Astérix. Tout le reste est identique, au mot près.
 
@@ -19,7 +19,7 @@ Le site est fait en HTML, CSS et JavaScript « purs » : aucun outil à installe
 
 | Fichier | À quoi il sert |
 |---|---|
-| `index.html` | Le **contenu** : le texte de tous les écrans du questionnaire. |
+| `index.html` | Le **contenu** : le texte de toutes les pages du questionnaire. |
 | `style.css` | L'**apparence** : couleurs, tailles, gros boutons, mise en page sur téléphone. |
 | `traduction.js` | La **version anglaise** : affichée automatiquement si l'appareil n'est pas en français. |
 | `script.js` | Le **fonctionnement** : passer d'un écran à l'autre, vérifier les réponses, calculer les indicateurs. |
@@ -37,20 +37,18 @@ Tant que l'adresse Google Sheet n'est pas renseignée dans `script.js`, rien n'e
 
 ## Déroulé du questionnaire
 
-Une question par écran, une barre de progression en haut, un bouton « Suivant », et des réponses obligatoires.
+Jusqu'à 3 questions par page, une barre de progression en haut, un bouton « Suivant », et des réponses obligatoires (la question oubliée est entourée en rouge).
 
-| # | Écran | Ce qui est enregistré |
+| Page | Questions | Ce qui est enregistré |
 |---|---|---|
 | 1 | Accueil : objet de l'étude, durée, anonymat, case « J'accepte de participer » | — |
 | 2 | Filtre : 18 ans ou plus ? (un « Non » arrête le questionnaire : statut « filtré ») | `filtre_18ans` |
-| 3–6 | Vous : âge, situation familiale, situation, lieu de résidence | `age`, `situation_familiale`, `situation`, `residence` |
-| 7–10 | Vos habitudes : fréquence, occasions (sautée si « Jamais »), parcs visités, obtention des billets | `frequence`, `occasions`, `parcs_visites`, `achat_billet` |
-| 11 | **Test A/B** : quel parc choisiriez-vous avec les prix affichés ? | `version`, `prix_asterix_ab`, `prix_disney_ab`, `choix_ab` |
-| 12 | Classement des 3 critères les plus importants | `critere_1`, `critere_2`, `critere_3` |
-| 13–16 | Van Westendorp : 4 seuils de prix, pour chaque parc | `vw_…_asterix`, `vw_…_disney`, `incoherent_vw_asterix`, `incoherent_vw_disney` |
-| 17 | Contrôle : quel prix était affiché pour le Parc Astérix ? | `controle` |
-| 18 | Avec qui envisageriez-vous cette visite ? | `accompagnement` |
-| 19 | Budget total par personne | `budget_total` |
+| 3 | Vous : âge, situation familiale, situation | `age`, `situation_familiale`, `situation` |
+| 4 | Vos habitudes : lieu de résidence, fréquence, occasions (masquée si « Jamais ») | `residence`, `frequence`, `occasions` |
+| 5 | Vos habitudes : parcs visités, obtention des billets, affluence perçue dans chaque parc (matrice) | `parcs_visites`, `achat_billet`, `affluence_asterix`, `affluence_disney` |
+| 6 | **Test A/B** : quel parc choisiriez-vous ? (choix obligatoire entre les deux) ; importance de 7 critères (matrice) ; avec qui | `version`, `prix_asterix_ab`, `prix_disney_ab`, `bonus_asterix_ab`, `choix_ab`, `importance_…`, `accompagnement` |
+| 7 | Van Westendorp : 3 premiers seuils de prix, pour chaque parc | `vw_…_asterix`, `vw_…_disney` |
+| 8 | 4e seuil Van Westendorp ; contrôle (prix vu pour Astérix) ; budget total | `vw_trop_cher_…`, `controle`, `budget_total`, `incoherent_vw_…` |
 | — | Écran de remerciement | — |
 
 Pour les questions à plusieurs réponses, les réponses cochées sont rangées dans la même case, séparées par « | ».
@@ -69,11 +67,11 @@ Les montants extrêmes (0 €, 10 000 €…) sont acceptés tels quels : comme 
 |---|---|
 | Le texte d'une question ou d'une réponse | `index.html` (cherche le texte avec Ctrl+F, ou Cmd+F sur Mac) |
 | Les prix du test A/B | `script.js`, tout en haut : `VERSIONS` (pense aussi aux réponses de la question de contrôle dans `index.html`) |
-| Ajouter une question | `index.html` (copie un écran existant) **et** `script.js` : ajoute son nom dans `COLONNES` |
+| Ajouter une question | `index.html` (copie un bloc `class="question"` existant) **et** `script.js` : ajoute son nom dans `COLONNES` |
 | La traduction anglaise d'un texte | `traduction.js` (si tu changes un texte français dans `index.html`, change aussi la même phrase française dans `traduction.js`) |
 | Les couleurs neutres, les tailles | `style.css`, les variables tout en haut |
 
-**Règle d'or du test A/B** : ne modifie jamais le texte d'une seule version. Le texte est écrit une seule fois dans `index.html` et sert aux deux versions ; seuls les prix viennent de `VERSIONS`.
+**Règle d'or du test A/B** : ne modifie jamais le texte d'une seule version. Le texte est écrit une seule fois dans `index.html` et sert aux deux versions ; seuls les prix et le cadeau viennent de `VERSIONS`.
 
 ## Le tirage au sort A/B
 
@@ -91,7 +89,7 @@ Ajoute ces paramètres à la fin de l'adresse du questionnaire :
 |---|---|
 | `…/index.html?test=1` | Les réponses sont marquées comme tests (colonne `test` = oui). Version tirée au sort. |
 | `…/index.html?version=A` | Force la version A (Astérix 55 €, Disneyland 55 €). |
-| `…/index.html?version=B` | Force la version B (Astérix 65 €, Disneyland 55 €). |
+| `…/index.html?version=B` | Force la version B (Astérix 65 € + peluche offerte, Disneyland 55 €). |
 | `…/index.html?lang=en` | Affiche le questionnaire en anglais (`?lang=fr` : en français), quelle que soit la langue de ton appareil. |
 | `…/index.html?test=1&version=B` | Les deux à la fois : **c'est le plus pratique pour tes essais**. |
 
@@ -147,7 +145,7 @@ L'onglet « Réponses questionnaire » et sa ligne de titres se créent tout seu
 
 Une ligne par répondant, dans l'ordre de la liste `COLONNES` de `script.js` :
 
-`horodatage, id_aleatoire, version, statut, test, langue, prix_asterix_ab, prix_disney_ab, filtre_18ans, age, situation_familiale, situation, residence, frequence, occasions, parcs_visites, achat_billet, choix_ab, critere_1, critere_2, critere_3, vw_trop_bon_marche_asterix, vw_bonne_affaire_asterix, vw_cher_asterix, vw_trop_cher_asterix, vw_trop_bon_marche_disney, vw_bonne_affaire_disney, vw_cher_disney, vw_trop_cher_disney, controle, accompagnement, budget_total, incoherent_vw_asterix, incoherent_vw_disney`
+`horodatage, id_aleatoire, version, statut, test, langue, prix_asterix_ab, prix_disney_ab, bonus_asterix_ab, filtre_18ans, age, situation_familiale, situation, residence, frequence, occasions, parcs_visites, achat_billet, affluence_asterix, affluence_disney, choix_ab, importance_prix, importance_attractions, importance_univers, importance_spectacles, importance_enfants, importance_attente, importance_acces, accompagnement, vw_trop_bon_marche_asterix, vw_bonne_affaire_asterix, vw_cher_asterix, vw_trop_cher_asterix, vw_trop_bon_marche_disney, vw_bonne_affaire_disney, vw_cher_disney, vw_trop_cher_disney, controle, budget_total, incoherent_vw_asterix, incoherent_vw_disney`
 
 - `langue` vaut `fr` ou `en` : la langue dans laquelle la personne a vu le questionnaire. Les réponses, elles, sont toujours écrites en français dans la feuille, quelle que soit la langue.
 - Si tu ajoutes une question et son nom dans `COLONNES`, la colonne s'ajoute toute seule à droite dans la feuille : pas besoin de toucher au script Google.

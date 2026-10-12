@@ -26,26 +26,26 @@
 
   <main class="contenu">
     <!--
-      Chaque <section class="ecran"> est UN écran du questionnaire.
-      Un seul écran est visible à la fois : script.js passe au suivant
-      quand on clique sur le bouton.
+      Chaque <section class="ecran"> est UNE page du questionnaire (3 questions au plus).
+      Une seule page est visible à la fois : script.js passe à la suivante
+      quand on clique sur le bouton. Chaque question est dans un bloc class="question".
 
       Types de réponses :
       - boutons ronds (type="radio")      : une seule réponse ;
       - cases carrées (type="checkbox")   : plusieurs réponses possibles ;
         data-exclusive = réponse qui décoche les autres (« Aucun des deux »…) ;
       - champ chiffré (class="champ-prix") : un montant ou un nombre ;
-      - classement (data-classement)      : on touche 3 critères dans l'ordre.
+      - matrice (class="matrice")         : une réponse par ligne.
     -->
     <form id="questionnaire" class="carte" novalidate>
 
-      <!-- ============ 1. ACCUEIL ============ -->
+      <!-- ============ ACCUEIL ============ -->
       <section class="ecran actif" data-bouton="Commencer">
         <h1 tabindex="-1">Étude sur le prix d'une journée en parc d'attractions</h1>
         <p>Dans le cadre d'un cours de marketing (Master 1, IAE Clermont Auvergne), nous étudions comment les consommateurs perçoivent le prix d'un billet de parc d'attractions.</p>
         <ul class="infos">
           <li><strong>Durée&nbsp;:</strong> environ 5 minutes.</li>
-          <li><strong>Anonyme&nbsp;:</strong> nous ne demandons ni votre nom, ni votre adresse e-mail, et nous n'enregistrons pas votre adresse IP.</li>
+          <li><strong>Anonyme&nbsp;:</strong> vos réponses sont anonymes.</li>
           <li><strong>Utilisation&nbsp;:</strong> vos réponses servent uniquement à un travail universitaire.</li>
         </ul>
         <p>Il n'y a pas de bonne ou de mauvaise réponse. Vous pouvez arrêter à tout moment en fermant la page.</p>
@@ -55,40 +55,36 @@
         </label>
       </section>
 
-      <!-- ============ 2. FILTRE ============ -->
+      <!-- ============ FILTRE ============ -->
       <!-- data-filtre : si la personne répond « Non », le questionnaire s'arrête (statut « filtré ») -->
       <section class="ecran" data-filtre>
-        <fieldset>
-          <legend><h1 tabindex="-1">Avez-vous 18 ans ou plus&nbsp;?</h1></legend>
+        <fieldset class="question">
+          <legend><h2 tabindex="-1">Avez-vous 18 ans ou plus&nbsp;?</h2></legend>
           <label class="option"><input type="radio" name="filtre_18ans" value="oui"><span>Oui</span></label>
           <label class="option"><input type="radio" name="filtre_18ans" value="non"><span>Non</span></label>
         </fieldset>
       </section>
 
-      <!-- ============ 3. VOUS ============ -->
+      <!-- ============ PAGE « VOUS » ============ -->
       <section class="ecran">
         <p class="partie">Vous</p>
-        <h1 id="q-age" tabindex="-1">Quel âge avez-vous&nbsp;?</h1>
-        <div class="champ-prix">
-          <input type="text" inputmode="numeric" autocomplete="off" name="age" data-nombre="entier" data-min="18" data-max="99" aria-labelledby="q-age">
-          <span aria-hidden="true">ans</span>
+        <div class="question">
+          <h2 id="q-age" tabindex="-1">Quel âge avez-vous&nbsp;?</h2>
+          <div class="champ-prix">
+            <input type="text" inputmode="numeric" autocomplete="off" name="age" data-nombre="entier" data-min="18" data-max="99" aria-labelledby="q-age">
+            <span aria-hidden="true">ans</span>
+          </div>
         </div>
-      </section>
-
-      <section class="ecran">
-        <fieldset>
-          <legend><span class="partie">Vous</span><h1 tabindex="-1">Quelle est votre situation familiale&nbsp;?</h1></legend>
+        <fieldset class="question">
+          <legend><h2 tabindex="-1">Quelle est votre situation familiale&nbsp;?</h2></legend>
           <label class="option"><input type="radio" name="situation_familiale" value="Célibataire sans enfant"><span>Célibataire sans enfant</span></label>
           <label class="option"><input type="radio" name="situation_familiale" value="En couple sans enfant"><span>En couple sans enfant</span></label>
           <label class="option"><input type="radio" name="situation_familiale" value="En couple avec enfant(s)"><span>En couple avec enfant(s)</span></label>
           <label class="option"><input type="radio" name="situation_familiale" value="Parent seul avec enfant(s)"><span>Parent seul avec enfant(s)</span></label>
           <label class="option"><input type="radio" name="situation_familiale" value="Autre"><span>Autre</span></label>
         </fieldset>
-      </section>
-
-      <section class="ecran">
-        <fieldset>
-          <legend><span class="partie">Vous</span><h1 tabindex="-1">Quelle est votre situation&nbsp;?</h1></legend>
+        <fieldset class="question">
+          <legend><h2 tabindex="-1">Quelle est votre situation&nbsp;?</h2></legend>
           <label class="option"><input type="radio" name="situation" value="Étudiant(e)"><span>Étudiant(e)</span></label>
           <label class="option"><input type="radio" name="situation" value="En activité"><span>En activité</span></label>
           <label class="option"><input type="radio" name="situation" value="Sans emploi"><span>Sans emploi</span></label>
@@ -97,36 +93,27 @@
         </fieldset>
       </section>
 
+      <!-- ============ PAGE « VOS HABITUDES » (1) ============ -->
+      <!-- data-masquer-si : la question disparaît quand la réponse indiquée est cochée -->
       <section class="ecran">
-        <fieldset>
-          <legend><span class="partie">Vous</span><h1 tabindex="-1">Où habitez-vous&nbsp;?</h1></legend>
+        <p class="partie">Vos habitudes</p>
+        <fieldset class="question">
+          <legend><h2 tabindex="-1">Où habitez-vous&nbsp;?</h2></legend>
           <label class="option"><input type="radio" name="residence" value="Île-de-France"><span>Île-de-France</span></label>
           <label class="option"><input type="radio" name="residence" value="Hauts-de-France"><span>Hauts-de-France</span></label>
           <label class="option"><input type="radio" name="residence" value="Autre région de France"><span>Autre région de France</span></label>
           <label class="option"><input type="radio" name="residence" value="Hors de France"><span>Hors de France</span></label>
         </fieldset>
-      </section>
-
-      <!-- ============ 4. VOS HABITUDES ============ -->
-      <section class="ecran">
-        <fieldset>
-          <legend><span class="partie">Vos habitudes</span><h1 tabindex="-1">À quelle fréquence allez-vous dans un parc d'attractions&nbsp;?</h1></legend>
+        <fieldset class="question">
+          <legend><h2 tabindex="-1">À quelle fréquence allez-vous dans un parc d'attractions&nbsp;?</h2></legend>
           <label class="option"><input type="radio" name="frequence" value="Plusieurs fois par an"><span>Plusieurs fois par an</span></label>
           <label class="option"><input type="radio" name="frequence" value="Environ une fois par an"><span>Environ une fois par an</span></label>
           <label class="option"><input type="radio" name="frequence" value="Tous les deux ou trois ans"><span>Tous les deux ou trois ans</span></label>
-          <label class="option"><input type="radio" name="frequence" value="Plus rarement"><span>Plus rarement</span></label>
+          <label class="option"><input type="radio" name="frequence" value="Moins d&#x27;une fois tous les trois ans"><span>Moins d&#x27;une fois tous les trois ans</span></label>
           <label class="option"><input type="radio" name="frequence" value="Jamais"><span>Jamais</span></label>
         </fieldset>
-      </section>
-
-      <!-- data-sauter-si : écran sauté pour les personnes qui ne vont « Jamais » dans un parc -->
-      <section class="ecran" data-sauter-si="frequence=Jamais">
-        <fieldset>
-          <legend>
-            <span class="partie">Vos habitudes</span>
-            <h1 tabindex="-1">À quelles occasions y allez-vous&nbsp;?</h1>
-            <span class="consigne">Plusieurs réponses possibles.</span>
-          </legend>
+        <fieldset class="question" data-masquer-si="frequence=Jamais">
+          <legend><h2 tabindex="-1">À quelles occasions y allez-vous&nbsp;?</h2><span class="consigne">Plusieurs réponses possibles.</span></legend>
           <label class="option"><input type="checkbox" name="occasions" value="Vacances scolaires"><span>Vacances scolaires</span></label>
           <label class="option"><input type="checkbox" name="occasions" value="Week-end"><span>Week-end</span></label>
           <label class="option"><input type="checkbox" name="occasions" value="Anniversaire"><span>Anniversaire</span></label>
@@ -138,146 +125,134 @@
         </fieldset>
       </section>
 
+      <!-- ============ PAGE « VOS HABITUDES » (2) ============ -->
       <section class="ecran">
-        <fieldset>
-          <legend>
-            <span class="partie">Vos habitudes</span>
-            <h1 tabindex="-1">Quels parcs avez-vous déjà visités&nbsp;?</h1>
-            <span class="consigne">Plusieurs réponses possibles.</span>
-          </legend>
+        <p class="partie">Vos habitudes</p>
+        <fieldset class="question">
+          <legend><h2 tabindex="-1">Quels parcs avez-vous déjà visités&nbsp;?</h2><span class="consigne">Plusieurs réponses possibles.</span></legend>
           <label class="option"><input type="checkbox" name="parcs_visites" value="Asterix"><span>Parc Astérix</span></label>
           <label class="option"><input type="checkbox" name="parcs_visites" value="Disneyland"><span>Disneyland Paris</span></label>
           <label class="option"><input type="checkbox" name="parcs_visites" value="Aucun" data-exclusive><span>Aucun des deux</span></label>
         </fieldset>
-      </section>
-
-      <section class="ecran">
-        <fieldset>
-          <legend>
-            <span class="partie">Vos habitudes</span>
-            <h1 tabindex="-1">Comment avez-vous obtenu vos billets de parc&nbsp;?</h1>
-            <span class="consigne">Plusieurs réponses possibles.</span>
-          </legend>
+        <fieldset class="question">
+          <legend><h2 tabindex="-1">Comment avez-vous obtenu vos billets de parc&nbsp;?</h2><span class="consigne">Plusieurs réponses possibles.</span></legend>
           <label class="option"><input type="checkbox" name="achat_billet" value="Achat personnel sur le site du parc"><span>Achat personnel sur le site du parc</span></label>
           <label class="option"><input type="checkbox" name="achat_billet" value="Achat personnel via un revendeur ou un site de réduction"><span>Achat personnel via un revendeur ou un site de réduction</span></label>
-          <label class="option"><input type="checkbox" name="achat_billet" value="Comité d'entreprise ou CSE"><span>Comité d'entreprise ou CSE</span></label>
+          <label class="option"><input type="checkbox" name="achat_billet" value="Comité d&#x27;entreprise ou CSE"><span>Comité d&#x27;entreprise ou CSE</span></label>
           <label class="option"><input type="checkbox" name="achat_billet" value="Cadeau"><span>Cadeau</span></label>
-          <label class="option"><input type="checkbox" name="achat_billet" value="Offre d'une marque ou d'un partenaire"><span>Offre d'une marque ou d'un partenaire</span></label>
+          <label class="option"><input type="checkbox" name="achat_billet" value="Offre d&#x27;une marque ou d&#x27;un partenaire"><span>Offre d&#x27;une marque ou d&#x27;un partenaire</span></label>
           <label class="option"><input type="checkbox" name="achat_billet" value="Pass annuel"><span>Pass annuel</span></label>
-          <label class="option"><input type="checkbox" name="achat_billet" value="Je n'ai jamais acheté ni reçu de billet" data-exclusive><span>Je n'ai jamais acheté ni reçu de billet</span></label>
+          <label class="option"><input type="checkbox" name="achat_billet" value="Je n&#x27;ai jamais acheté ni reçu de billet" data-exclusive><span>Je n&#x27;ai jamais acheté ni reçu de billet</span></label>
         </fieldset>
+        <div class="question matrice">
+          <h2 tabindex="-1">Selon vous, y a-t-il beaucoup de monde dans chaque parc&nbsp;?</h2>
+          <span class="consigne">Pensez à l'affluence et aux files d'attente. Une réponse par parc.</span>
+          <fieldset class="ligne-matrice">
+            <legend>Parc Astérix</legend>
+            <div class="pastilles">
+              <label class="pastille"><input type="radio" name="affluence_asterix" value="Peu de monde"><span>Peu de monde</span></label>
+              <label class="pastille"><input type="radio" name="affluence_asterix" value="Raisonnable"><span>Raisonnable</span></label>
+              <label class="pastille"><input type="radio" name="affluence_asterix" value="Beaucoup de monde"><span>Beaucoup de monde</span></label>
+              <label class="pastille"><input type="radio" name="affluence_asterix" value="Saturé"><span>Saturé</span></label>
+              <label class="pastille"><input type="radio" name="affluence_asterix" value="Je ne sais pas"><span>Je ne sais pas</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="ligne-matrice">
+            <legend>Disneyland Paris</legend>
+            <div class="pastilles">
+              <label class="pastille"><input type="radio" name="affluence_disney" value="Peu de monde"><span>Peu de monde</span></label>
+              <label class="pastille"><input type="radio" name="affluence_disney" value="Raisonnable"><span>Raisonnable</span></label>
+              <label class="pastille"><input type="radio" name="affluence_disney" value="Beaucoup de monde"><span>Beaucoup de monde</span></label>
+              <label class="pastille"><input type="radio" name="affluence_disney" value="Saturé"><span>Saturé</span></label>
+              <label class="pastille"><input type="radio" name="affluence_disney" value="Je ne sais pas"><span>Je ne sais pas</span></label>
+            </div>
+          </fieldset>
+        </div>
       </section>
 
-      <!-- ============ 5. VOS CHOIX ============ -->
-      <!-- TEST A/B : seuls les prix affichés changent entre A et B.
-           script.js écrit les prix dans les éléments data-prix-asterix et data-prix-disney. -->
+      <!-- ============ PAGE « VOS CHOIX » ============ -->
+      <!-- TEST A/B : seuls les prix (et le cadeau de la version B) changent entre A et B.
+           script.js écrit les prix dans data-prix-asterix et data-prix-disney. -->
       <section class="ecran">
-        <fieldset>
-          <legend>
-            <span class="partie">Vos choix</span>
-            <h1 tabindex="-1">Pour un billet adulte d'une journée, sans transport ni hôtel, quel parc choisiriez-vous avec les prix suivants&nbsp;?</h1>
-          </legend>
+        <p class="partie">Vos choix</p>
+        <fieldset class="question">
+          <legend><h2 tabindex="-1">Pour un billet adulte d'une journée, sans transport ni hôtel, quel parc choisiriez-vous avec les offres suivantes&nbsp;?</h2></legend>
           <ul class="prix-ab">
             <li><span>Parc Astérix</span> <strong data-prix-asterix></strong></li>
             <li><span>Disneyland Paris</span> <strong data-prix-disney></strong></li>
           </ul>
           <label class="option"><input type="radio" name="choix_ab" value="Asterix"><span>Parc Astérix</span></label>
           <label class="option"><input type="radio" name="choix_ab" value="Disneyland"><span>Disneyland Paris</span></label>
-          <label class="option"><input type="radio" name="choix_ab" value="Aucune preference"><span>Aucune préférence</span></label>
-          <label class="option"><input type="radio" name="choix_ab" value="Aucun"><span>Aucun des deux</span></label>
         </fieldset>
-      </section>
-
-      <!-- Classement : la personne touche ses 3 critères, du plus important au moins important -->
-      <section class="ecran" data-classement="critere" data-nombre-choix="3">
-        <fieldset>
-          <legend>
-            <span class="partie">Vos choix</span>
-            <h1 tabindex="-1">Qu'est-ce qui compte le plus pour vous dans le choix d'un parc&nbsp;?</h1>
-            <span class="consigne">Touchez vos trois critères principaux, du plus important au moins important. Touchez à nouveau un critère pour l'enlever.</span>
-          </legend>
-          <label class="option option-classement"><input type="checkbox" value="Prix du billet"><span>Le prix du billet</span><span class="rang"></span></label>
-          <label class="option option-classement"><input type="checkbox" value="Attractions et sensations fortes"><span>Les attractions et les sensations fortes</span><span class="rang"></span></label>
-          <label class="option option-classement"><input type="checkbox" value="Univers et decors"><span>L'univers et les décors</span><span class="rang"></span></label>
-          <label class="option option-classement"><input type="checkbox" value="Spectacles"><span>Les spectacles</span><span class="rang"></span></label>
-          <label class="option option-classement"><input type="checkbox" value="Activites enfants"><span>Les activités adaptées aux enfants</span><span class="rang"></span></label>
-          <label class="option option-classement"><input type="checkbox" value="Temps d'attente"><span>Le temps d'attente</span><span class="rang"></span></label>
-          <label class="option option-classement"><input type="checkbox" value="Facilite d'acces"><span>La facilité d'accès</span><span class="rang"></span></label>
-          <label class="option option-classement"><input type="checkbox" value="Autre"><span>Autre</span><span class="rang"></span></label>
-        </fieldset>
-      </section>
-
-      <!-- VAN WESTENDORP : 4 écrans, toujours dans le même ordre, un prix par parc.
-           data-precedent : si le prix est plus bas qu'à la question d'avant (même parc),
-           un message poli invite à vérifier, sans bloquer. -->
-      <section class="ecran">
-        <span class="partie">Vos seuils de prix</span>
-        <p class="consigne">Pour un billet adulte d'une journée, donnant accès à un seul parc, sans transport ni hôtel. Indiquez le prix qui vous vient spontanément, en euros.</p>
-        <h1 tabindex="-1">À partir de quel prix le billet vous semblerait-il si peu cher que vous douteriez de la qualité de l'expérience&nbsp;?</h1>
-        <label class="champ-parc">Parc Astérix
-          <span class="champ-prix"><input type="text" inputmode="decimal" autocomplete="off" name="vw_trop_bon_marche_asterix"><span aria-hidden="true">€</span></span>
-        </label>
-        <label class="champ-parc">Disneyland Paris
-          <span class="champ-prix"><input type="text" inputmode="decimal" autocomplete="off" name="vw_trop_bon_marche_disney"><span aria-hidden="true">€</span></span>
-        </label>
-      </section>
-
-      <section class="ecran">
-        <span class="partie">Vos seuils de prix</span>
-        <p class="consigne">Pour un billet adulte d'une journée, donnant accès à un seul parc, sans transport ni hôtel. Indiquez le prix qui vous vient spontanément, en euros.</p>
-        <h1 tabindex="-1">À partir de quel prix le billet vous semblerait-il une bonne affaire&nbsp;?</h1>
-        <label class="champ-parc">Parc Astérix
-          <span class="champ-prix"><input type="text" inputmode="decimal" autocomplete="off" name="vw_bonne_affaire_asterix" data-precedent="vw_trop_bon_marche_asterix"><span aria-hidden="true">€</span></span>
-        </label>
-        <label class="champ-parc">Disneyland Paris
-          <span class="champ-prix"><input type="text" inputmode="decimal" autocomplete="off" name="vw_bonne_affaire_disney" data-precedent="vw_trop_bon_marche_disney"><span aria-hidden="true">€</span></span>
-        </label>
-      </section>
-
-      <section class="ecran">
-        <span class="partie">Vos seuils de prix</span>
-        <p class="consigne">Pour un billet adulte d'une journée, donnant accès à un seul parc, sans transport ni hôtel. Indiquez le prix qui vous vient spontanément, en euros.</p>
-        <h1 tabindex="-1">À partir de quel prix le billet vous semblerait-il cher, mais vous pourriez encore l'acheter&nbsp;?</h1>
-        <label class="champ-parc">Parc Astérix
-          <span class="champ-prix"><input type="text" inputmode="decimal" autocomplete="off" name="vw_cher_asterix" data-precedent="vw_bonne_affaire_asterix"><span aria-hidden="true">€</span></span>
-        </label>
-        <label class="champ-parc">Disneyland Paris
-          <span class="champ-prix"><input type="text" inputmode="decimal" autocomplete="off" name="vw_cher_disney" data-precedent="vw_bonne_affaire_disney"><span aria-hidden="true">€</span></span>
-        </label>
-      </section>
-
-      <section class="ecran">
-        <span class="partie">Vos seuils de prix</span>
-        <p class="consigne">Pour un billet adulte d'une journée, donnant accès à un seul parc, sans transport ni hôtel. Indiquez le prix qui vous vient spontanément, en euros.</p>
-        <h1 tabindex="-1">À partir de quel prix le billet vous semblerait-il trop cher pour envisager de l'acheter&nbsp;?</h1>
-        <label class="champ-parc">Parc Astérix
-          <span class="champ-prix"><input type="text" inputmode="decimal" autocomplete="off" name="vw_trop_cher_asterix" data-precedent="vw_cher_asterix"><span aria-hidden="true">€</span></span>
-        </label>
-        <label class="champ-parc">Disneyland Paris
-          <span class="champ-prix"><input type="text" inputmode="decimal" autocomplete="off" name="vw_trop_cher_disney" data-precedent="vw_cher_disney"><span aria-hidden="true">€</span></span>
-        </label>
-      </section>
-
-      <!-- QUESTION DE CONTRÔLE (demandée par le cours) : la personne a-t-elle vu le prix du test A/B ? -->
-      <section class="ecran">
-        <fieldset>
-          <legend>
-            <span class="partie">Vos choix</span>
-            <h1 tabindex="-1">Tout à l'heure, quand vous avez choisi entre les deux parcs, quel était le prix affiché pour le Parc Astérix&nbsp;?</h1>
-          </legend>
-          <label class="option"><input type="radio" name="controle" value="55 €"><span>55&nbsp;€</span></label>
-          <label class="option"><input type="radio" name="controle" value="65 €"><span>65&nbsp;€</span></label>
-          <label class="option"><input type="radio" name="controle" value="Je ne sais pas"><span>Je ne sais pas</span></label>
-        </fieldset>
-      </section>
-
-      <section class="ecran">
-        <fieldset>
-          <legend>
-            <span class="partie">Vos choix</span>
-            <h1 tabindex="-1">Avec qui envisageriez-vous cette visite&nbsp;?</h1>
-            <span class="consigne">Plusieurs réponses possibles.</span>
-          </legend>
+        <div class="question matrice">
+          <h2 tabindex="-1">Quelle importance ont ces critères dans le choix d'un parc&nbsp;?</h2>
+          <span class="consigne">Une réponse par ligne.</span>
+          <fieldset class="ligne-matrice">
+            <legend>Le prix du billet</legend>
+            <div class="pastilles">
+              <label class="pastille"><input type="radio" name="importance_prix" value="Pas important"><span>Pas important</span></label>
+              <label class="pastille"><input type="radio" name="importance_prix" value="Peu important"><span>Peu important</span></label>
+              <label class="pastille"><input type="radio" name="importance_prix" value="Important"><span>Important</span></label>
+              <label class="pastille"><input type="radio" name="importance_prix" value="Très important"><span>Très important</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="ligne-matrice">
+            <legend>Les attractions et les sensations fortes</legend>
+            <div class="pastilles">
+              <label class="pastille"><input type="radio" name="importance_attractions" value="Pas important"><span>Pas important</span></label>
+              <label class="pastille"><input type="radio" name="importance_attractions" value="Peu important"><span>Peu important</span></label>
+              <label class="pastille"><input type="radio" name="importance_attractions" value="Important"><span>Important</span></label>
+              <label class="pastille"><input type="radio" name="importance_attractions" value="Très important"><span>Très important</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="ligne-matrice">
+            <legend>L&#x27;univers et les décors</legend>
+            <div class="pastilles">
+              <label class="pastille"><input type="radio" name="importance_univers" value="Pas important"><span>Pas important</span></label>
+              <label class="pastille"><input type="radio" name="importance_univers" value="Peu important"><span>Peu important</span></label>
+              <label class="pastille"><input type="radio" name="importance_univers" value="Important"><span>Important</span></label>
+              <label class="pastille"><input type="radio" name="importance_univers" value="Très important"><span>Très important</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="ligne-matrice">
+            <legend>Les spectacles</legend>
+            <div class="pastilles">
+              <label class="pastille"><input type="radio" name="importance_spectacles" value="Pas important"><span>Pas important</span></label>
+              <label class="pastille"><input type="radio" name="importance_spectacles" value="Peu important"><span>Peu important</span></label>
+              <label class="pastille"><input type="radio" name="importance_spectacles" value="Important"><span>Important</span></label>
+              <label class="pastille"><input type="radio" name="importance_spectacles" value="Très important"><span>Très important</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="ligne-matrice">
+            <legend>Les activités adaptées aux enfants</legend>
+            <div class="pastilles">
+              <label class="pastille"><input type="radio" name="importance_enfants" value="Pas important"><span>Pas important</span></label>
+              <label class="pastille"><input type="radio" name="importance_enfants" value="Peu important"><span>Peu important</span></label>
+              <label class="pastille"><input type="radio" name="importance_enfants" value="Important"><span>Important</span></label>
+              <label class="pastille"><input type="radio" name="importance_enfants" value="Très important"><span>Très important</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="ligne-matrice">
+            <legend>Le temps d&#x27;attente</legend>
+            <div class="pastilles">
+              <label class="pastille"><input type="radio" name="importance_attente" value="Pas important"><span>Pas important</span></label>
+              <label class="pastille"><input type="radio" name="importance_attente" value="Peu important"><span>Peu important</span></label>
+              <label class="pastille"><input type="radio" name="importance_attente" value="Important"><span>Important</span></label>
+              <label class="pastille"><input type="radio" name="importance_attente" value="Très important"><span>Très important</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="ligne-matrice">
+            <legend>La facilité d&#x27;accès</legend>
+            <div class="pastilles">
+              <label class="pastille"><input type="radio" name="importance_acces" value="Pas important"><span>Pas important</span></label>
+              <label class="pastille"><input type="radio" name="importance_acces" value="Peu important"><span>Peu important</span></label>
+              <label class="pastille"><input type="radio" name="importance_acces" value="Important"><span>Important</span></label>
+              <label class="pastille"><input type="radio" name="importance_acces" value="Très important"><span>Très important</span></label>
+            </div>
+          </fieldset>
+        </div>
+        <fieldset class="question">
+          <legend><h2 tabindex="-1">Avec qui envisageriez-vous cette visite&nbsp;?</h2><span class="consigne">Plusieurs réponses possibles.</span></legend>
           <label class="option"><input type="checkbox" name="accompagnement" value="Seul(e)"><span>Seul(e)</span></label>
           <label class="option"><input type="checkbox" name="accompagnement" value="En couple"><span>En couple</span></label>
           <label class="option"><input type="checkbox" name="accompagnement" value="Entre amis"><span>Entre amis</span></label>
@@ -287,12 +262,66 @@
         </fieldset>
       </section>
 
+      <!-- ============ VAN WESTENDORP ============ -->
+      <!-- 4 questions, toujours dans le même ordre, un prix par parc.
+           data-precedent : si le prix est plus bas qu'à la question d'avant (même parc),
+           un message poli invite à vérifier, sans bloquer. -->
+      <section class="ecran">
+        <p class="partie">Vos seuils de prix</p>
+        <p class="consigne">Pour un billet adulte d'une journée, donnant accès à un seul parc, sans transport ni hôtel. Indiquez le prix qui vous vient spontanément, en euros.</p>
+        <div class="question">
+          <h2 tabindex="-1">À partir de quel prix le billet vous semblerait-il si peu cher que vous douteriez de la qualité de l'expérience&nbsp;?</h2>
+          <label class="champ-parc">Parc Astérix
+            <span class="champ-prix"><input type="text" inputmode="decimal" autocomplete="off" name="vw_trop_bon_marche_asterix"><span aria-hidden="true">€</span></span>
+          </label>
+          <label class="champ-parc">Disneyland Paris
+            <span class="champ-prix"><input type="text" inputmode="decimal" autocomplete="off" name="vw_trop_bon_marche_disney"><span aria-hidden="true">€</span></span>
+          </label>
+        </div>
+        <div class="question">
+          <h2 tabindex="-1">À partir de quel prix le billet vous semblerait-il une bonne affaire&nbsp;?</h2>
+          <label class="champ-parc">Parc Astérix
+            <span class="champ-prix"><input type="text" inputmode="decimal" autocomplete="off" name="vw_bonne_affaire_asterix" data-precedent="vw_trop_bon_marche_asterix"><span aria-hidden="true">€</span></span>
+          </label>
+          <label class="champ-parc">Disneyland Paris
+            <span class="champ-prix"><input type="text" inputmode="decimal" autocomplete="off" name="vw_bonne_affaire_disney" data-precedent="vw_trop_bon_marche_disney"><span aria-hidden="true">€</span></span>
+          </label>
+        </div>
+        <div class="question">
+          <h2 tabindex="-1">À partir de quel prix le billet vous semblerait-il cher, mais vous pourriez encore l'acheter&nbsp;?</h2>
+          <label class="champ-parc">Parc Astérix
+            <span class="champ-prix"><input type="text" inputmode="decimal" autocomplete="off" name="vw_cher_asterix" data-precedent="vw_bonne_affaire_asterix"><span aria-hidden="true">€</span></span>
+          </label>
+          <label class="champ-parc">Disneyland Paris
+            <span class="champ-prix"><input type="text" inputmode="decimal" autocomplete="off" name="vw_cher_disney" data-precedent="vw_bonne_affaire_disney"><span aria-hidden="true">€</span></span>
+          </label>
+        </div>
+      </section>
+
       <section class="ecran" data-bouton="Envoyer mes réponses">
-        <span class="partie">Vos choix</span>
-        <h1 id="q-budget" tabindex="-1">Quel budget total pourriez-vous consacrer à cette sortie, par personne, en incluant le billet, le transport et les repas&nbsp;?</h1>
-        <div class="champ-prix">
-          <input type="text" inputmode="decimal" autocomplete="off" name="budget_total" aria-labelledby="q-budget">
-          <span aria-hidden="true">€</span>
+        <p class="partie">Pour finir</p>
+        <div class="question">
+          <h2 tabindex="-1">À partir de quel prix le billet vous semblerait-il trop cher pour envisager de l'acheter&nbsp;?</h2>
+          <label class="champ-parc">Parc Astérix
+            <span class="champ-prix"><input type="text" inputmode="decimal" autocomplete="off" name="vw_trop_cher_asterix" data-precedent="vw_cher_asterix"><span aria-hidden="true">€</span></span>
+          </label>
+          <label class="champ-parc">Disneyland Paris
+            <span class="champ-prix"><input type="text" inputmode="decimal" autocomplete="off" name="vw_trop_cher_disney" data-precedent="vw_cher_disney"><span aria-hidden="true">€</span></span>
+          </label>
+        </div>
+        <!-- QUESTION DE CONTRÔLE (demandée par le cours) : la personne a-t-elle vu le prix du test A/B ? -->
+        <fieldset class="question">
+          <legend><h2 tabindex="-1">Tout à l'heure, quand vous avez choisi entre les deux parcs, quel était le prix affiché pour le Parc Astérix&nbsp;?</h2></legend>
+          <label class="option"><input type="radio" name="controle" value="55 €"><span>55&nbsp;€</span></label>
+          <label class="option"><input type="radio" name="controle" value="65 €"><span>65&nbsp;€</span></label>
+          <label class="option"><input type="radio" name="controle" value="Je ne sais pas"><span>Je ne sais pas</span></label>
+        </fieldset>
+        <div class="question">
+          <h2 id="q-budget_total" tabindex="-1">Quel budget total pourriez-vous consacrer à cette sortie, par personne, en incluant le billet, le transport et les repas&nbsp;?</h2>
+          <div class="champ-prix">
+            <input type="text" inputmode="decimal" autocomplete="off" name="budget_total" aria-labelledby="q-budget_total">
+            <span aria-hidden="true">€</span>
+          </div>
         </div>
       </section>
 

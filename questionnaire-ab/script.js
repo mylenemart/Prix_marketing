@@ -13,11 +13,13 @@
 // Colle-la entre les guillemets. Elle se termine par /exec.
 const URL_GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbxfNRhGbhrHVOyy7_yTZtaWk4Z5uluFBhy6ou11u8ZQx_IhCJ86MDqNEb2-56LBsXIy/exec";
 
-// TEST A/B : prix affichés dans la question « quel parc choisiriez-vous ? ».
-// Seul le prix du Parc Astérix change entre les deux versions.
+// TEST A/B : offres affichées dans la question « quel parc choisiriez-vous ? ».
+// Seule l'offre du Parc Astérix change : en version B, les 10 € de plus
+// sont accompagnés d'un cadeau (bonus), pour mieux faire passer la hausse.
+// Laisse bonus vide ("") pour une version sans cadeau.
 const VERSIONS = {
-  A: { asterix: 55, disney: 55 },
-  B: { asterix: 65, disney: 55 },
+  A: { asterix: 55, disney: 55, bonus: "" },
+  B: { asterix: 65, disney: 55, bonus: "une peluche offerte" },
 };
 
 // Ordre des colonnes dans la Google Sheet (une ligne par répondant).
@@ -25,14 +27,18 @@ const VERSIONS = {
 // la colonne apparaîtra toute seule dans la feuille.
 const COLONNES = [
   "horodatage", "id_aleatoire", "version", "statut", "test", "langue",
-  "prix_asterix_ab", "prix_disney_ab",
+  "prix_asterix_ab", "prix_disney_ab", "bonus_asterix_ab",
   "filtre_18ans",
-  "age", "situation_familiale", "situation", "residence",
-  "frequence", "occasions", "parcs_visites", "achat_billet",
-  "choix_ab", "critere_1", "critere_2", "critere_3",
+  "age", "situation_familiale", "situation",
+  "residence", "frequence", "occasions",
+  "parcs_visites", "achat_billet", "affluence_asterix", "affluence_disney",
+  "choix_ab",
+  "importance_prix", "importance_attractions", "importance_univers", "importance_spectacles",
+  "importance_enfants", "importance_attente", "importance_acces",
+  "accompagnement",
   "vw_trop_bon_marche_asterix", "vw_bonne_affaire_asterix", "vw_cher_asterix", "vw_trop_cher_asterix",
   "vw_trop_bon_marche_disney", "vw_bonne_affaire_disney", "vw_cher_disney", "vw_trop_cher_disney",
-  "controle", "accompagnement", "budget_total",
+  "controle", "budget_total",
   "incoherent_vw_asterix", "incoherent_vw_disney",
 ];
 
@@ -117,7 +123,6 @@ afficherBandeauTest();
 const ecrans = Array.from(document.querySelectorAll(".ecran:not(.ecran-fin)"));
 let numeroEcran = 0;
 const reponses = {};            // les réponses de la personne, rangées par nom de question
-const classements = {};         // l'ordre dans lequel les critères ont été touchés
 let verificationAffichee = false;
 
 // Si la personne a déjà terminé dans cet onglet (page rechargée), on n'envoie pas
@@ -142,12 +147,11 @@ formulaire.addEventListener("input", cacherMessages);
 formulaire.addEventListener("change", function (evenement) {
   cacherMessages();
   const caseCochee = evenement.target;
-  if (caseCochee.type !== "checkbox") return;
-  if (caseCochee.closest("[data-classement]")) {
-    mettreAJourClassement(caseCochee);
-  } else if (caseCochee.checked) {
+  caseCochee.closest(".question")?.classList.remove("manquante");
+  if (caseCochee.type === "checkbox" && caseCochee.checked) {
     decocherReponsesIncompatibles(caseCochee);
   }
+  mettreAJourQuestionsMasquees();
 });
 
 
@@ -160,6 +164,11 @@ function passerALaSuite() {
   // Réponse obligatoire : on reste sur l'écran avec un message
   if (resultat.erreur) {
     afficherMessage(messageErreur, resultat.erreur);
+    if (resultat.question) {
+      // on montre la question oubliée
+      resultat.question.classList.add("manquante");
+      resultat.question.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
     return;
   }
   Object.assign(reponses, resultat.valeurs);
@@ -183,30 +192,28 @@ function passerALaSuite() {
     return;
   }
 
-  const suivant = numeroEcranSuivant(numeroEcran);
-  if (suivant === null) {
-    terminer("complet");      // c'était la dernière question
+  if (numeroEcran === ecrans.length - 1) {
+    terminer("complet");      // c'était la dernière page
     return;
   }
-  numeroEcran = suivant;
+  numeroEcran = numeroEcran + 1;
   afficherEcran(numeroEcran, true);
 }
 
-// Trouve le prochain écran à afficher, en sautant ceux qui ne concernent pas la personne
-// (data-sauter-si="question=réponse").
-function numeroEcranSuivant(numero) {
-  for (let i = numero + 1; i < ecrans.length; i++) {
-    const condition = ecrans[i].dataset.sauterSi;
-    if (condition) {
-      const [nom, valeur] = condition.split("=");
-      if (reponses[nom] === valeur) {
-        effacerReponsesDe(ecrans[i]);
-        continue;
-      }
-    }
-    return i;
-  }
-  return null;
+// Masque les questions qui ne concernent pas la personne, d'après une réponse
+// de la même page (data-masquer-si="question=réponse"). Une question masquée
+// est vidée et n'est pas obligatoire.
+function mettreAJourQuestionsMasquees() {
+  document.querySelectorAll("[data-masquer-si]").forEach(function (question) {
+    const [nom, valeur] = question.dataset.masquerSi.split("=");
+    const coche = formulaire.querySelector('input[name="' + nom + '"]:checked');
+    const masquer = Boolean(coche && coche.value === valeur);
+    question.hidden = masquer;
+    question.querySelectorAll("input").forEach(function (champ) {
+      champ.disabled = masquer;
+      if (masquer) champ.checked = false;
+    });
+  });
 }
 
 function afficherEcran(numero, deplacerFocus) {
@@ -290,22 +297,10 @@ function attendre(millisecondes) {
 
 /* ---------- 6. LECTURE ET VÉRIFICATION DES RÉPONSES ---------- */
 
-// Renvoie { valeurs: { nom: valeur, … } } si l'écran est bien rempli, ou { erreur } sinon.
+// Renvoie { valeurs: { nom: valeur, … } } si la page est bien remplie,
+// ou { erreur, question } sinon (question = le bloc à compléter).
 function lireReponses(ecran) {
   const valeurs = {};
-
-  // Classement des critères
-  if (ecran.dataset.classement) {
-    const prefixe = ecran.dataset.classement;
-    const attendu = Number(ecran.dataset.nombreChoix);
-    const ordre = classements[prefixe] || [];
-    if (ordre.length < attendu) {
-      return { erreur: t("Choisissez " + attendu + " critères, du plus important au moins important.",
-        "Choose " + attendu + " criteria, from most to least important.") };
-    }
-    ordre.forEach(function (valeur, i) { valeurs[prefixe + "_" + (i + 1)] = valeur; });
-    return { valeurs: valeurs };
-  }
 
   // Case « J'accepte de participer »
   const accord = ecran.querySelector('input[name="accord"]');
@@ -315,48 +310,65 @@ function lireReponses(ecran) {
       : { erreur: t("Cochez la case « J'accepte de participer » pour commencer.", "Tick “I agree to take part” to start.") };
   }
 
-  // Une seule réponse (boutons ronds)
-  for (const nom of nomsDesChamps(ecran, 'input[type="radio"]')) {
-    const coche = ecran.querySelector('input[name="' + nom + '"]:checked');
-    if (!coche) return { erreur: t("Choisissez une réponse pour continuer.", "Please choose an answer to continue.") };
+  // Les questions sont lues dans l'ordre de la page : on s'arrête à la première oubliée
+  const questions = Array.from(ecran.querySelectorAll(".question")).filter(function (q) { return !q.hidden; });
+  for (const question of questions) {
+    const erreur = lireQuestion(question, valeurs);
+    if (erreur) return { erreur: erreur, question: question };
+  }
+  return { valeurs: valeurs };
+}
+
+// Lit une question (ou une matrice) et range ses réponses dans valeurs.
+// Renvoie un message d'erreur si elle n'est pas remplie.
+function lireQuestion(question, valeurs) {
+  // Une seule réponse (boutons ronds) ; pour une matrice, une par ligne
+  for (const nom of nomsDesChamps(question, 'input[type="radio"]')) {
+    const coche = question.querySelector('input[name="' + nom + '"]:checked');
+    if (!coche) {
+      return question.classList.contains("matrice")
+        ? t("Choisissez une réponse pour chaque ligne du tableau.", "Choose an answer for each row of the table.")
+        : t("Répondez à chaque question pour continuer.", "Please answer every question to continue.");
+    }
     valeurs[nom] = coche.value;
   }
 
   // Plusieurs réponses possibles (cases carrées) : enregistrées ensemble, séparées par « | »
-  for (const nom of nomsDesChamps(ecran, 'input[type="checkbox"]')) {
-    const cochees = Array.from(ecran.querySelectorAll('input[name="' + nom + '"]:checked'));
-    if (cochees.length === 0) return { erreur: t("Choisissez au moins une réponse pour continuer.", "Please choose at least one answer to continue.") };
+  for (const nom of nomsDesChamps(question, 'input[type="checkbox"]')) {
+    const cochees = Array.from(question.querySelectorAll('input[name="' + nom + '"]:checked'));
+    if (cochees.length === 0) return t("Choisissez au moins une réponse à chaque question.", "Choose at least one answer for each question.");
     valeurs[nom] = cochees.map(function (c) { return c.value; }).join(" | ");
   }
 
   // Champs chiffrés (montants en euros, âge)
-  const champs = Array.from(ecran.querySelectorAll('input[type="text"]'));
+  const champs = Array.from(question.querySelectorAll('input[type="text"]:not(:disabled)'));
   for (const champ of champs) {
     if (champ.dataset.nombre === "entier") {
       const min = Number(champ.dataset.min), max = Number(champ.dataset.max);
       const nombre = lireEntier(champ.value);
       if (nombre === null || nombre < min || nombre > max) {
-        return { erreur: t("Indiquez votre âge en chiffres (entre " + min + " et " + max + " ans).",
-          "Enter your age in numbers (between " + min + " and " + max + ").") };
+        return t("Indiquez votre âge en chiffres (entre " + min + " et " + max + " ans).",
+          "Enter your age in numbers (between " + min + " and " + max + ").");
       }
       valeurs[champ.name] = nombre;
     } else {
       const montant = lireMontant(champ.value);
       if (montant === null) {
-        return { erreur: champs.length > 1
+        return champs.length > 1
           ? t("Indiquez un montant en euros pour chaque parc, en chiffres.", "Enter an amount in euros for each park, in numbers.")
-          : t("Indiquez un montant en euros, en chiffres.", "Enter an amount in euros, in numbers.") };
+          : t("Indiquez un montant en euros, en chiffres.", "Enter an amount in euros, in numbers.");
       }
       valeurs[champ.name] = montant;
     }
   }
-
-  return { valeurs: valeurs };
+  return null;
 }
 
 // Les différents noms de questions présents sur un écran, pour un type de champ
 function nomsDesChamps(ecran, selecteur) {
-  const noms = Array.from(ecran.querySelectorAll(selecteur)).map(function (c) { return c.name; });
+  const noms = Array.from(ecran.querySelectorAll(selecteur))
+    .filter(function (c) { return !c.disabled; })
+    .map(function (c) { return c.name; });
   return Array.from(new Set(noms)).filter(Boolean);
 }
 
@@ -401,6 +413,7 @@ function preparerLigne(statut) {
     langue: LANGUE,
     prix_asterix_ab: VERSIONS[version].asterix,
     prix_disney_ab: VERSIONS[version].disney,
+    bonus_asterix_ab: VERSIONS[version].bonus,
   }, reponses);
   if (statut === "complet") {
     ligne.incoherent_vw_asterix = vanWestendorpIncoherent(QUESTIONS_VW.asterix) ? "oui" : "non";
@@ -429,6 +442,12 @@ function appliquerVersion(laVersion) {
   const prix = VERSIONS[laVersion];
   document.querySelectorAll("[data-prix-asterix]").forEach(function (element) {
     element.textContent = formaterEuros(prix.asterix);
+    if (prix.bonus) {
+      const bonus = document.createElement("span");
+      bonus.className = "bonus";
+      bonus.textContent = "+ " + traduireTexte(prix.bonus);
+      element.appendChild(bonus);
+    }
   });
   document.querySelectorAll("[data-prix-disney]").forEach(function (element) {
     element.textContent = formaterEuros(prix.disney);
@@ -443,39 +462,6 @@ function decocherReponsesIncompatibles(caseCochee) {
         (caseCochee.hasAttribute("data-exclusive") || autre.hasAttribute("data-exclusive"))) {
       autre.checked = false;
     }
-  });
-}
-
-// Classement : retient l'ordre dans lequel les critères sont touchés (3 au maximum)
-function mettreAJourClassement(caseTouchee) {
-  const ecran = caseTouchee.closest("[data-classement]");
-  const prefixe = ecran.dataset.classement;
-  const maximum = Number(ecran.dataset.nombreChoix);
-  const ordre = classements[prefixe] || (classements[prefixe] = []);
-
-  if (caseTouchee.checked) {
-    if (ordre.length >= maximum) {
-      caseTouchee.checked = false;
-      afficherMessage(messageErreur, t(
-        "Vous avez déjà choisi " + maximum + " critères. Touchez un critère choisi pour l'enlever.",
-        "You have already chosen " + maximum + " criteria. Tap a chosen criterion to remove it."));
-      return;
-    }
-    ordre.push(caseTouchee.value);
-  } else {
-    ordre.splice(ordre.indexOf(caseTouchee.value), 1);
-  }
-
-  ecran.querySelectorAll(".option-classement").forEach(function (option) {
-    const valeur = option.querySelector("input").value;
-    const rang = ordre.indexOf(valeur);
-    option.querySelector(".rang").textContent = rang === -1 ? "" : t(rang === 0 ? "1er" : (rang + 1) + "e", ["1st", "2nd", "3rd"][rang] || (rang + 1) + "th");
-  });
-}
-
-function effacerReponsesDe(ecran) {
-  ecran.querySelectorAll("input").forEach(function (champ) {
-    delete reponses[champ.name];
   });
 }
 
@@ -515,7 +501,7 @@ function cacherMessages() {
 
 function placerLeFocus(ecran) {
   window.scrollTo(0, 0);
-  const titre = ecran.querySelector("h1");
+  const titre = ecran.querySelector("h1, h2");
   if (titre) {
     titre.focus({ preventScroll: true });
   }

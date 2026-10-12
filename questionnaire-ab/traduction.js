@@ -47,8 +47,7 @@ const TEXTES_ANGLAIS = {
   "Durée :": "Duration:",
   "environ 5 minutes.": "about 5 minutes.",
   "Anonyme :": "Anonymous:",
-  "nous ne demandons ni votre nom, ni votre adresse e-mail, et nous n'enregistrons pas votre adresse IP.":
-    "we do not ask for your name or email address, and we do not record your IP address.",
+  "vos réponses sont anonymes.": "your answers are anonymous.",
   "Utilisation :": "Use:",
   "vos réponses servent uniquement à un travail universitaire.": "your answers are used only for university coursework.",
   "Il n'y a pas de bonne ou de mauvaise réponse. Vous pouvez arrêter à tout moment en fermant la page.":
@@ -87,7 +86,7 @@ const TEXTES_ANGLAIS = {
   "Plusieurs fois par an": "Several times a year",
   "Environ une fois par an": "About once a year",
   "Tous les deux ou trois ans": "Every two or three years",
-  "Plus rarement": "Less often",
+  "Moins d'une fois tous les trois ans": "Less than once every three years",
   "Jamais": "Never",
   "À quelles occasions y allez-vous ?": "On what occasions do you go?",
   "Plusieurs réponses possibles.": "Several answers possible.",
@@ -108,15 +107,24 @@ const TEXTES_ANGLAIS = {
   "Offre d'une marque ou d'un partenaire": "Offer from a brand or partner",
   "Pass annuel": "Annual pass",
   "Je n'ai jamais acheté ni reçu de billet": "I have never bought or received a ticket",
+  "Selon vous, y a-t-il beaucoup de monde dans chaque parc ?": "In your opinion, how crowded is each park?",
+  "Pensez à l'affluence et aux files d'attente. Une réponse par parc.": "Think about crowds and queues. One answer per park.",
+  "Peu de monde": "Not crowded",
+  "Raisonnable": "Reasonable",
+  "Beaucoup de monde": "Very crowded",
+  "Saturé": "Overcrowded",
 
   // Vos choix
   "Vos choix": "Your choices",
-  "Pour un billet adulte d'une journée, sans transport ni hôtel, quel parc choisiriez-vous avec les prix suivants ?":
-    "For a one-day adult ticket, without transport or hotel, which park would you choose at the following prices?",
-  "Aucune préférence": "No preference",
-  "Qu'est-ce qui compte le plus pour vous dans le choix d'un parc ?": "What matters most to you when choosing a park?",
-  "Touchez vos trois critères principaux, du plus important au moins important. Touchez à nouveau un critère pour l'enlever.":
-    "Tap your three main criteria, from most to least important. Tap a criterion again to remove it.",
+  "Pour un billet adulte d'une journée, sans transport ni hôtel, quel parc choisiriez-vous avec les offres suivantes ?":
+    "For a one-day adult ticket, without transport or hotel, which park would you choose with the following offers?",
+  "une peluche offerte": "a free plush toy",
+  "Quelle importance ont ces critères dans le choix d'un parc ?": "How important are these criteria when choosing a park?",
+  "Une réponse par ligne.": "One answer per row.",
+  "Pas important": "Not important",
+  "Peu important": "Slightly important",
+  "Important": "Important",
+  "Très important": "Very important",
   "Le prix du billet": "The ticket price",
   "Les attractions et les sensations fortes": "The rides and thrills",
   "L'univers et les décors": "The theme and settings",
@@ -139,6 +147,7 @@ const TEXTES_ANGLAIS = {
     "At what price would the ticket seem too expensive to consider buying it?",
 
   // Contrôle et fin du questionnaire
+  "Pour finir": "Final questions",
   "Tout à l'heure, quand vous avez choisi entre les deux parcs, quel était le prix affiché pour le Parc Astérix ?":
     "Earlier, when you chose between the two parks, what price was shown for Parc Astérix?",
   "Je ne sais pas": "I don't know",
@@ -157,6 +166,12 @@ const TEXTES_ANGLAIS = {
   "Merci pour votre participation !": "Thank you for taking part!",
   "Vous pouvez maintenant fermer cette page.": "You can now close this page.",
 };
+
+// Traduit un texte s'il figure dans la liste (sinon le renvoie tel quel)
+function traduireTexte(texte) {
+  if (LANGUE !== "en") return texte;
+  return TEXTES_ANGLAIS[texte.replace(/\u00a0/g, " ").replace(/\s+/g, " ").trim()] || texte;
+}
 
 // Remplace les textes de la page par leur version anglaise.
 // Les « value » des réponses ne sont pas touchées : la Sheet reste en français.
