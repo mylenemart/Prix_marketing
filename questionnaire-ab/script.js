@@ -15,11 +15,11 @@ const URL_GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbxfNRhGbhrHVO
 
 // TEST A/B : offres affichées dans la question « quel parc choisiriez-vous ? ».
 // Seule l'offre du Parc Astérix change : en version B, le prix est un peu plus
-// élevé mais une peluche est incluse (bonus), pour mieux faire passer la hausse.
+// élevé mais un coupe-file est inclus (bonus), pour mieux faire passer la hausse.
 // Laisse bonus vide ("") pour une version sans cadeau.
 const VERSIONS = {
   A: { asterix: 49, disney: 55, bonus: "" },
-  B: { asterix: 56, disney: 55, bonus: "une peluche incluse" },
+  B: { asterix: 56, disney: 55, bonus: "un coupe-file inclus (1 attraction au choix, 1 par personne)" },
 };
 
 // Ordre des colonnes dans la Google Sheet (une ligne par répondant).
@@ -451,7 +451,7 @@ function appliquerVersion(laVersion) {
       const bonus = document.createElement("span");
       bonus.className = "bonus";
       bonus.textContent = "+ " + traduireTexte(prix.bonus);
-      element.appendChild(bonus);
+      element.parentElement.appendChild(bonus);   // sur sa propre ligne, sous le nom et le prix
     }
   });
   document.querySelectorAll("[data-prix-disney]").forEach(function (element) {
