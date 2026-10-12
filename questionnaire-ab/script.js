@@ -18,7 +18,7 @@ const URL_GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbxfNRhGbhrHVO
 // élevé mais une peluche est incluse (bonus), pour mieux faire passer la hausse.
 // Laisse bonus vide ("") pour une version sans cadeau.
 const VERSIONS = {
-  A: { asterix: 55, disney: 55, bonus: "" },
+  A: { asterix: 49, disney: 55, bonus: "" },
   B: { asterix: 56, disney: 55, bonus: "une peluche incluse" },
 };
 
