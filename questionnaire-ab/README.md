@@ -5,7 +5,7 @@ Petit site web qui sert de questionnaire **anonyme** sur le prix d'une journée 
 Il contient un **test A/B** : dans la question « quel parc choisiriez-vous avec les prix suivants ? », chaque répondant voit, tiré au hasard, l'un de ces deux jeux de prix :
 
 - **Version A** : Parc Astérix 55 €, Disneyland Paris 55 €
-- **Version B** : Parc Astérix 65 € + une peluche offerte, Disneyland Paris 55 €
+- **Version B** : Parc Astérix 56 € + une peluche incluse, Disneyland Paris 55 €
 
 Une seule différence entre A et B : le prix affiché pour le Parc Astérix. Tout le reste est identique, au mot près.
 
@@ -45,10 +45,10 @@ Jusqu'à 3 questions par page, une barre de progression en haut, un bouton « Su
 | 2 | Filtre : 18 ans ou plus ? (un « Non » arrête le questionnaire : statut « filtré ») | `filtre_18ans` |
 | 3 | Vous : âge, situation familiale, situation | `age`, `situation_familiale`, `situation` |
 | 4 | Vos habitudes : lieu de résidence, fréquence, occasions (masquée si « Jamais ») | `residence`, `frequence`, `occasions` |
-| 5 | Vos habitudes : parcs visités, obtention des billets, affluence perçue dans chaque parc (matrice) | `parcs_visites`, `achat_billet`, `affluence_asterix`, `affluence_disney` |
-| 6 | **Test A/B** : quel parc choisiriez-vous ? (choix obligatoire entre les deux) ; importance de 7 critères (matrice) ; avec qui | `version`, `prix_asterix_ab`, `prix_disney_ab`, `bonus_asterix_ab`, `choix_ab`, `importance_…`, `accompagnement` |
+| 5 | Vos habitudes : parcs visités (rien coché = « Aucun »), obtention des billets, affluence perçue dans chaque parc (matrice) | `parcs_visites`, `achat_billet`, `affluence_asterix`, `affluence_disney` |
+| 6 | **Test A/B** : quel parc choisiriez-vous ? (choix obligatoire entre les deux) ; importance de 7 critères, de 1 à 5 (matrice) ; avec qui | `version`, `prix_asterix_ab`, `prix_disney_ab`, `bonus_asterix_ab`, `choix_ab`, `importance_…`, `accompagnement` |
 | 7 | Van Westendorp : 3 premiers seuils de prix, pour chaque parc | `vw_…_asterix`, `vw_…_disney` |
-| 8 | 4e seuil Van Westendorp ; contrôle (prix vu pour Astérix) ; budget total | `vw_trop_cher_…`, `controle`, `budget_total`, `incoherent_vw_…` |
+| 8 | 4e seuil Van Westendorp ; budget total | `vw_trop_cher_…`, `budget_total`, `incoherent_vw_…` |
 | — | Écran de remerciement | — |
 
 Pour les questions à plusieurs réponses, les réponses cochées sont rangées dans la même case, séparées par « | ».
@@ -57,7 +57,6 @@ Pour les questions à plusieurs réponses, les réponses cochées sont rangées 
 
 - `incoherent_vw_asterix` (ou `_disney`) = « oui » si, pour ce parc, une réponse Van Westendorp est plus basse que la précédente.
   Pendant le questionnaire, un message poli invite la personne à vérifier, sans la bloquer. Le cours demande d'écarter ces répondants à l'analyse et d'indiquer combien ont été écartés.
-- `controle` : compare-le avec `prix_asterix_ab` pour savoir si la personne a bien vu le prix de sa version.
 
 Les montants extrêmes (0 €, 10 000 €…) sont acceptés tels quels : comme le demande le cours, on les signale à l'analyse au lieu de les effacer.
 
@@ -66,7 +65,7 @@ Les montants extrêmes (0 €, 10 000 €…) sont acceptés tels quels : comme 
 | Je veux changer… | Où ? |
 |---|---|
 | Le texte d'une question ou d'une réponse | `index.html` (cherche le texte avec Ctrl+F, ou Cmd+F sur Mac) |
-| Les prix du test A/B | `script.js`, tout en haut : `VERSIONS` (pense aussi aux réponses de la question de contrôle dans `index.html`) |
+| Les prix du test A/B | `script.js`, tout en haut : `VERSIONS` |
 | Ajouter une question | `index.html` (copie un bloc `class="question"` existant) **et** `script.js` : ajoute son nom dans `COLONNES` |
 | La traduction anglaise d'un texte | `traduction.js` (si tu changes un texte français dans `index.html`, change aussi la même phrase française dans `traduction.js`) |
 | Les couleurs neutres, les tailles | `style.css`, les variables tout en haut |
@@ -89,7 +88,7 @@ Ajoute ces paramètres à la fin de l'adresse du questionnaire :
 |---|---|
 | `…/index.html?test=1` | Les réponses sont marquées comme tests (colonne `test` = oui). Version tirée au sort. |
 | `…/index.html?version=A` | Force la version A (Astérix 55 €, Disneyland 55 €). |
-| `…/index.html?version=B` | Force la version B (Astérix 65 € + peluche offerte, Disneyland 55 €). |
+| `…/index.html?version=B` | Force la version B (Astérix 56 € + peluche incluse, Disneyland 55 €). |
 | `…/index.html?lang=en` | Affiche le questionnaire en anglais (`?lang=fr` : en français), quelle que soit la langue de ton appareil. |
 | `…/index.html?test=1&version=B` | Les deux à la fois : **c'est le plus pratique pour tes essais**. |
 
@@ -145,7 +144,7 @@ L'onglet « Réponses questionnaire » et sa ligne de titres se créent tout seu
 
 Une ligne par répondant, dans l'ordre de la liste `COLONNES` de `script.js` :
 
-`horodatage, id_aleatoire, version, statut, test, langue, prix_asterix_ab, prix_disney_ab, bonus_asterix_ab, filtre_18ans, age, situation_familiale, situation, residence, frequence, occasions, parcs_visites, achat_billet, affluence_asterix, affluence_disney, choix_ab, importance_prix, importance_attractions, importance_univers, importance_spectacles, importance_enfants, importance_attente, importance_acces, accompagnement, vw_trop_bon_marche_asterix, vw_bonne_affaire_asterix, vw_cher_asterix, vw_trop_cher_asterix, vw_trop_bon_marche_disney, vw_bonne_affaire_disney, vw_cher_disney, vw_trop_cher_disney, controle, budget_total, incoherent_vw_asterix, incoherent_vw_disney`
+`horodatage, id_aleatoire, version, statut, test, langue, prix_asterix_ab, prix_disney_ab, bonus_asterix_ab, filtre_18ans, age, situation_familiale, situation, residence, frequence, occasions, parcs_visites, achat_billet, affluence_asterix, affluence_disney, choix_ab, importance_prix, importance_attractions, importance_univers, importance_spectacles, importance_enfants, importance_attente, importance_acces, accompagnement, vw_trop_bon_marche_asterix, vw_bonne_affaire_asterix, vw_cher_asterix, vw_trop_cher_asterix, vw_trop_bon_marche_disney, vw_bonne_affaire_disney, vw_cher_disney, vw_trop_cher_disney, budget_total, incoherent_vw_asterix, incoherent_vw_disney`
 
 - `langue` vaut `fr` ou `en` : la langue dans laquelle la personne a vu le questionnaire. Les réponses, elles, sont toujours écrites en français dans la feuille, quelle que soit la langue.
 - Si tu ajoutes une question et son nom dans `COLONNES`, la colonne s'ajoute toute seule à droite dans la feuille : pas besoin de toucher au script Google.
@@ -189,9 +188,9 @@ C'est **ce lien, sans rien derrière**, que tu partages aux participants.
 
 1. Ouvre `https://mylenemart.github.io/Prix_marketing/questionnaire-ab/?test=1&version=A` : le bandeau jaune affiche « Mode test · Version A forcée » et la question du choix entre les parcs montre **Astérix 55 €**. Réponds jusqu'au bout : l'écran final doit dire « Vos réponses ont bien été enregistrées ».
 2. Ouvre ta Google Sheet, onglet « Réponses questionnaire » : une ligne est arrivée avec `version` = A et `test` = oui.
-3. Recommence avec `?test=1&version=B` : la question montre **Astérix 65 €**, et une 2e ligne arrive avec `version` = B.
+3. Recommence avec `?test=1&version=B` : la question montre **Astérix 56 € + une peluche incluse**, et une 2e ligne arrive avec `version` = B.
 4. Fais un essai en répondant « Non » au filtre : une ligne arrive avec `statut` = filtré.
-5. Ouvre le lien normal dans plusieurs fenêtres de navigation privée : tu dois voir tantôt 55 €, tantôt 65 € pour Astérix (tirage au sort), sans bandeau jaune.
+5. Ouvre le lien normal dans plusieurs fenêtres de navigation privée : tu dois voir tantôt 55 €, tantôt 56 € + peluche pour Astérix (tirage au sort), sans bandeau jaune.
 6. Fais un essai sur ton téléphone.
 7. Comme le demande le cours, fais tester le questionnaire par quelques personnes extérieures (avec `?test=1`) avant de le lancer.
 

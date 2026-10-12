@@ -118,13 +118,10 @@ const TEXTES_ANGLAIS = {
   "Vos choix": "Your choices",
   "Pour un billet adulte d'une journée, sans transport ni hôtel, quel parc choisiriez-vous avec les offres suivantes ?":
     "For a one-day adult ticket, without transport or hotel, which park would you choose with the following offers?",
-  "une peluche offerte": "a free plush toy",
+  "une peluche incluse": "a plush toy included",
   "Quelle importance ont ces critères dans le choix d'un parc ?": "How important are these criteria when choosing a park?",
-  "Une réponse par ligne.": "One answer per row.",
-  "Pas important": "Not important",
-  "Peu important": "Slightly important",
-  "Important": "Important",
-  "Très important": "Very important",
+  "Une réponse par ligne, de 1 (pas important) à 5 (très important).": "One answer per row, from 1 (not important) to 5 (very important).",
+  "Plusieurs réponses possibles. Ne cochez rien si vous n'en avez visité aucun.": "Several answers possible. Leave blank if you have visited neither.",
   "Le prix du billet": "The ticket price",
   "Les attractions et les sensations fortes": "The rides and thrills",
   "L'univers et les décors": "The theme and settings",
@@ -148,8 +145,6 @@ const TEXTES_ANGLAIS = {
 
   // Contrôle et fin du questionnaire
   "Pour finir": "Final questions",
-  "Tout à l'heure, quand vous avez choisi entre les deux parcs, quel était le prix affiché pour le Parc Astérix ?":
-    "Earlier, when you chose between the two parks, what price was shown for Parc Astérix?",
   "Je ne sais pas": "I don't know",
   "Avec qui envisageriez-vous cette visite ?": "Who would you go on this visit with?",
   "Seul(e)": "Alone",

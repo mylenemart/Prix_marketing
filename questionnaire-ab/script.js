@@ -14,12 +14,12 @@
 const URL_GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbxfNRhGbhrHVOyy7_yTZtaWk4Z5uluFBhy6ou11u8ZQx_IhCJ86MDqNEb2-56LBsXIy/exec";
 
 // TEST A/B : offres affichées dans la question « quel parc choisiriez-vous ? ».
-// Seule l'offre du Parc Astérix change : en version B, les 10 € de plus
-// sont accompagnés d'un cadeau (bonus), pour mieux faire passer la hausse.
+// Seule l'offre du Parc Astérix change : en version B, le prix est un peu plus
+// élevé mais une peluche est incluse (bonus), pour mieux faire passer la hausse.
 // Laisse bonus vide ("") pour une version sans cadeau.
 const VERSIONS = {
   A: { asterix: 55, disney: 55, bonus: "" },
-  B: { asterix: 65, disney: 55, bonus: "une peluche offerte" },
+  B: { asterix: 56, disney: 55, bonus: "une peluche incluse" },
 };
 
 // Ordre des colonnes dans la Google Sheet (une ligne par répondant).
@@ -38,7 +38,7 @@ const COLONNES = [
   "accompagnement",
   "vw_trop_bon_marche_asterix", "vw_bonne_affaire_asterix", "vw_cher_asterix", "vw_trop_cher_asterix",
   "vw_trop_bon_marche_disney", "vw_bonne_affaire_disney", "vw_cher_disney", "vw_trop_cher_disney",
-  "controle", "budget_total",
+  "budget_total",
   "incoherent_vw_asterix", "incoherent_vw_disney",
 ];
 
@@ -330,12 +330,17 @@ function lireQuestion(question, valeurs) {
         ? t("Choisissez une réponse pour chaque ligne du tableau.", "Choose an answer for each row of the table.")
         : t("Répondez à chaque question pour continuer.", "Please answer every question to continue.");
     }
-    valeurs[nom] = coche.value;
+    // une note (1 à 5) est enregistrée comme un nombre
+    valeurs[nom] = /^\d+$/.test(coche.value) ? Number(coche.value) : coche.value;
   }
 
   // Plusieurs réponses possibles (cases carrées) : enregistrées ensemble, séparées par « | »
   for (const nom of nomsDesChamps(question, 'input[type="checkbox"]')) {
     const cochees = Array.from(question.querySelectorAll('input[name="' + nom + '"]:checked'));
+    if (cochees.length === 0 && question.dataset.facultatif) {
+      valeurs[nom] = question.dataset.facultatif;   // rien coché : réponse par défaut (ex. « Aucun »)
+      continue;
+    }
     if (cochees.length === 0) return t("Choisissez au moins une réponse à chaque question.", "Choose at least one answer for each question.");
     valeurs[nom] = cochees.map(function (c) { return c.value; }).join(" | ");
   }

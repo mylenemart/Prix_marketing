@@ -128,11 +128,10 @@
       <!-- ============ PAGE « VOS HABITUDES » (2) ============ -->
       <section class="ecran">
         <p class="partie">Vos habitudes</p>
-        <fieldset class="question">
-          <legend><h2 tabindex="-1">Quels parcs avez-vous déjà visités&nbsp;?</h2><span class="consigne">Plusieurs réponses possibles.</span></legend>
+        <fieldset class="question" data-facultatif="Aucun">
+          <legend><h2 tabindex="-1">Quels parcs avez-vous déjà visités&nbsp;?</h2><span class="consigne">Plusieurs réponses possibles. Ne cochez rien si vous n'en avez visité aucun.</span></legend>
           <label class="option"><input type="checkbox" name="parcs_visites" value="Asterix"><span>Parc Astérix</span></label>
           <label class="option"><input type="checkbox" name="parcs_visites" value="Disneyland"><span>Disneyland Paris</span></label>
-          <label class="option"><input type="checkbox" name="parcs_visites" value="Aucun" data-exclusive><span>Aucun des deux</span></label>
         </fieldset>
         <fieldset class="question">
           <legend><h2 tabindex="-1">Comment avez-vous obtenu vos billets de parc&nbsp;?</h2><span class="consigne">Plusieurs réponses possibles.</span></legend>
@@ -186,68 +185,75 @@
         </fieldset>
         <div class="question matrice">
           <h2 tabindex="-1">Quelle importance ont ces critères dans le choix d'un parc&nbsp;?</h2>
-          <span class="consigne">Une réponse par ligne.</span>
+          <span class="consigne">Une réponse par ligne, de 1 (pas important) à 5 (très important).</span>
           <fieldset class="ligne-matrice">
             <legend>Le prix du billet</legend>
             <div class="pastilles">
-              <label class="pastille"><input type="radio" name="importance_prix" value="Pas important"><span>Pas important</span></label>
-              <label class="pastille"><input type="radio" name="importance_prix" value="Peu important"><span>Peu important</span></label>
-              <label class="pastille"><input type="radio" name="importance_prix" value="Important"><span>Important</span></label>
-              <label class="pastille"><input type="radio" name="importance_prix" value="Très important"><span>Très important</span></label>
+              <label class="pastille"><input type="radio" name="importance_prix" value="1"><span>1</span></label>
+              <label class="pastille"><input type="radio" name="importance_prix" value="2"><span>2</span></label>
+              <label class="pastille"><input type="radio" name="importance_prix" value="3"><span>3</span></label>
+              <label class="pastille"><input type="radio" name="importance_prix" value="4"><span>4</span></label>
+              <label class="pastille"><input type="radio" name="importance_prix" value="5"><span>5</span></label>
             </div>
           </fieldset>
           <fieldset class="ligne-matrice">
             <legend>Les attractions et les sensations fortes</legend>
             <div class="pastilles">
-              <label class="pastille"><input type="radio" name="importance_attractions" value="Pas important"><span>Pas important</span></label>
-              <label class="pastille"><input type="radio" name="importance_attractions" value="Peu important"><span>Peu important</span></label>
-              <label class="pastille"><input type="radio" name="importance_attractions" value="Important"><span>Important</span></label>
-              <label class="pastille"><input type="radio" name="importance_attractions" value="Très important"><span>Très important</span></label>
+              <label class="pastille"><input type="radio" name="importance_attractions" value="1"><span>1</span></label>
+              <label class="pastille"><input type="radio" name="importance_attractions" value="2"><span>2</span></label>
+              <label class="pastille"><input type="radio" name="importance_attractions" value="3"><span>3</span></label>
+              <label class="pastille"><input type="radio" name="importance_attractions" value="4"><span>4</span></label>
+              <label class="pastille"><input type="radio" name="importance_attractions" value="5"><span>5</span></label>
             </div>
           </fieldset>
           <fieldset class="ligne-matrice">
             <legend>L&#x27;univers et les décors</legend>
             <div class="pastilles">
-              <label class="pastille"><input type="radio" name="importance_univers" value="Pas important"><span>Pas important</span></label>
-              <label class="pastille"><input type="radio" name="importance_univers" value="Peu important"><span>Peu important</span></label>
-              <label class="pastille"><input type="radio" name="importance_univers" value="Important"><span>Important</span></label>
-              <label class="pastille"><input type="radio" name="importance_univers" value="Très important"><span>Très important</span></label>
+              <label class="pastille"><input type="radio" name="importance_univers" value="1"><span>1</span></label>
+              <label class="pastille"><input type="radio" name="importance_univers" value="2"><span>2</span></label>
+              <label class="pastille"><input type="radio" name="importance_univers" value="3"><span>3</span></label>
+              <label class="pastille"><input type="radio" name="importance_univers" value="4"><span>4</span></label>
+              <label class="pastille"><input type="radio" name="importance_univers" value="5"><span>5</span></label>
             </div>
           </fieldset>
           <fieldset class="ligne-matrice">
             <legend>Les spectacles</legend>
             <div class="pastilles">
-              <label class="pastille"><input type="radio" name="importance_spectacles" value="Pas important"><span>Pas important</span></label>
-              <label class="pastille"><input type="radio" name="importance_spectacles" value="Peu important"><span>Peu important</span></label>
-              <label class="pastille"><input type="radio" name="importance_spectacles" value="Important"><span>Important</span></label>
-              <label class="pastille"><input type="radio" name="importance_spectacles" value="Très important"><span>Très important</span></label>
+              <label class="pastille"><input type="radio" name="importance_spectacles" value="1"><span>1</span></label>
+              <label class="pastille"><input type="radio" name="importance_spectacles" value="2"><span>2</span></label>
+              <label class="pastille"><input type="radio" name="importance_spectacles" value="3"><span>3</span></label>
+              <label class="pastille"><input type="radio" name="importance_spectacles" value="4"><span>4</span></label>
+              <label class="pastille"><input type="radio" name="importance_spectacles" value="5"><span>5</span></label>
             </div>
           </fieldset>
           <fieldset class="ligne-matrice">
             <legend>Les activités adaptées aux enfants</legend>
             <div class="pastilles">
-              <label class="pastille"><input type="radio" name="importance_enfants" value="Pas important"><span>Pas important</span></label>
-              <label class="pastille"><input type="radio" name="importance_enfants" value="Peu important"><span>Peu important</span></label>
-              <label class="pastille"><input type="radio" name="importance_enfants" value="Important"><span>Important</span></label>
-              <label class="pastille"><input type="radio" name="importance_enfants" value="Très important"><span>Très important</span></label>
+              <label class="pastille"><input type="radio" name="importance_enfants" value="1"><span>1</span></label>
+              <label class="pastille"><input type="radio" name="importance_enfants" value="2"><span>2</span></label>
+              <label class="pastille"><input type="radio" name="importance_enfants" value="3"><span>3</span></label>
+              <label class="pastille"><input type="radio" name="importance_enfants" value="4"><span>4</span></label>
+              <label class="pastille"><input type="radio" name="importance_enfants" value="5"><span>5</span></label>
             </div>
           </fieldset>
           <fieldset class="ligne-matrice">
             <legend>Le temps d&#x27;attente</legend>
             <div class="pastilles">
-              <label class="pastille"><input type="radio" name="importance_attente" value="Pas important"><span>Pas important</span></label>
-              <label class="pastille"><input type="radio" name="importance_attente" value="Peu important"><span>Peu important</span></label>
-              <label class="pastille"><input type="radio" name="importance_attente" value="Important"><span>Important</span></label>
-              <label class="pastille"><input type="radio" name="importance_attente" value="Très important"><span>Très important</span></label>
+              <label class="pastille"><input type="radio" name="importance_attente" value="1"><span>1</span></label>
+              <label class="pastille"><input type="radio" name="importance_attente" value="2"><span>2</span></label>
+              <label class="pastille"><input type="radio" name="importance_attente" value="3"><span>3</span></label>
+              <label class="pastille"><input type="radio" name="importance_attente" value="4"><span>4</span></label>
+              <label class="pastille"><input type="radio" name="importance_attente" value="5"><span>5</span></label>
             </div>
           </fieldset>
           <fieldset class="ligne-matrice">
             <legend>La facilité d&#x27;accès</legend>
             <div class="pastilles">
-              <label class="pastille"><input type="radio" name="importance_acces" value="Pas important"><span>Pas important</span></label>
-              <label class="pastille"><input type="radio" name="importance_acces" value="Peu important"><span>Peu important</span></label>
-              <label class="pastille"><input type="radio" name="importance_acces" value="Important"><span>Important</span></label>
-              <label class="pastille"><input type="radio" name="importance_acces" value="Très important"><span>Très important</span></label>
+              <label class="pastille"><input type="radio" name="importance_acces" value="1"><span>1</span></label>
+              <label class="pastille"><input type="radio" name="importance_acces" value="2"><span>2</span></label>
+              <label class="pastille"><input type="radio" name="importance_acces" value="3"><span>3</span></label>
+              <label class="pastille"><input type="radio" name="importance_acces" value="4"><span>4</span></label>
+              <label class="pastille"><input type="radio" name="importance_acces" value="5"><span>5</span></label>
             </div>
           </fieldset>
         </div>
@@ -309,13 +315,6 @@
             <span class="champ-prix"><input type="text" inputmode="decimal" autocomplete="off" name="vw_trop_cher_disney" data-precedent="vw_cher_disney"><span aria-hidden="true">€</span></span>
           </label>
         </div>
-        <!-- QUESTION DE CONTRÔLE (demandée par le cours) : la personne a-t-elle vu le prix du test A/B ? -->
-        <fieldset class="question">
-          <legend><h2 tabindex="-1">Tout à l'heure, quand vous avez choisi entre les deux parcs, quel était le prix affiché pour le Parc Astérix&nbsp;?</h2></legend>
-          <label class="option"><input type="radio" name="controle" value="55 €"><span>55&nbsp;€</span></label>
-          <label class="option"><input type="radio" name="controle" value="65 €"><span>65&nbsp;€</span></label>
-          <label class="option"><input type="radio" name="controle" value="Je ne sais pas"><span>Je ne sais pas</span></label>
-        </fieldset>
         <div class="question">
           <h2 id="q-budget_total" tabindex="-1">Quel budget total pourriez-vous consacrer à cette sortie, par personne, en incluant le billet, le transport et les repas&nbsp;?</h2>
           <div class="champ-prix">
