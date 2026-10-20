@@ -37,10 +37,9 @@ const VERSIONS_VALIDES = ["A", "B", "C", "D"];
 const COLONNES = [
   "horodatage", "id_aleatoire", "version", "statut", "test", "langue",
   "prix_asterix_ab", "prix_disney_ab", "bonus_asterix_ab",
-  "filtre_18ans",
   "age", "situation_familiale", "situation",
   "residence", "frequence", "occasions",
-  "parcs_visites", "achat_billet", "affluence_asterix", "affluence_disney",
+  "visite_asterix", "visite_disney", "achat_billet", "affluence_asterix", "affluence_disney",
   "choix_ab",
   "importance_prix", "importance_attractions", "importance_univers", "importance_spectacles",
   "importance_enfants", "importance_attente", "importance_acces",
@@ -205,8 +204,8 @@ function passerALaSuite() {
     return;
   }
 
-  // Filtre : une réponse « Non » arrête le questionnaire
-  if (ecran.hasAttribute("data-filtre") && Object.values(resultat.valeurs)[0] === "non") {
+  // Filtre : moins de 18 ans arrête le questionnaire
+  if (ecran.hasAttribute("data-filtre") && resultat.valeurs.age < 18) {
     terminer("filtré");
     return;
   }

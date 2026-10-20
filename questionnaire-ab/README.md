@@ -50,10 +50,10 @@ Les questions sont regroupées en **4 parties** (Vous, Vos habitudes, Vos choix,
 | Écran | Questions | Ce qui est enregistré |
 |---|---|---|
 | 1 | Accueil : objet de l'étude, durée, anonymat, case « J'accepte de participer » | — |
-| 2 | Filtre : 18 ans ou plus ? (un « Non » arrête le questionnaire : statut « filtré ») | `filtre_18ans` |
-| 3 | **Partie 1 · Vous** : âge, situation familiale, situation, lieu de résidence | `age`, `situation_familiale`, `situation`, `residence` |
-| 4 | **Partie 2 · Vos habitudes** : fréquence, occasions (masquée si « Jamais »), parcs visités (rien coché = « Aucun »), obtention des billets, affluence perçue dans chaque parc (matrice) | `frequence`, `occasions`, `parcs_visites`, `achat_billet`, `affluence_asterix`, `affluence_disney` |
-| 5 | **Partie 3 · Vos choix** : **test A/B** « quel parc choisiriez-vous ? » (choix obligatoire entre les deux) ; importance de 7 critères, de 1 à 5 (matrice) ; avec qui | `version`, `prix_asterix_ab`, `prix_disney_ab`, `bonus_asterix_ab`, `choix_ab`, `importance_…`, `accompagnement` |
+| 2 | Filtre : âge (un âge inférieur à 18 ans arrête le questionnaire : statut « filtré ») | `age` |
+| 3 | **Partie 1 · Vous** : situation familiale, situation, lieu de résidence | `situation_familiale`, `situation`, `residence` |
+| 4 | **Partie 2 · Vos habitudes** : fréquence, occasions (masquée si « Jamais »), parcs visités (jamais / une fois / souvent, pour chaque parc), obtention des billets, affluence perçue dans chaque parc (matrice) | `frequence`, `occasions`, `visite_asterix`, `visite_disney`, `achat_billet`, `affluence_asterix`, `affluence_disney` |
+| 5 | **Partie 3 · Vos choix** : **test A/B** « quel parc choisiriez-vous ? » (choix obligatoire entre les deux) ; importance de 7 critères (de « Pas important » à « Très important », enregistrée de 1 à 5) ; avec qui | `version`, `prix_asterix_ab`, `prix_disney_ab`, `bonus_asterix_ab`, `choix_ab`, `importance_…`, `accompagnement` |
 | 6 | **Partie 4 · Vos seuils de prix** : les 4 seuils Van Westendorp pour chaque parc (vérification de l'ordre des prix sur le même écran) ; budget total | `vw_…_asterix`, `vw_…_disney`, `budget_total`, `incoherent_vw_…` |
 | — | Écrans de remerciement (participation complète, ou filtré) | — |
 
@@ -149,7 +149,7 @@ L'onglet « Réponses questionnaire » et sa ligne de titres se créent tout seu
 
 Une ligne par répondant, dans l'ordre de la liste `COLONNES` de `script.js` :
 
-`horodatage, id_aleatoire, version, statut, test, langue, prix_asterix_ab, prix_disney_ab, bonus_asterix_ab, filtre_18ans, age, situation_familiale, situation, residence, frequence, occasions, parcs_visites, achat_billet, affluence_asterix, affluence_disney, choix_ab, importance_prix, importance_attractions, importance_univers, importance_spectacles, importance_enfants, importance_attente, importance_acces, accompagnement, vw_trop_bon_marche_asterix, vw_bonne_affaire_asterix, vw_cher_asterix, vw_trop_cher_asterix, vw_trop_bon_marche_disney, vw_bonne_affaire_disney, vw_cher_disney, vw_trop_cher_disney, budget_total, incoherent_vw_asterix, incoherent_vw_disney`
+`horodatage, id_aleatoire, version, statut, test, langue, prix_asterix_ab, prix_disney_ab, bonus_asterix_ab, age, situation_familiale, situation, residence, frequence, occasions, visite_asterix, visite_disney, achat_billet, affluence_asterix, affluence_disney, choix_ab, importance_prix, importance_attractions, importance_univers, importance_spectacles, importance_enfants, importance_attente, importance_acces, accompagnement, vw_trop_bon_marche_asterix, vw_bonne_affaire_asterix, vw_cher_asterix, vw_trop_cher_asterix, vw_trop_bon_marche_disney, vw_bonne_affaire_disney, vw_cher_disney, vw_trop_cher_disney, budget_total, incoherent_vw_asterix, incoherent_vw_disney`
 
 - `langue` vaut `fr` ou `en` : la langue dans laquelle la personne a vu le questionnaire. Les réponses, elles, sont toujours écrites en français dans la feuille, quelle que soit la langue.
 - Si tu ajoutes une question et son nom dans `COLONNES`, la colonne s'ajoute toute seule à droite dans la feuille : pas besoin de toucher au script Google.
@@ -194,7 +194,7 @@ C'est **ce lien, sans rien derrière**, que tu partages aux participants.
 1. Ouvre `https://mylenemart.github.io/Prix_marketing/questionnaire-ab/?test=1&version=A` : le bandeau jaune affiche « Mode test · Version A forcée » et la question du choix entre les parcs montre **Astérix 49 €** et **Disneyland 79 €**, sans coupe-file. Réponds jusqu'au bout : l'écran final doit dire « Vos réponses ont bien été enregistrées ».
 2. Ouvre ta Google Sheet, onglet « Réponses questionnaire » : une ligne est arrivée avec `version` = A et `test` = oui.
 3. Recommence avec `?test=1&version=C` : la question montre **Astérix 49 €** et **Disneyland 79 €** avec le coupe-file, et une 2e ligne arrive avec `version` = C. Fais de même avec `version=B` et `version=D` si tu veux vérifier les quatre.
-4. Fais un essai en répondant « Non » au filtre : une ligne arrive avec `statut` = filtré.
+4. Fais un essai avec un âge inférieur à 18 ans au filtre : une ligne arrive avec `statut` = filtré.
 5. Ouvre le lien normal dans plusieurs fenêtres de navigation privée : tu dois voir, selon le tirage, Astérix à 49 € ou 54,50 €, avec ou sans coupe-file, Disneyland toujours à 79 €. Sans bandeau jaune.
 6. Fais un essai sur ton téléphone.
 7. Comme le demande le cours, fais tester le questionnaire par quelques personnes extérieures (avec `?test=1`) avant de le lancer.

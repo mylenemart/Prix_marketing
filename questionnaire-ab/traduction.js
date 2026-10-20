@@ -31,6 +31,17 @@ function t(francais, anglais) {
 }
 
 const TEXTES_ANGLAIS = {
+  // Âge (écran de départ) et parcs visités
+  "Pour chaque parc, indiquez si vous y êtes déjà allé(e).": "For each park, tell us whether you have already been.",
+  "Une fois": "Once",
+  "Souvent": "Often",
+  // Échelle d'importance (1 à 5, enregistrée en chiffres dans la Sheet)
+  "Une réponse par ligne.": "One answer per row.",
+  "Pas important": "Not important",
+  "Peu important": "A little important",
+  "Moyen": "Average",
+  "Important": "Important",
+  "Très important": "Very important",
   // Page
   "Questionnaire – étude universitaire": "Questionnaire – university study",
   "Progression du questionnaire": "Questionnaire progress",
