@@ -14,12 +14,12 @@
 const URL_GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbxfNRhGbhrHVOyy7_yTZtaWk4Z5uluFBhy6ou11u8ZQx_IhCJ86MDqNEb2-56LBsXIy/exec";
 
 // TEST A/B : offres affichées dans la question « quel parc choisiriez-vous ? ».
-// Seule l'offre du Parc Astérix change : en version B, le prix est un peu plus
-// élevé mais un coupe-file est inclus (bonus), pour mieux faire passer la hausse.
-// Laisse bonus vide ("") pour une version sans cadeau.
+// Version A : Parc Astérix 56 € avec un coupe-file (bonus), Disneyland 56 € sans avantage.
+// Version B : Parc Astérix 49 €, Disneyland 79 €, sans avantage.
+// Le bonus ne concerne que le Parc Astérix ; laisse bonus vide ("") pour une offre sans cadeau.
 const VERSIONS = {
-  A: { asterix: 49, disney: 55, bonus: "" },
-  B: { asterix: 56, disney: 55, bonus: "un coupe-file inclus (1 attraction au choix, 1 par personne)" },
+  A: { asterix: 56, disney: 56, bonus: "un coupe-file utilisable une seule fois dans la journée" },
+  B: { asterix: 49, disney: 79, bonus: "" },
 };
 
 // Ordre des colonnes dans la Google Sheet (une ligne par répondant).

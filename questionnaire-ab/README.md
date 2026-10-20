@@ -4,8 +4,8 @@ Petit site web qui sert de questionnaire **anonyme** sur le prix d'une journée 
 
 Il contient un **test A/B** : dans la question « quel parc choisiriez-vous avec les prix suivants ? », chaque répondant voit, tiré au hasard, l'un de ces deux jeux de prix :
 
-- **Version A** : Parc Astérix 49 €, Disneyland Paris 55 €
-- **Version B** : Parc Astérix 56 € + un coupe-file inclus (1 attraction au choix, 1 par personne), Disneyland Paris 55 €
+- **Version A** : Parc Astérix 56 € + un coupe-file utilisable une seule fois dans la journée, Disneyland Paris 56 € (sans avantage)
+- **Version B** : Parc Astérix 49 €, Disneyland Paris 79 € (sans avantage)
 
 Une seule différence entre A et B : le prix affiché pour le Parc Astérix. Tout le reste est identique, au mot près.
 
@@ -85,8 +85,8 @@ Ajoute ces paramètres à la fin de l'adresse du questionnaire :
 | Adresse | Effet |
 |---|---|
 | `…/index.html?test=1` | Les réponses sont marquées comme tests (colonne `test` = oui). Version tirée au sort. |
-| `…/index.html?version=A` | Force la version A (Astérix 49 €, Disneyland 55 €). |
-| `…/index.html?version=B` | Force la version B (Astérix 56 € + coupe-file inclus, Disneyland 55 €). |
+| `…/index.html?version=A` | Force la version A (Astérix 56 € + coupe-file, Disneyland 56 €). |
+| `…/index.html?version=B` | Force la version B (Astérix 49 €, Disneyland 79 €). |
 | `…/index.html?lang=en` | Affiche le questionnaire en anglais (`?lang=fr` : en français), quelle que soit la langue de ton appareil. |
 | `…/index.html?test=1&version=B` | Les deux à la fois : **c'est le plus pratique pour tes essais**. |
 
@@ -184,11 +184,11 @@ C'est **ce lien, sans rien derrière**, que tu partages aux participants.
 
 ### D. Vérifier que tout marche avant de lancer
 
-1. Ouvre `https://mylenemart.github.io/Prix_marketing/questionnaire-ab/?test=1&version=A` : le bandeau jaune affiche « Mode test · Version A forcée » et la question du choix entre les parcs montre **Astérix 49 €**. Réponds jusqu'au bout : l'écran final doit dire « Vos réponses ont bien été enregistrées ».
+1. Ouvre `https://mylenemart.github.io/Prix_marketing/questionnaire-ab/?test=1&version=A` : le bandeau jaune affiche « Mode test · Version A forcée » et la question du choix entre les parcs montre **Astérix 56 €** avec le coupe-file. Réponds jusqu'au bout : l'écran final doit dire « Vos réponses ont bien été enregistrées ».
 2. Ouvre ta Google Sheet, onglet « Réponses questionnaire » : une ligne est arrivée avec `version` = A et `test` = oui.
-3. Recommence avec `?test=1&version=B` : la question montre **Astérix 56 € + un coupe-file inclus (1 attraction au choix, 1 par personne)**, et une 2e ligne arrive avec `version` = B.
+3. Recommence avec `?test=1&version=B` : la question montre **Astérix 49 €** et **Disneyland 79 €**, et une 2e ligne arrive avec `version` = B.
 4. Fais un essai en répondant « Non » au filtre : une ligne arrive avec `statut` = filtré.
-5. Ouvre le lien normal dans plusieurs fenêtres de navigation privée : tu dois voir tantôt 49 €, tantôt 56 € + coupe-file pour Astérix (tirage au sort), sans bandeau jaune.
+5. Ouvre le lien normal dans plusieurs fenêtres de navigation privée : tu dois voir tantôt Astérix 56 € + coupe-file (et Disneyland 56 €), tantôt Astérix 49 € (et Disneyland 79 €) : tirage au sort, sans bandeau jaune.
 6. Fais un essai sur ton téléphone.
 7. Comme le demande le cours, fais tester le questionnaire par quelques personnes extérieures (avec `?test=1`) avant de le lancer.
 

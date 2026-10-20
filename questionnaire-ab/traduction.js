@@ -118,7 +118,7 @@ const TEXTES_ANGLAIS = {
   "Vos choix": "Your choices",
   "Pour un billet adulte d'une journée, sans transport ni hôtel, quel parc choisiriez-vous avec les offres suivantes ?":
     "For a one-day adult ticket, without transport or hotel, which park would you choose with the following offers?",
-  "un coupe-file inclus (1 attraction au choix, 1 par personne)": "one fast pass included (1 ride of your choice, 1 per person)",
+  "un coupe-file utilisable une seule fois dans la journée": "one fast pass, usable once during the day",
   "Quelle importance ont ces critères dans le choix d'un parc ?": "How important are these criteria when choosing a park?",
   "Une réponse par ligne, de 1 (pas important) à 5 (très important).": "One answer per row, from 1 (not important) to 5 (very important).",
   "Plusieurs réponses possibles. Ne cochez rien si vous n'en avez visité aucun.": "Several answers possible. Leave blank if you have visited neither.",
