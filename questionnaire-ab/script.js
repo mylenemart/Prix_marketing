@@ -15,19 +15,19 @@ const URL_GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbxfNRhGbhrHVO
 
 // TEST A/B (2 facteurs croisés) : offres affichées dans la question « quel parc choisiriez-vous ? ».
 // Disneyland est toujours à 79 €. Deux facteurs, chacun tiré au sort indépendamment :
-//   - le prix du Parc Astérix : 49 € ou 59 € ;
+//   - le prix du Parc Astérix : 49 € ou 54,50 € ;
 //   - un coupe-file utilisable une seule fois dans la journée : oui ou non.
 // Quatre versions, une chance sur quatre chacune :
-//   A : Astérix 49 €, sans coupe-file        B : Astérix 59 €, sans coupe-file
-//   C : Astérix 49 € + coupe-file            D : Astérix 59 € + coupe-file
+//   A : Astérix 49 €, sans coupe-file        B : Astérix 54,50 €, sans coupe-file
+//   C : Astérix 49 € + coupe-file            D : Astérix 54,50 € + coupe-file
 // Effet du prix = comparer A+C contre B+D ; effet du coupe-file = comparer A+B contre C+D.
 // Le bonus ne concerne que le Parc Astérix ; laisse bonus vide ("") pour une offre sans cadeau.
 const COUPE_FILE = "un coupe-file utilisable une seule fois dans la journée";
 const VERSIONS = {
   A: { asterix: 49, disney: 79, bonus: "" },
-  B: { asterix: 59, disney: 79, bonus: "" },
+  B: { asterix: 54.5, disney: 79, bonus: "" },
   C: { asterix: 49, disney: 79, bonus: COUPE_FILE },
-  D: { asterix: 59, disney: 79, bonus: COUPE_FILE },
+  D: { asterix: 54.5, disney: 79, bonus: COUPE_FILE },
 };
 const VERSIONS_VALIDES = ["A", "B", "C", "D"];
 
@@ -548,5 +548,7 @@ function placerLeFocus(ecran) {
 }
 
 function formaterEuros(montant) {
-  return montant.toLocaleString("fr-FR") + " €";
+  // 49 → « 49 € » ; 54,5 → « 54,50 € » (deux décimales seulement quand il en faut)
+  const options = Number.isInteger(montant) ? {} : { minimumFractionDigits: 2, maximumFractionDigits: 2 };
+  return montant.toLocaleString("fr-FR", options) + " €";
 }

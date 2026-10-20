@@ -7,12 +7,12 @@ Il contient un **test A/B à deux facteurs** : dans la question « quel parc cho
 | Version | Parc Astérix | Coupe-file (une fois par jour) |
 |---|---|---|
 | **A** | 49 € | non |
-| **B** | 59 € | non |
+| **B** | 54,50 € | non |
 | **C** | 49 € | oui |
-| **D** | 59 € | oui |
+| **D** | 54,50 € | oui |
 
 Les deux facteurs sont tirés au sort indépendamment (une chance sur quatre pour chaque version). On peut donc répondre à deux questions avec les mêmes réponses :
-- **Effet du prix** : comparer A + C (49 €) contre B + D (59 €).
+- **Effet du prix** : comparer A + C (49 €) contre B + D (54,50 €).
 - **Effet du coupe-file** : comparer A + B (sans) contre C + D (avec).
 
 Le texte de la question est le même dans les quatre versions ; seuls les prix et le coupe-file changent.
@@ -195,7 +195,7 @@ C'est **ce lien, sans rien derrière**, que tu partages aux participants.
 2. Ouvre ta Google Sheet, onglet « Réponses questionnaire » : une ligne est arrivée avec `version` = A et `test` = oui.
 3. Recommence avec `?test=1&version=C` : la question montre **Astérix 49 €** et **Disneyland 79 €** avec le coupe-file, et une 2e ligne arrive avec `version` = C. Fais de même avec `version=B` et `version=D` si tu veux vérifier les quatre.
 4. Fais un essai en répondant « Non » au filtre : une ligne arrive avec `statut` = filtré.
-5. Ouvre le lien normal dans plusieurs fenêtres de navigation privée : tu dois voir, selon le tirage, Astérix à 49 € ou 59 €, avec ou sans coupe-file, Disneyland toujours à 79 €. Sans bandeau jaune.
+5. Ouvre le lien normal dans plusieurs fenêtres de navigation privée : tu dois voir, selon le tirage, Astérix à 49 € ou 54,50 €, avec ou sans coupe-file, Disneyland toujours à 79 €. Sans bandeau jaune.
 6. Fais un essai sur ton téléphone.
 7. Comme le demande le cours, fais tester le questionnaire par quelques personnes extérieures (avec `?test=1`) avant de le lancer.
 
