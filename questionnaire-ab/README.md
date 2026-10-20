@@ -37,19 +37,17 @@ Tant que l'adresse Google Sheet n'est pas renseignée dans `script.js`, rien n'e
 
 ## Déroulé du questionnaire
 
-Jusqu'à 3 questions par page, une barre de progression en haut, un bouton « Suivant », et des réponses obligatoires (la question oubliée est entourée en rouge).
+Les questions sont regroupées en **4 parties** (Vous, Vos habitudes, Vos choix, Vos seuils de prix). Un compteur en haut indique la partie en cours (« Partie 2 sur 4 · Vos habitudes »), une barre de progression montre l'avancement, et les réponses sont obligatoires (la question oubliée est entourée en rouge).
 
-| Page | Questions | Ce qui est enregistré |
+| Écran | Questions | Ce qui est enregistré |
 |---|---|---|
 | 1 | Accueil : objet de l'étude, durée, anonymat, case « J'accepte de participer » | — |
 | 2 | Filtre : 18 ans ou plus ? (un « Non » arrête le questionnaire : statut « filtré ») | `filtre_18ans` |
-| 3 | Vous : âge, situation familiale, situation | `age`, `situation_familiale`, `situation` |
-| 4 | Vos habitudes : lieu de résidence, fréquence, occasions (masquée si « Jamais ») | `residence`, `frequence`, `occasions` |
-| 5 | Vos habitudes : parcs visités (rien coché = « Aucun »), obtention des billets, affluence perçue dans chaque parc (matrice) | `parcs_visites`, `achat_billet`, `affluence_asterix`, `affluence_disney` |
-| 6 | **Test A/B** : quel parc choisiriez-vous ? (choix obligatoire entre les deux) ; importance de 7 critères, de 1 à 5 (matrice) ; avec qui | `version`, `prix_asterix_ab`, `prix_disney_ab`, `bonus_asterix_ab`, `choix_ab`, `importance_…`, `accompagnement` |
-| 7 | Van Westendorp : 3 premiers seuils de prix, pour chaque parc | `vw_…_asterix`, `vw_…_disney` |
-| 8 | 4e seuil Van Westendorp ; budget total | `vw_trop_cher_…`, `budget_total`, `incoherent_vw_…` |
-| — | Écran de remerciement | — |
+| 3 | **Partie 1 · Vous** : âge, situation familiale, situation, lieu de résidence | `age`, `situation_familiale`, `situation`, `residence` |
+| 4 | **Partie 2 · Vos habitudes** : fréquence, occasions (masquée si « Jamais »), parcs visités (rien coché = « Aucun »), obtention des billets, affluence perçue dans chaque parc (matrice) | `frequence`, `occasions`, `parcs_visites`, `achat_billet`, `affluence_asterix`, `affluence_disney` |
+| 5 | **Partie 3 · Vos choix** : **test A/B** « quel parc choisiriez-vous ? » (choix obligatoire entre les deux) ; importance de 7 critères, de 1 à 5 (matrice) ; avec qui | `version`, `prix_asterix_ab`, `prix_disney_ab`, `bonus_asterix_ab`, `choix_ab`, `importance_…`, `accompagnement` |
+| 6 | **Partie 4 · Vos seuils de prix** : les 4 seuils Van Westendorp pour chaque parc (vérification de l'ordre des prix sur le même écran) ; budget total | `vw_…_asterix`, `vw_…_disney`, `budget_total`, `incoherent_vw_…` |
+| — | Écrans de remerciement (participation complète, ou filtré) | — |
 
 Pour les questions à plusieurs réponses, les réponses cochées sont rangées dans la même case, séparées par « | ».
 

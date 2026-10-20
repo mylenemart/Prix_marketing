@@ -114,6 +114,7 @@ const barreProgression = document.getElementById("progression");
 const remplissage = document.getElementById("progression-remplissage");
 const etatEnvoi = document.getElementById("etat-envoi");
 const boutonReessayer = document.getElementById("bouton-reessayer");
+const compteur = document.getElementById("compteur");
 
 traduireLaPage();          // version anglaise si l'appareil n'est pas en français (voir traduction.js)
 appliquerVersion(version);
@@ -121,6 +122,15 @@ afficherBandeauTest();
 
 // Liste des écrans de questions, dans l'ordre (sans les écrans de fin)
 const ecrans = Array.from(document.querySelectorAll(".ecran:not(.ecran-fin)"));
+
+// Les parties du questionnaire, dans l'ordre (ex. Vous, Vos habitudes, Vos choix…),
+// lues dans les textes <p class="partie"> : sert au compteur « Partie 2 sur 4 ».
+const parties = [];
+ecrans.forEach(function (ecran) {
+  const libelle = ecran.querySelector(".partie");
+  if (libelle && !parties.includes(libelle.textContent)) parties.push(libelle.textContent);
+});
+
 let numeroEcran = 0;
 const reponses = {};            // les réponses de la personne, rangées par nom de question
 let verificationAffichee = false;
@@ -224,6 +234,7 @@ function afficherEcran(numero, deplacerFocus) {
   verificationAffichee = false;
   cacherMessages();
   mettreAJourProgression(numero / ecrans.length);
+  mettreAJourCompteur(ecran);
   if (deplacerFocus) {
     placerLeFocus(ecran);
   }
@@ -240,6 +251,7 @@ function afficherFin(statut) {
   const ecranFin = document.getElementById(statut === "complet" ? "fin-complet" : "fin-filtre");
   ecranFin.classList.add("actif");
   boutonSuivant.hidden = true;
+  compteur.hidden = true;
   cacherMessages();
   mettreAJourProgression(1);
   placerLeFocus(ecranFin);
@@ -486,6 +498,20 @@ function cacherTousLesEcrans() {
   document.querySelectorAll(".ecran.actif").forEach(function (ecran) {
     ecran.classList.remove("actif");
   });
+}
+
+// Affiche la partie en cours : « Partie 2 sur 4 · Vos habitudes ».
+// Caché sur l'accueil, le filtre et les écrans de fin (pas de partie).
+function mettreAJourCompteur(ecran) {
+  const libelle = ecran.querySelector(".partie");
+  if (!libelle) {
+    compteur.hidden = true;
+    return;
+  }
+  const rang = parties.indexOf(libelle.textContent) + 1;
+  compteur.textContent = t("Partie ", "Part ") + rang + t(" sur ", " of ") + parties.length +
+    " · " + libelle.textContent;
+  compteur.hidden = false;
 }
 
 function mettreAJourProgression(part) {

@@ -6,11 +6,11 @@
   <!-- Empêche le questionnaire d'apparaître dans les moteurs de recherche -->
   <meta name="robots" content="noindex">
   <title>Questionnaire – étude universitaire</title>
-  <!-- ?v=7 : numéro de version. Augmente-le (8, 9…) à chaque modification
+  <!-- ?v=8 : numéro de version. Augmente-le (8, 9…) à chaque modification
        pour que les navigateurs chargent bien les nouveaux fichiers. -->
-  <link rel="stylesheet" href="style.css?v=7">
-  <script src="traduction.js?v=7" defer></script>
-  <script src="script.js?v=7" defer></script>
+  <link rel="stylesheet" href="style.css?v=8">
+  <script src="traduction.js?v=8" defer></script>
+  <script src="script.js?v=8" defer></script>
 </head>
 <body>
 
@@ -24,11 +24,14 @@
          aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
       <div class="progression-remplissage" id="progression-remplissage"></div>
     </div>
+    <!-- Indique la partie en cours (ex. « Partie 2 sur 4 · Vos habitudes ») : script.js le remplit -->
+    <p class="compteur" id="compteur" aria-live="polite" hidden></p>
   </header>
 
   <main class="contenu">
     <!--
-      Chaque <section class="ecran"> est UNE page du questionnaire (3 questions au plus).
+      Chaque <section class="ecran"> est UN écran du questionnaire (une partie entière, 4 à 5 questions max).
+      Les 4 parties : Vous, Vos habitudes, Vos choix, Vos seuils de prix.
       Une seule page est visible à la fois : script.js passe à la suivante
       quand on clique sur le bouton. Chaque question est dans un bloc class="question".
 
@@ -93,12 +96,6 @@
           <label class="option"><input type="radio" name="situation" value="Retraité(e)"><span>Retraité(e)</span></label>
           <label class="option"><input type="radio" name="situation" value="Autre"><span>Autre</span></label>
         </fieldset>
-      </section>
-
-      <!-- ============ PAGE « VOS HABITUDES » (1) ============ -->
-      <!-- data-masquer-si : la question disparaît quand la réponse indiquée est cochée -->
-      <section class="ecran">
-        <p class="partie">Vos habitudes</p>
         <fieldset class="question">
           <legend><h2 tabindex="-1">Où habitez-vous&nbsp;?</h2></legend>
           <label class="option"><input type="radio" name="residence" value="Île-de-France"><span>Île-de-France</span></label>
@@ -106,6 +103,12 @@
           <label class="option"><input type="radio" name="residence" value="Autre région de France"><span>Autre région de France</span></label>
           <label class="option"><input type="radio" name="residence" value="Hors de France"><span>Hors de France</span></label>
         </fieldset>
+      </section>
+
+      <!-- ============ PARTIE « VOS HABITUDES » ============ -->
+      <!-- data-masquer-si : la question disparaît quand la réponse indiquée est cochée -->
+      <section class="ecran">
+        <p class="partie">Vos habitudes</p>
         <fieldset class="question">
           <legend><h2 tabindex="-1">À quelle fréquence allez-vous dans un parc d'attractions&nbsp;?</h2></legend>
           <label class="option"><input type="radio" name="frequence" value="Plusieurs fois par an"><span>Plusieurs fois par an</span></label>
@@ -125,11 +128,6 @@
           <label class="option"><input type="checkbox" name="occasions" value="Sortie organisée (école, entreprise, association)"><span>Sortie organisée (école, entreprise, association)</span></label>
           <label class="option"><input type="checkbox" name="occasions" value="Autre"><span>Autre</span></label>
         </fieldset>
-      </section>
-
-      <!-- ============ PAGE « VOS HABITUDES » (2) ============ -->
-      <section class="ecran">
-        <p class="partie">Vos habitudes</p>
         <fieldset class="question" data-facultatif="Aucun">
           <legend><h2 tabindex="-1">Quels parcs avez-vous déjà visités&nbsp;?</h2><span class="consigne">Plusieurs réponses possibles. Ne cochez rien si vous n'en avez visité aucun.</span></legend>
           <label class="option"><input type="checkbox" name="parcs_visites" value="Asterix"><span>Parc Astérix</span></label>
@@ -171,7 +169,7 @@
         </div>
       </section>
 
-      <!-- ============ PAGE « VOS CHOIX » ============ -->
+      <!-- ============ PARTIE « VOS CHOIX » ============ -->
       <!-- TEST A/B : seuls les prix (et le cadeau de la version B) changent entre A et B.
            script.js écrit les prix dans data-prix-asterix et data-prix-disney. -->
       <section class="ecran">
@@ -270,11 +268,12 @@
         </fieldset>
       </section>
 
-      <!-- ============ VAN WESTENDORP ============ -->
-      <!-- 4 questions, toujours dans le même ordre, un prix par parc.
+      <!-- ============ PARTIE « VOS SEUILS DE PRIX » (dernière partie) ============ -->
+      <!-- 4 questions Van Westendorp + budget, dans le même écran pour que la vérification
+           de l'ordre des prix (data-precedent) fonctionne sur toutes les questions.
            data-precedent : si le prix est plus bas qu'à la question d'avant (même parc),
            un message poli invite à vérifier, sans bloquer. -->
-      <section class="ecran">
+      <section class="ecran" data-bouton="Envoyer mes réponses">
         <p class="partie">Vos seuils de prix</p>
         <p class="consigne">Pour un billet adulte d'une journée, donnant accès à un seul parc, sans transport ni hôtel. Indiquez le prix qui vous vient spontanément, en euros.</p>
         <div class="question">
@@ -304,10 +303,6 @@
             <span class="champ-prix"><input type="text" inputmode="decimal" autocomplete="off" name="vw_cher_disney" data-precedent="vw_bonne_affaire_disney"><span aria-hidden="true">€</span></span>
           </label>
         </div>
-      </section>
-
-      <section class="ecran" data-bouton="Envoyer mes réponses">
-        <p class="partie">Pour finir</p>
         <div class="question">
           <h2 tabindex="-1">À partir de quel prix le billet vous semblerait-il trop cher pour envisager de l'acheter&nbsp;?</h2>
           <label class="champ-parc">Parc Astérix
