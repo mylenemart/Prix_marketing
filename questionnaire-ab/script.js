@@ -2,7 +2,7 @@
    script.js — fonctionnement du questionnaire
    - affiche un écran à la fois et fait avancer la barre de progression ;
    - vérifie que chaque question a une réponse ;
-   - tire au sort la version A, B, C ou D ;
+   - tire au sort la version A ou B ;
    - envoie les réponses (une ligne par répondant) vers la Google Sheet.
    ========================================================================== */
 
@@ -13,23 +13,17 @@
 // Colle-la entre les guillemets. Elle se termine par /exec.
 const URL_GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbxfNRhGbhrHVOyy7_yTZtaWk4Z5uluFBhy6ou11u8ZQx_IhCJ86MDqNEb2-56LBsXIy/exec";
 
-// TEST A/B (2 facteurs croisés) : offres affichées dans la question « quel parc choisiriez-vous ? ».
-// Disneyland est toujours à 79 €. Deux facteurs, chacun tiré au sort indépendamment :
-//   - le prix du Parc Astérix : 49 € ou 59 € ;
-//   - un coupe-file utilisable une seule fois dans la journée : oui ou non.
-// Quatre versions, une chance sur quatre chacune :
-//   A : Astérix 49 €, sans coupe-file        B : Astérix 59 €, sans coupe-file
-//   C : Astérix 49 € + coupe-file            D : Astérix 59 € + coupe-file
-// Effet du prix = comparer A+C contre B+D ; effet du coupe-file = comparer A+B contre C+D.
+// TEST A/B : offres affichées dans la question « quel parc choisiriez-vous ? ».
+// Version A : Parc Astérix 49 €, Disneyland Paris 79 €, sans avantage.
+// Version B : Parc Astérix 59 € avec un coupe-file utilisable une seule fois dans la journée,
+//             Disneyland Paris 79 €.
 // Le bonus ne concerne que le Parc Astérix ; laisse bonus vide ("") pour une offre sans cadeau.
 const COUPE_FILE = "un coupe-file utilisable une seule fois dans la journée";
 const VERSIONS = {
   A: { asterix: 49, disney: 79, bonus: "" },
-  B: { asterix: 59, disney: 79, bonus: "" },
-  C: { asterix: 49, disney: 79, bonus: COUPE_FILE },
-  D: { asterix: 59, disney: 79, bonus: COUPE_FILE },
+  B: { asterix: 59, disney: 79, bonus: COUPE_FILE },
 };
-const VERSIONS_VALIDES = ["A", "B", "C", "D"];
+const VERSIONS_VALIDES = ["A", "B"];
 
 // Ordre des colonnes dans la Google Sheet (une ligne par répondant).
 // Si tu ajoutes une question dans index.html, ajoute son nom ici :
@@ -63,8 +57,8 @@ const NOMS_PARCS = { asterix: "le Parc Astérix", disney: "Disneyland Paris" };
 
 // Paramètres à ajouter à la fin de l'adresse, pour tes essais :
 //   ?test=1       → les réponses sont marquées comme tests (colonne test = oui)
-//   ?version=A    → force la version A (ou B, C, D)
-//   on peut combiner les deux : ?test=1&version=C
+//   ?version=A    → force la version A (ou B)
+//   on peut combiner les deux : ?test=1&version=B
 const parametres = new URLSearchParams(window.location.search);
 const modeTest = parametres.get("test") === "1";
 const versionForcee = (parametres.get("version") || "").toUpperCase();
@@ -83,7 +77,7 @@ function choisirVersion() {
   } else if (VERSIONS_VALIDES.includes(dejaTiree)) {
     choix = dejaTiree;                          // déjà tirée dans cet onglet
   } else {
-    choix = VERSIONS_VALIDES[Math.floor(Math.random() * VERSIONS_VALIDES.length)];  // une chance sur quatre
+    choix = VERSIONS_VALIDES[Math.floor(Math.random() * VERSIONS_VALIDES.length)];  // une chance sur deux
   }
   ecrireMemoire("version", choix);
   return choix;
