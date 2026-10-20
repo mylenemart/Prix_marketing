@@ -2,12 +2,20 @@
 
 Petit site web qui sert de questionnaire **anonyme** sur le prix d'une journée au Parc Astérix et à Disneyland Paris.
 
-Il contient un **test A/B** : dans la question « quel parc choisiriez-vous avec les prix suivants ? », chaque répondant voit, tiré au hasard, l'un de ces deux jeux de prix :
+Il contient un **test A/B à deux facteurs** : dans la question « quel parc choisiriez-vous ? », Disneyland Paris est toujours à 79 €, et chaque répondant voit, tiré au hasard, l'une de ces quatre versions :
 
-- **Version A** : Parc Astérix 56 € + un coupe-file utilisable une seule fois dans la journée, Disneyland Paris 56 € (sans avantage)
-- **Version B** : Parc Astérix 49 €, Disneyland Paris 79 € (sans avantage)
+| Version | Parc Astérix | Coupe-file (une fois par jour) |
+|---|---|---|
+| **A** | 49 € | non |
+| **B** | 59 € | non |
+| **C** | 49 € | oui |
+| **D** | 59 € | oui |
 
-Une seule différence entre A et B : le prix affiché pour le Parc Astérix. Tout le reste est identique, au mot près.
+Les deux facteurs sont tirés au sort indépendamment (une chance sur quatre pour chaque version). On peut donc répondre à deux questions avec les mêmes réponses :
+- **Effet du prix** : comparer A + C (49 €) contre B + D (59 €).
+- **Effet du coupe-file** : comparer A + B (sans) contre C + D (avec).
+
+Le texte de la question est le même dans les quatre versions ; seuls les prix et le coupe-file changent.
 
 Projet réalisé pour le cours « Prix et budgets marketing » (M1 Marketing, IAE Clermont Auvergne).
 
@@ -85,10 +93,9 @@ Ajoute ces paramètres à la fin de l'adresse du questionnaire :
 | Adresse | Effet |
 |---|---|
 | `…/index.html?test=1` | Les réponses sont marquées comme tests (colonne `test` = oui). Version tirée au sort. |
-| `…/index.html?version=A` | Force la version A (Astérix 56 € + coupe-file, Disneyland 56 €). |
-| `…/index.html?version=B` | Force la version B (Astérix 49 €, Disneyland 79 €). |
+| `…/index.html?version=A` (ou `B`, `C`, `D`) | Force la version demandée (voir le tableau ci-dessus). |
 | `…/index.html?lang=en` | Affiche le questionnaire en anglais (`?lang=fr` : en français), quelle que soit la langue de ton appareil. |
-| `…/index.html?test=1&version=B` | Les deux à la fois : **c'est le plus pratique pour tes essais**. |
+| `…/index.html?test=1&version=C` | Les deux à la fois : **c'est le plus pratique pour tes essais**. |
 
 Un bandeau jaune s'affiche en haut de la page dans ces cas-là, pour que tu saches que tu es en mode essai. Les vrais participants ne le voient jamais.
 
@@ -184,11 +191,11 @@ C'est **ce lien, sans rien derrière**, que tu partages aux participants.
 
 ### D. Vérifier que tout marche avant de lancer
 
-1. Ouvre `https://mylenemart.github.io/Prix_marketing/questionnaire-ab/?test=1&version=A` : le bandeau jaune affiche « Mode test · Version A forcée » et la question du choix entre les parcs montre **Astérix 56 €** avec le coupe-file. Réponds jusqu'au bout : l'écran final doit dire « Vos réponses ont bien été enregistrées ».
+1. Ouvre `https://mylenemart.github.io/Prix_marketing/questionnaire-ab/?test=1&version=A` : le bandeau jaune affiche « Mode test · Version A forcée » et la question du choix entre les parcs montre **Astérix 49 €** et **Disneyland 79 €**, sans coupe-file. Réponds jusqu'au bout : l'écran final doit dire « Vos réponses ont bien été enregistrées ».
 2. Ouvre ta Google Sheet, onglet « Réponses questionnaire » : une ligne est arrivée avec `version` = A et `test` = oui.
-3. Recommence avec `?test=1&version=B` : la question montre **Astérix 49 €** et **Disneyland 79 €**, et une 2e ligne arrive avec `version` = B.
+3. Recommence avec `?test=1&version=C` : la question montre **Astérix 49 €** et **Disneyland 79 €** avec le coupe-file, et une 2e ligne arrive avec `version` = C. Fais de même avec `version=B` et `version=D` si tu veux vérifier les quatre.
 4. Fais un essai en répondant « Non » au filtre : une ligne arrive avec `statut` = filtré.
-5. Ouvre le lien normal dans plusieurs fenêtres de navigation privée : tu dois voir tantôt Astérix 56 € + coupe-file (et Disneyland 56 €), tantôt Astérix 49 € (et Disneyland 79 €) : tirage au sort, sans bandeau jaune.
+5. Ouvre le lien normal dans plusieurs fenêtres de navigation privée : tu dois voir, selon le tirage, Astérix à 49 € ou 59 €, avec ou sans coupe-file, Disneyland toujours à 79 €. Sans bandeau jaune.
 6. Fais un essai sur ton téléphone.
 7. Comme le demande le cours, fais tester le questionnaire par quelques personnes extérieures (avec `?test=1`) avant de le lancer.
 
