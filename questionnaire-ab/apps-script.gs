@@ -25,7 +25,7 @@ function doPost(e) {
 
     // Contrôle minimal : on refuse ce qui ne vient manifestement pas du questionnaire
     const colonnes = donnees._colonnes;
-    if (["A", "B"].indexOf(donnees.version) === -1 ||
+    if (["A", "B", "C", "D"].indexOf(donnees.version) === -1 ||
         ["complet", "filtré"].indexOf(donnees.statut) === -1 ||
         !Array.isArray(colonnes) || colonnes.length === 0 || colonnes.length > 80 ||
         !colonnes.every(function (c) { return /^[a-z0-9_]{1,40}$/.test(c); })) {
