@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Résultats du questionnaire · Prix Astérix</title>
+<meta name="description" content="Analyse en direct des réponses au questionnaire sur le prix d'une journée au Parc Astérix et à Disneyland Paris : test A/B, seuils de prix Van Westendorp, profil des répondants.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Public+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css?v=1">
+</head>
+<body>
+
+<nav class="top" aria-label="Sections">
+  <div class="wrap">
+    <a class="brand" href="#haut">Résultats</a>
+    <a href="#echantillon">Échantillon</a>
+    <a href="#profil">Profil</a>
+    <a href="#habitudes">Habitudes</a>
+    <a href="#ab">Test A/B</a>
+    <a href="#prix">Seuils de prix</a>
+    <a href="#criteres">Critères</a>
+    <a href="#budget">Budget</a>
+    <a href="#methode">Méthode</a>
+    <a href="../">← Étude de marché</a>
+  </div>
+</nav>
+
+<main class="wrap" id="haut">
+  <header class="hero">
+    <p class="eyebrow">Questionnaire en ligne · analyse en direct</p>
+    <h1>Ce que répondent<br>les <mark>participants</mark></h1>
+    <p class="lede">Cette page lit la Google Sheet du questionnaire et recalcule toute l'analyse à chaque visite : plus besoin de la mettre à jour à la main.</p>
+    <div class="etat" id="etat-bandeau">
+      <span class="pastille-etat" id="pastille-etat" aria-hidden="true"></span>
+      <span id="etat-texte" role="status" aria-live="polite">Chargement des réponses…</span>
+      <button type="button" class="bouton" id="bouton-actualiser">Actualiser</button>
+    </div>
+  </header>
+
+  <div class="reglages" role="group" aria-label="Réglages de l'analyse">
+    <span class="eyebrow">Réglages de l'analyse</span>
+    <label><input type="checkbox" id="r-incoherents" checked> Écarter les réponses incohérentes aux seuils de prix</label>
+    <label><input type="checkbox" id="r-extremes" checked> Écarter les montants extrêmes</label>
+  </div>
+
+  <div id="message-global" class="message-global" hidden></div>
+
+  <section id="echantillon" aria-labelledby="t-echantillon">
+    <div class="head">
+      <p class="eyebrow">1 · Échantillon et nettoyage</p>
+      <h2 id="t-echantillon">Combien de réponses, et combien sont exploitables</h2>
+    </div>
+    <div class="corps" data-corps="echantillon"><p class="vide">En attente des données…</p></div>
+  </section>
+
+  <section id="profil" aria-labelledby="t-profil">
+    <div class="head">
+      <p class="eyebrow">2 · Profil des répondants</p>
+      <h2 id="t-profil">Qui a répondu</h2>
+    </div>
+    <div class="corps" data-corps="profil"><p class="vide">En attente des données…</p></div>
+  </section>
+
+  <section id="habitudes" aria-labelledby="t-habitudes">
+    <div class="head">
+      <p class="eyebrow">3 · Habitudes et perceptions</p>
+      <h2 id="t-habitudes">Parcs, billets et affluence</h2>
+    </div>
+    <div class="corps" data-corps="habitudes"><p class="vide">En attente des données…</p></div>
+  </section>
+
+  <section id="ab" aria-labelledby="t-ab">
+    <div class="head">
+      <p class="eyebrow">4 · Test A/B à deux facteurs</p>
+      <h2 id="t-ab">Astérix ou Disneyland : l'effet du prix et du coupe-file</h2>
+    </div>
+    <p class="prose">Chaque répondant voit une des quatre versions de l'offre, tirée au sort. Disneyland Paris est toujours à 79&nbsp;€ ; seuls le prix du Parc Astérix (49&nbsp;€ ou 54,50&nbsp;€) et la présence d'un coupe-file changent. On mesure la part de répondants qui choisissent Astérix.</p>
+    <div class="corps" data-corps="ab"><p class="vide">En attente des données…</p></div>
+  </section>
+
+  <section id="prix" aria-labelledby="t-prix">
+    <div class="head">
+      <p class="eyebrow">5 · Seuils de prix (Van Westendorp)</p>
+      <h2 id="t-prix">Quelle fourchette de prix les répondants jugent acceptable</h2>
+    </div>
+    <p class="prose">Chaque répondant donne quatre prix pour chaque parc : à partir duquel le billet est suspect (trop bon marché), une bonne affaire, cher, et trop cher. Les courbes cumulées de ces réponses se croisent en quatre points qui bornent la fourchette de prix acceptable.</p>
+    <div class="corps" data-corps="prix"><p class="vide">En attente des données…</p></div>
+  </section>
+
+  <section id="criteres" aria-labelledby="t-criteres">
+    <div class="head">
+      <p class="eyebrow">6 · Critères de choix</p>
+      <h2 id="t-criteres">Ce qui compte pour choisir un parc</h2>
+    </div>
+    <div class="corps" data-corps="criteres"><p class="vide">En attente des données…</p></div>
+  </section>
+
+  <section id="budget" aria-labelledby="t-budget">
+    <div class="head">
+      <p class="eyebrow">7 · Budget</p>
+      <h2 id="t-budget">Combien les répondants peuvent consacrer à la sortie</h2>
+    </div>
+    <div class="corps" data-corps="budget"><p class="vide">En attente des données…</p></div>
+  </section>
+
+  <section id="methode" aria-labelledby="t-methode">
+    <div class="head">
+      <p class="eyebrow">Méthode et limites</p>
+      <h2 id="t-methode">Comment lire ces résultats</h2>
+    </div>
+    <ul class="limits" id="liste-methode"></ul>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">Projet prix marketing · <a href="../">Étude de marché</a> · <a href="../questionnaire-ab/">Questionnaire</a> · Données : Google Sheet du questionnaire, lue à chaque visite.</div>
+</footer>
+
+<script src="analyse.js?v=1"></script>
+</body>
+</html>

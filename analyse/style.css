@@ -1,0 +1,222 @@
+/* Page d'analyse : mêmes couleurs, polices et composants que le site principal (../index.html),
+   plus les graphiques (barres, courbes Van Westendorp) et leurs infobulles. */
+:root {
+  --bg: #F2F5FA;
+  --surface: #FFFFFF;
+  --fg: #13213B;
+  --muted: #56637A;
+  --line: #D5DDEA;
+  --accent: #1F4FB8;      /* bleu gaulois */
+  --gold: #F2B705;        /* jaune casque */
+  --ceiling: #C8262E;
+  --bar-hover: #173D8F;
+  --bar-track: #E3E9F3;
+  /* Courbes Van Westendorp : 4 teintes validées (écart CVD et vision normale) en clair et en sombre */
+  --vw-tc: #1baf7a;       /* trop bon marché */
+  --vw-ba: #2a78d6;       /* bonne affaire */
+  --vw-ch: #eb6834;       /* cher */
+  --vw-tt: #4a3aa7;       /* trop cher */
+  --display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+  --body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0D1422; --surface: #152035; --fg: #E6ECF6; --muted: #9AA8C0; --line: #26344E;
+    --accent: #7FA6FF; --gold: #F5C431; --ceiling: #FF6B6B; --bar-hover: #A9C2FF; --bar-track: #1F2D47;
+    --vw-tc: #199e70; --vw-ba: #3987e5; --vw-ch: #d95926; --vw-tt: #9085e9;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0D1422; --surface: #152035; --fg: #E6ECF6; --muted: #9AA8C0; --line: #26344E;
+  --accent: #7FA6FF; --gold: #F5C431; --ceiling: #FF6B6B; --bar-hover: #A9C2FF; --bar-track: #1F2D47;
+  --vw-tc: #199e70; --vw-ba: #3987e5; --vw-ch: #d95926; --vw-tt: #9085e9;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font-family: var(--body); font-size: 1rem; line-height: 1.6;
+  padding-inline: 16px;
+}
+a { color: var(--accent); text-underline-offset: 2px; }
+a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visible,
+.focalisable:focus-visible, svg.vw:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.wrap { max-width: 64rem; margin-inline: auto; }
+.prose { max-width: 65ch; margin: 0; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; line-height: 1.05; }
+h2 { font-size: clamp(1.6rem, 3.5vw, 2.3rem); font-weight: 800; font-stretch: 85%; letter-spacing: -0.01em; }
+h3 { font-size: 1.1rem; font-weight: 700; font-stretch: 100%; }
+p { margin: 0; }
+.eyebrow { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.num { font-variant-numeric: tabular-nums; }
+
+/* Navigation */
+nav.top {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--line);
+  margin-inline: -16px; padding-inline: 16px;
+}
+nav.top .wrap { display: flex; gap: 1.25rem; align-items: center; overflow-x: auto; padding-block: 0.7rem; white-space: nowrap; scrollbar-width: none; }
+nav.top .brand { font-family: var(--display); font-weight: 900; font-stretch: 75%; font-size: 1.05rem; text-transform: uppercase; letter-spacing: 0.02em; color: var(--fg); text-decoration: none; }
+nav.top a:not(.brand) { color: var(--muted); text-decoration: none; font-size: 0.9rem; }
+nav.top a:not(.brand):hover { color: var(--fg); }
+
+/* En-tête */
+header.hero { padding-block: 3rem 1.6rem; display: grid; gap: 1.4rem; }
+.hero h1 { font-size: clamp(2.6rem, 8vw, 5rem); font-weight: 900; font-stretch: 70%; text-transform: uppercase; letter-spacing: -0.01em; line-height: 0.92; }
+.hero h1 mark { background: none; color: inherit; box-shadow: inset 0 -0.28em 0 var(--gold); }
+.hero .lede { font-size: 1.15rem; color: var(--muted); max-width: 58ch; }
+
+.etat { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 0.9rem; font-family: var(--mono); font-size: 0.82rem; color: var(--muted); }
+.pastille-etat { width: 10px; height: 10px; border-radius: 50%; background: var(--muted); flex: none; }
+.pastille-etat.ok { background: #0ca30c; }
+.pastille-etat.charge { background: var(--gold); }
+.pastille-etat.erreur { background: var(--ceiling); }
+.bouton {
+  font: inherit; font-family: var(--body); font-size: 0.85rem; cursor: pointer;
+  background: var(--surface); color: var(--fg); border: 1px solid var(--line); border-radius: 999px; padding: 0.3rem 0.95rem;
+}
+.bouton:hover { border-color: var(--accent); }
+.bouton[disabled] { opacity: 0.5; cursor: progress; }
+
+.reglages {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.4rem;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 0.7rem 1rem; font-size: 0.9rem;
+}
+.reglages label { display: inline-flex; align-items: center; gap: 0.45rem; cursor: pointer; }
+.reglages input { width: 1.05rem; height: 1.05rem; accent-color: var(--accent); }
+
+.message-global {
+  margin-top: 1rem; background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--ceiling);
+  border-radius: 10px; padding: 1rem 1.2rem; display: grid; gap: 0.5rem; max-width: 70ch;
+}
+.message-global[hidden] { display: none; }
+.message-global ol { margin: 0; padding-left: 1.3rem; display: grid; gap: 0.3rem; font-size: 0.92rem; }
+.message-global code { font-family: var(--mono); font-size: 0.85em; background: var(--bg); padding: 0.05rem 0.35rem; border-radius: 4px; }
+
+/* Sections */
+section { padding-block: 3rem; border-top: 1px solid var(--line); display: grid; gap: 1.4rem; scroll-margin-top: 3.5rem; }
+section:first-of-type { margin-top: 1.4rem; }
+.head { display: grid; gap: 0.5rem; }
+.corps { display: grid; gap: 1.2rem; min-width: 0; transition: opacity 200ms; }
+.corps[aria-busy="true"] { opacity: 0.55; }
+.note { font-size: 0.92rem; color: var(--muted); border-left: 3px solid var(--gold); padding: 0.2rem 0 0.2rem 0.9rem; max-width: 70ch; }
+.vide { color: var(--muted); font-size: 0.92rem; font-style: italic; }
+
+/* Chiffres clés */
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.kpi { background: var(--surface); padding: 1rem 1.2rem; display: grid; gap: 0.15rem; align-content: start; }
+.kpi b { font-family: var(--display); font-size: 2rem; font-weight: 800; font-stretch: 80%; line-height: 1.1; }
+.kpi span { color: var(--muted); font-size: 0.86rem; line-height: 1.4; }
+.kpi small { color: var(--muted); font-family: var(--mono); font-size: 0.72rem; }
+.kpi.cle b { color: var(--accent); }
+
+/* Cartes et grilles */
+.grille { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19.5rem), 1fr)); gap: 1rem; }
+.carte { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 1.1rem 1.2rem 1rem; display: grid; gap: 0.8rem; align-content: start; min-width: 0; }
+.carte .sous { font-size: 0.84rem; color: var(--muted); margin-top: -0.4rem; }
+.carte.large { grid-column: 1 / -1; }
+
+/* Barres horizontales : une teinte par graphique, 14 px d'épaisseur, bout arrondi, départ à zéro */
+.barres { display: grid; gap: 0; }
+.b-ligne {
+  display: grid; grid-template-columns: minmax(6.5rem, 42%) 1fr; column-gap: 0.8rem; align-items: center;
+  padding-block: 0.28rem; border-radius: 6px; cursor: default;
+}
+.b-ligne:hover, .b-ligne:focus-visible { background: color-mix(in srgb, var(--accent) 7%, transparent); }
+.b-nom { font-size: 0.86rem; line-height: 1.25; min-width: 0; overflow-wrap: anywhere; }
+.b-nom small { display: block; color: var(--muted); font-size: 0.74rem; }
+/* La marge à droite est la place où s'écrit la valeur, au bout de la barre la plus longue */
+.b-piste { position: relative; height: 22px; margin-right: 6rem; }
+.b-barre { position: absolute; left: 0; top: 4px; height: 14px; background: var(--accent); border-radius: 0 4px 4px 0; min-width: 2px; }
+.b-ligne:hover .b-barre, .b-ligne:focus-visible .b-barre { background: var(--bar-hover); }
+.b-val { position: absolute; top: 0; line-height: 22px; font-family: var(--mono); font-size: 0.76rem; white-space: nowrap; padding-left: 0.45rem; font-variant-numeric: tabular-nums; }
+.b-ic { position: absolute; top: 11px; height: 0; border-top: 1.5px solid var(--fg); opacity: 0.75; pointer-events: none; }
+.b-ic::before, .b-ic::after { content: ""; position: absolute; top: -4px; height: 8px; border-left: 1.5px solid var(--fg); }
+.b-ic::before { left: 0; }
+.b-ic::after { right: 0; }
+.echelle-note { font-size: 0.76rem; color: var(--muted); font-family: var(--mono); }
+
+/* Tableaux (vue alternative à chaque graphique + tableaux de résultats) */
+details.vue-tableau { border-top: 1px solid var(--line); padding-top: 0.5rem; }
+details.vue-tableau summary { cursor: pointer; font-size: 0.82rem; color: var(--muted); width: fit-content; }
+details.vue-tableau summary:hover { color: var(--fg); }
+.tablebox { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); margin-top: 0.6rem; }
+details.vue-tableau .tablebox { border-radius: 8px; }
+table { border-collapse: collapse; width: 100%; font-size: 0.88rem; }
+th, td { text-align: left; vertical-align: top; padding: 0.55rem 0.8rem; border-bottom: 1px solid var(--line); }
+tr:last-child td, tr:last-child th { border-bottom: none; }
+thead th { font-family: var(--mono); font-size: 0.68rem; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); background: var(--bg); }
+tbody th { font-weight: 400; }
+td.n, th.n { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+caption { text-align: left; padding: 0.6rem 0.8rem; font-size: 0.82rem; color: var(--muted); caption-side: top; }
+
+/* Test A/B */
+.effets { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: 1rem; }
+.effet { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 1.1rem 1.2rem; display: grid; gap: 0.6rem; align-content: start; }
+.effet .grand { font-family: var(--display); font-weight: 900; font-stretch: 75%; font-size: 2.6rem; line-height: 1; }
+.effet .grand small { font-family: var(--body); font-weight: 400; font-stretch: 100%; font-size: 0.85rem; color: var(--muted); margin-left: 0.4rem; }
+.effet dl { margin: 0; display: grid; grid-template-columns: 1fr auto; gap: 0.25rem 1rem; font-size: 0.9rem; }
+.effet dt { color: var(--muted); }
+.effet dd { margin: 0; text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.effet .verdict-court { font-size: 0.9rem; border-top: 1px solid var(--line); padding-top: 0.6rem; }
+.effet.signif { border-color: var(--accent); }
+
+/* Van Westendorp */
+.legende { display: flex; flex-wrap: wrap; gap: 0.35rem 1.1rem; font-size: 0.82rem; color: var(--muted); }
+.legende span { display: inline-flex; align-items: center; gap: 0.4rem; }
+.trait { display: inline-block; width: 22px; border-top: 2px solid var(--c, var(--muted)); }
+.trait.tirets { border-top-style: dashed; }
+.trait.bande { height: 10px; border: 0; background: color-mix(in srgb, var(--accent) 14%, transparent); }
+.vw-boite { width: 100%; min-height: 330px; }
+svg.vw { display: block; width: 100%; height: auto; overflow: visible; touch-action: pan-y; }
+svg.vw text { font-family: var(--mono); font-size: 11px; fill: var(--muted); }
+svg.vw .grille-h { stroke: var(--line); stroke-width: 1; }
+svg.vw .axe { stroke: var(--muted); stroke-width: 1; opacity: 0.5; }
+svg.vw .courbe { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+svg.vw .bande { fill: var(--accent); opacity: 0.1; }
+svg.vw .ref { stroke: var(--muted); stroke-width: 1; opacity: 0.55; }
+svg.vw .pt { stroke: var(--surface); stroke-width: 2; }
+svg.vw .pt-nom { fill: var(--fg); font-weight: 500; }
+/* Halo de la couleur du fond autour des étiquettes : elles restent lisibles par-dessus les courbes */
+svg.vw text.halo { paint-order: stroke; stroke: var(--surface); stroke-width: 3.5px; stroke-linejoin: round; }
+svg.vw .viseur { stroke: var(--fg); stroke-width: 1; opacity: 0.45; pointer-events: none; }
+.points-vw { display: grid; grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.points-vw .kpi b { font-size: 1.7rem; }
+.points-vw .kpi em { font-style: normal; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+details.aide { font-size: 0.88rem; color: var(--muted); max-width: 75ch; }
+details.aide summary { cursor: pointer; width: fit-content; }
+details.aide ul { margin: 0.5rem 0 0; padding-left: 1.2rem; display: grid; gap: 0.3rem; }
+
+/* Infobulle : une seule pour toute la page, valeur d'abord */
+.bulle {
+  position: fixed; z-index: 20; pointer-events: none; max-width: 17rem;
+  background: var(--surface); color: var(--fg); border: 1px solid var(--line); border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(10, 20, 40, 0.18); padding: 0.55rem 0.7rem; font-size: 0.82rem; line-height: 1.4; display: grid; gap: 0.2rem;
+}
+.bulle[hidden] { display: none; }
+.bulle .t { font-weight: 600; margin-bottom: 0.1rem; }
+.bulle .l { display: flex; align-items: baseline; gap: 0.5rem; }
+.bulle .l b { font-family: var(--mono); font-weight: 500; font-variant-numeric: tabular-nums; }
+.bulle .l span { color: var(--muted); }
+.bulle .k { display: inline-block; width: 14px; flex: none; border-top: 2px solid var(--c, var(--muted)); transform: translateY(-3px); }
+
+ul.limits { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.5rem; max-width: 72ch; }
+
+footer { border-top: 1px solid var(--line); padding-block: 2rem 3rem; color: var(--muted); font-size: 0.85rem; }
+
+@media (max-width: 560px) {
+  .b-ligne { grid-template-columns: minmax(5.5rem, 40%) 1fr; column-gap: 0.55rem; }
+  .carte { padding: 0.9rem 0.9rem 0.8rem; }
+}
+/* Les barres ne « poussent » qu'au premier affichage, pas à chaque actualisation */
+@media (prefers-reduced-motion: no-preference) {
+  body.premier-rendu .b-barre { transform-origin: left; animation: croitre 600ms cubic-bezier(.2,.7,.2,1) both; }
+  @keyframes croitre { from { transform: scaleX(0.02); } to { transform: scaleX(1); } }
+}
