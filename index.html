@@ -4,24 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Prix Parc Astérix 2026</title>
-<meta name="description" content="Étude de marché et plafond tarifaire provisoire du Parc Astérix, relevé du 1er octobre 2026.">
+<meta name="description" content="Jusqu'où peut monter le billet du Parc Astérix ? Concurrents, prix relevés le 1er octobre 2026, comptes de Grévin et compagnie et plafond tarifaire provisoire.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Public+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-/* Layout : une colonne de lecture large, rythmée comme une billetterie ; la grille des prix est la pièce centrale. */
+/* Une colonne de lecture, des chiffres clés et des tableaux sobres. Chaque chiffre des comptes est un lien vers sa page dans le PDF. */
 :root {
-  --bg: #F2F5FA;
-  --surface: #FFFFFF;
-  --fg: #13213B;
-  --muted: #56637A;
-  --line: #D5DDEA;
-  --accent: #1F4FB8;      /* bleu gaulois */
-  --gold: #F2B705;        /* jaune casque */
-  --gold-ink: #6B4E00;
-  --neutral-bar: #A9B5C9;
-  --neutral-bar-soft: #D6DEEA;
-  --ceiling: #C8262E;
+  --bg: #F2F5FA; --surface: #FFFFFF; --fg: #13213B; --muted: #56637A; --line: #D5DDEA;
+  --accent: #1F4FB8; --gold: #F2B705; --neutral-bar: #A9B5C9; --neutral-bar-soft: #D6DEEA; --ceiling: #C8262E;
   --display: "Archivo", "Arial Narrow", system-ui, sans-serif;
   --body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
@@ -30,173 +21,117 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #0D1422; --surface: #152035; --fg: #E6ECF6; --muted: #9AA8C0; --line: #26344E;
-    --accent: #7FA6FF; --gold: #F5C431; --gold-ink: #F5C431;
-    --neutral-bar: #5A6984; --neutral-bar-soft: #2E3B55; --ceiling: #FF6B6B;
+    --accent: #7FA6FF; --gold: #F5C431; --neutral-bar: #5A6984; --neutral-bar-soft: #2E3B55; --ceiling: #FF6B6B;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --bg: #0D1422; --surface: #152035; --fg: #E6ECF6; --muted: #9AA8C0; --line: #26344E;
-  --accent: #7FA6FF; --gold: #F5C431; --gold-ink: #F5C431;
-  --neutral-bar: #5A6984; --neutral-bar-soft: #2E3B55; --ceiling: #FF6B6B;
+  --accent: #7FA6FF; --gold: #F5C431; --neutral-bar: #5A6984; --neutral-bar-soft: #2E3B55; --ceiling: #FF6B6B;
   color-scheme: dark;
 }
-
 * { box-sizing: border-box; }
-body {
-  background: var(--bg); color: var(--fg);
-  font-family: var(--body); font-size: 1rem; line-height: 1.6;
-  padding-inline: 16px;
-}
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 1rem; line-height: 1.6; padding-inline: 16px; }
 a { color: var(--accent); text-underline-offset: 2px; }
-a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.wrap { max-width: 64rem; margin-inline: auto; }
+a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.wrap { max-width: 60rem; margin-inline: auto; }
 .prose { max-width: 65ch; }
 h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; line-height: 1.05; }
-h2 { font-size: clamp(1.6rem, 3.5vw, 2.3rem); font-weight: 800; font-stretch: 85%; letter-spacing: -0.01em; }
-h3 { font-size: 1.1rem; font-weight: 700; font-stretch: 100%; }
+h2 { font-size: clamp(1.6rem, 3.5vw, 2.2rem); font-weight: 800; font-stretch: 85%; letter-spacing: -0.01em; }
+h3 { font-size: 1.1rem; font-weight: 700; }
 p { margin: 0; }
-.eyebrow {
-  font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
-}
+.eyebrow { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
 .num { font-variant-numeric: tabular-nums; }
 
-/* Navigation */
-nav.top {
-  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
-  background: color-mix(in srgb, var(--bg) 92%, transparent);
-  backdrop-filter: blur(6px);
-  border-bottom: 1px solid var(--line);
-  margin-inline: -16px; padding-inline: 16px;
-}
+nav.top { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(6px); border-bottom: 1px solid var(--line); margin-inline: -16px; padding-inline: 16px; }
 nav.top .wrap { display: flex; gap: 1.25rem; align-items: center; overflow-x: auto; padding-block: 0.7rem; white-space: nowrap; scrollbar-width: none; }
-nav.top .brand { font-family: var(--display); font-weight: 900; font-stretch: 75%; font-size: 1.05rem; text-transform: uppercase; letter-spacing: 0.02em; color: var(--fg); text-decoration: none; }
+nav.top .brand { font-family: var(--display); font-weight: 900; font-stretch: 75%; font-size: 1.05rem; text-transform: uppercase; color: var(--fg); text-decoration: none; }
 nav.top a:not(.brand) { color: var(--muted); text-decoration: none; font-size: 0.9rem; }
 nav.top a:not(.brand):hover { color: var(--fg); }
 
-/* Hero */
-header.hero { padding-block: 3.5rem 2.5rem; display: grid; gap: 2rem; }
-.hero h1 {
-  font-size: clamp(2.6rem, 8vw, 5.4rem); font-weight: 900; font-stretch: 70%;
-  text-transform: uppercase; letter-spacing: -0.01em; line-height: 0.92;
-}
+header.hero { padding-block: 3.2rem 2.4rem; display: grid; gap: 1.8rem; }
+.hero h1 { font-size: clamp(2.5rem, 8vw, 5rem); font-weight: 900; font-stretch: 70%; text-transform: uppercase; line-height: 0.92; }
 .hero h1 mark { background: none; color: inherit; box-shadow: inset 0 -0.28em 0 var(--gold); }
-.hero .lede { font-size: 1.15rem; color: var(--muted); max-width: 58ch; }
-.ticket {
-  display: grid; grid-template-columns: 1fr auto; align-items: stretch;
-  background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
-  max-width: 36rem; position: relative;
-}
+.lede { font-size: 1.15rem; color: var(--muted); max-width: 58ch; }
+.ticket { display: grid; grid-template-columns: 1fr auto; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; max-width: 36rem; }
 .ticket .main { padding: 1.1rem 1.3rem; display: grid; gap: 0.3rem; min-width: 0; }
-.ticket .stub {
-  border-left: 2px dashed var(--line); padding: 1.1rem 1.3rem; display: grid; align-content: center; justify-items: center;
-  font-family: var(--display); font-weight: 900; font-stretch: 75%; font-size: 2.8rem; line-height: 1; color: var(--ceiling);
-}
+.ticket .stub { border-left: 2px dashed var(--line); padding: 1.1rem 1.3rem; display: grid; align-content: center; justify-items: center; font-family: var(--display); font-weight: 900; font-stretch: 75%; font-size: 2.8rem; line-height: 1; color: var(--ceiling); }
 .ticket .stub small { font-family: var(--mono); font-size: 0.68rem; font-weight: 400; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; margin-top: 0.3rem; }
 
-.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
-.kpi { background: var(--surface); padding: 1rem 1.2rem; display: grid; gap: 0.15rem; align-content: start; }
-.kpi b { font-family: var(--display); font-size: 2rem; font-weight: 800; font-stretch: 80%; line-height: 1.1; font-variant-numeric: tabular-nums; }
-.kpi span { color: var(--muted); font-size: 0.88rem; line-height: 1.4; }
-
-/* Sections */
-section { padding-block: 3rem; border-top: 1px solid var(--line); display: grid; gap: 1.4rem; scroll-margin-top: 3.5rem; }
+section { padding-block: 2.8rem; border-top: 1px solid var(--line); display: grid; gap: 1.3rem; scroll-margin-top: 3.5rem; }
 .head { display: grid; gap: 0.5rem; }
-.note {
-  font-size: 0.92rem; color: var(--muted); border-left: 3px solid var(--gold); padding: 0.2rem 0 0.2rem 0.9rem; max-width: 65ch;
-}
+.note { font-size: 0.92rem; color: var(--muted); border-left: 3px solid var(--gold); padding: 0.2rem 0 0.2rem 0.9rem; max-width: 68ch; }
 .sources { font-size: 0.82rem; color: var(--muted); line-height: 1.7; }
 .sources a { color: var(--muted); }
 
-/* Cercles de concurrence */
-.rings { display: grid; gap: 0; }
-.ring { border: 1.5px solid var(--line); border-radius: 22px; padding: 1rem; display: grid; gap: 0.9rem; }
-.ring.r3 { background: var(--surface); }
-.ring.r2 { border-color: var(--neutral-bar); }
-.ring.r1 { border-color: var(--accent); border-width: 2px; }
-.ring > .lbl { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; align-items: baseline; }
-.ring > .lbl h3 { font-size: 1rem; }
-.chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-.chip { border: 1px solid var(--line); background: var(--bg); border-radius: 999px; padding: 0.3rem 0.8rem; font-size: 0.88rem; line-height: 1.35; }
-.chip em { font-style: normal; color: var(--muted); }
-.core {
-  background: var(--gold); color: #1A1400; border-radius: 14px; padding: 0.9rem 1.1rem;
-  font-family: var(--display); font-weight: 900; font-stretch: 75%; text-transform: uppercase; font-size: 1.3rem; line-height: 1.1;
-}
-.core small { display: block; font-family: var(--body); text-transform: none; font-weight: 400; font-size: 0.85rem; font-stretch: 100%; margin-top: 0.2rem; }
+.trio { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1rem; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 1.1rem 1.2rem; display: grid; gap: 0.5rem; align-content: start; min-width: 0; }
+.card .big { font-family: var(--display); font-weight: 800; font-stretch: 80%; font-size: 2.1rem; line-height: 1.05; }
+.card p { font-size: 0.92rem; color: var(--muted); }
+.card.ast { border-color: var(--accent); }
+.card ul { margin: 0; padding-left: 1.1rem; font-size: 0.92rem; display: grid; gap: 0.2rem; }
+.card ul small { color: var(--muted); }
 
-/* Graphique des prix */
-.chart { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 1.2rem 1.2rem 1rem; display: grid; gap: 0.9rem; }
+/* Graphique des prix et barres simples */
+.chart { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 1.1rem 1.2rem 0.9rem; display: grid; gap: 0.9rem; margin: 0; }
 .legend { display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; font-size: 0.82rem; color: var(--muted); }
 .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 2px; vertical-align: -1px; margin-right: 0.35rem; }
-.legend i.ast { background: var(--accent); }
-.legend i.oth { background: var(--neutral-bar); }
+.legend i.ast { background: var(--accent); } .legend i.oth { background: var(--neutral-bar); }
 .legend i.rng { background: var(--neutral-bar-soft); border: 1px solid var(--neutral-bar); }
 .legend i.ceil { width: 0; border-left: 2px dashed var(--ceiling); border-radius: 0; height: 13px; }
 .bars { display: grid; grid-template-columns: minmax(8.5rem, 13rem) 1fr; row-gap: 0.45rem; column-gap: 0.9rem; align-items: center; }
+.bars.simple { grid-template-columns: minmax(4.5rem, 6rem) 1fr; }
 .bars .name { font-size: 0.88rem; line-height: 1.25; min-width: 0; }
 .bars .name small { display: block; color: var(--muted); font-size: 0.76rem; }
 .bars .name.ast { font-weight: 600; }
-.track { position: relative; height: 26px; }
-.track::after { content: ""; position: absolute; top: -4px; bottom: -4px; left: calc(59 / 130 * 100%); border-left: 2px dashed var(--ceiling); }
+.track { position: relative; height: 26px; margin-right: 5rem; }
+.bars:not(.simple) .track { margin-right: 0; }
+.bars:not(.simple) .track::after { content: ""; position: absolute; top: -4px; bottom: -4px; left: calc(59 / 130 * 100%); border-left: 2px dashed var(--ceiling); }
 .bar { position: absolute; top: 3px; height: 20px; left: 0; border-radius: 0 3px 3px 0; background: var(--neutral-bar); }
 .bar.ast { background: var(--accent); }
 .bar.range { background: var(--neutral-bar-soft); border: 1px solid var(--neutral-bar); border-left: none; }
-.val.in { transform: translateX(-100%); padding: 0 0.45rem 0 0; color: var(--fg); }
 .val { position: absolute; top: 3px; line-height: 20px; font-family: var(--mono); font-size: 0.78rem; padding-left: 0.4rem; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.val.in { transform: translateX(-100%); padding: 0 0.45rem 0 0; }
 .axis { display: grid; grid-template-columns: minmax(8.5rem, 13rem) 1fr; column-gap: 0.9rem; }
 .ticks { position: relative; height: 1.2rem; border-top: 1px solid var(--line); font-family: var(--mono); font-size: 0.7rem; color: var(--muted); }
 .ticks span { position: absolute; top: 0.15rem; transform: translateX(-50%); }
 .ticks span:first-child { transform: none; }
 .ticks span.c { color: var(--ceiling); font-weight: 500; }
 
-/* Tables */
+/* Tableaux */
 .tablebox { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
-table { border-collapse: collapse; width: 100%; font-size: 0.9rem; min-width: 40rem; }
-th, td { text-align: left; vertical-align: top; padding: 0.7rem 0.9rem; border-bottom: 1px solid var(--line); }
-tr:last-child td { border-bottom: none; }
+table { border-collapse: collapse; width: 100%; font-size: 0.9rem; min-width: 34rem; }
+caption { text-align: left; padding: 0.7rem 0.9rem; font-size: 0.82rem; color: var(--muted); }
+th, td { text-align: left; vertical-align: top; padding: 0.6rem 0.9rem; border-bottom: 1px solid var(--line); }
+tr:last-child > * { border-bottom: none; }
 thead th { font-family: var(--mono); font-size: 0.7rem; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); background: var(--bg); }
-td.price { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
-th.price { text-align: right; }
+tbody th { font-weight: 600; }
+td.n, th.n, td.price, th.price { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
 tr.ast td:first-child { box-shadow: inset 3px 0 0 var(--accent); font-weight: 600; }
+.unite { display: block; font-weight: 400; font-size: 0.72rem; color: var(--muted); font-family: var(--mono); }
+table.grevin a.n { color: var(--fg); text-decoration: underline dotted var(--accent); text-underline-offset: 4px; }
+table.grevin a.n:hover { color: var(--accent); text-decoration-style: solid; }
+table.grevin tr.calcule { background: color-mix(in srgb, var(--gold) 9%, transparent); }
+table.grevin tr.calcule td { color: var(--muted); font-style: italic; }
+table.grevin tr.calcule th { font-weight: 400; }
 td .muted { color: var(--muted); }
+details.plus { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 0.7rem 1rem; }
+details.plus summary { cursor: pointer; font-weight: 600; font-size: 0.95rem; }
+details.plus .tablebox { margin-top: 0.8rem; border: none; border-radius: 0; }
+.tag { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.05em; text-transform: uppercase; border: 1px solid var(--line); border-radius: 999px; padding: 0.05rem 0.5rem; color: var(--muted); white-space: nowrap; }
+.tag.papier { color: var(--accent); border-color: var(--accent); }
 
-/* Finances */
-.fin { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: 1rem; }
-.fin article { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 1.1rem 1.2rem; display: grid; gap: 0.7rem; align-content: start; min-width: 0; }
-.fin dl { margin: 0; display: grid; grid-template-columns: 1fr auto; gap: 0.3rem 1rem; font-size: 0.9rem; }
-.fin dt { color: var(--muted); }
-.fin dd { margin: 0; text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; }
-.fin .caveat { font-size: 0.82rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 0.6rem; }
-.fin article.ast { border-color: var(--accent); }
+.deux { display: grid; grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); gap: 1rem; }
+.points { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.55rem; max-width: 70ch; }
 
-/* Investissements */
-.inv { display: grid; gap: 0; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); overflow: hidden; }
-.inv .row { display: grid; grid-template-columns: 9.5rem 1fr; gap: 0.3rem 1.2rem; padding: 1rem 1.2rem; border-bottom: 1px solid var(--line); }
-.inv .row:last-child { border-bottom: none; }
-.inv .amt { font-family: var(--display); font-weight: 800; font-stretch: 80%; font-size: 1.5rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
-.inv .amt small { display: block; font-family: var(--body); font-weight: 400; font-stretch: 100%; font-size: 0.8rem; color: var(--muted); }
-.inv .what { display: grid; gap: 0.25rem; min-width: 0; }
-.inv .what p { font-size: 0.92rem; }
-.inv .what p.why { color: var(--muted); }
-.inv .row.ast .amt { color: var(--accent); }
-
-.chain { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; font-size: 0.85rem; }
-.chain span { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 0.35rem 0.7rem; }
-.chain span.end { background: var(--gold); color: #1A1400; border-color: var(--gold); font-weight: 600; }
-.chain b { color: var(--muted); font-weight: 400; }
-
-/* Plafond */
 .ceiling-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 1rem; }
 .cmp { border-top: 3px solid var(--line); padding-top: 0.8rem; display: grid; gap: 0.35rem; align-content: start; }
-.cmp .big { font-family: var(--display); font-weight: 900; font-stretch: 75%; font-size: 2.6rem; line-height: 1; font-variant-numeric: tabular-nums; }
+.cmp .big { font-family: var(--display); font-weight: 900; font-stretch: 75%; font-size: 2.6rem; line-height: 1; }
 .cmp p { font-size: 0.92rem; color: var(--muted); }
-.cmp.warn { border-top-color: var(--ceiling); }
-.cmp.ok { border-top-color: var(--accent); }
+.cmp.warn { border-top-color: var(--ceiling); } .cmp.ok { border-top-color: var(--accent); }
 .verdict { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 1.2rem 1.3rem; max-width: 70ch; display: grid; gap: 0.5rem; }
 
-/* Offre test */
-.offer { display: grid; grid-template-columns: 1fr; gap: 0; border-radius: 12px; overflow: hidden; border: 2px solid var(--fg); }
+.offer { border-radius: 12px; overflow: hidden; border: 2px solid var(--fg); }
 .offer .hd { background: var(--fg); color: var(--bg); padding: 1rem 1.3rem; display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; align-items: baseline; }
 .offer .hd h3 { font-size: 1.6rem; font-weight: 900; font-stretch: 72%; text-transform: uppercase; }
 .offer .hd .eyebrow { color: inherit; opacity: 0.75; }
@@ -205,16 +140,19 @@ td .muted { color: var(--muted); }
 .offer .bd div:last-child { border-right: none; }
 .offer .bd strong { font-family: var(--display); font-size: 2.2rem; font-weight: 900; font-stretch: 75%; line-height: 1; }
 
-ul.limits { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.45rem; max-width: 70ch; }
+.cta { display: inline-block; background: var(--accent); color: #fff; text-decoration: none; font-weight: 600; padding: 0.7rem 1.3rem; border-radius: 999px; width: fit-content; }
+:root[data-theme="dark"] .cta { color: #0D1422; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .cta { color: #0D1422; } }
 
+ol.src, ul.src { margin: 0; padding-left: 1.3rem; display: grid; gap: 0.45rem; font-size: 0.9rem; max-width: 80ch; }
+ol.src small, ul.src small { color: var(--muted); }
 footer { border-top: 1px solid var(--line); padding-block: 2rem 3rem; color: var(--muted); font-size: 0.85rem; }
 
 @media (max-width: 560px) {
   .bars, .axis { grid-template-columns: 7.2rem 1fr; column-gap: 0.6rem; }
+  .bars.simple { grid-template-columns: 4.6rem 1fr; }
   .bars .name small { display: none; }
-  .inv .row { grid-template-columns: 1fr; }
   .ticket .stub { font-size: 2.2rem; padding-inline: 0.9rem; }
-  .ring { padding: 0.75rem; border-radius: 16px; }
 }
 @media (prefers-reduced-motion: no-preference) {
   .bar { transform-origin: left; animation: grow 700ms cubic-bezier(.2,.7,.2,1) both; }
@@ -227,251 +165,274 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem 3rem; color: var
 <nav class="top" aria-label="Sections">
   <div class="wrap">
     <a class="brand" href="#haut">Prix Astérix</a>
-    <a href="#marche">Marché</a>
-    <a href="#concurrence">Concurrence</a>
-    <a href="#tarifs">Tarifs</a>
+    <a href="#bref">En bref</a>
+    <a href="#concurrents">Concurrents</a>
+    <a href="#prix">Prix</a>
     <a href="#finances">Finances</a>
-    <a href="#investissements">Investissements</a>
     <a href="#plafond">Plafond</a>
     <a href="#offre">Offre test</a>
-    <a href="#methode">Méthode</a>
-    <a href="analyse/">Résultats du questionnaire →</a>
+    <a href="#resultats">Résultats</a>
+    <a href="#sources">Sources</a>
   </div>
 </nav>
 
 <main class="wrap" id="haut">
   <header class="hero">
-    <p class="eyebrow">Étude de marché · relevé du 1er octobre 2026</p>
+    <p class="eyebrow">Étude de marché · prix relevés le 1er octobre 2026</p>
     <h1>Jusqu'où peut monter<br>le billet du <mark>Parc Astérix</mark>&nbsp;?</h1>
-    <p class="lede">Positionnement concurrentiel et plafond tarifaire provisoire pour une sortie familiale ou entre amis, à la journée ou en court séjour, en France.</p>
+    <p class="lede">Que font les concurrents, combien gagne le parc, et quel prix de billet reste acceptable pour une sortie en famille ou entre amis ?</p>
     <div class="ticket" role="group" aria-label="Plafond provisoire">
       <div class="main">
-        <span class="eyebrow">Plafond de comparaison provisoire</span>
+        <span class="eyebrow">Plafond provisoire</span>
         <strong style="font-size:1.05rem">Billet adulte daté, 1 jour / 1 parc, période verte</strong>
-        <span style="color:var(--muted);font-size:0.9rem">Repère Disneyland Paris 52 à 59 €. À recalculer pour la même date chez les concurrents.</span>
+        <span style="color:var(--muted);font-size:0.9rem">Repère : Disneyland Paris, de 52 à 59&nbsp;€<sup><a href="#sources">web</a></sup>. À recalculer pour la même date chez chaque concurrent.</span>
       </div>
-      <div class="stub num">59 €<small>plafond</small></div>
+      <div class="stub num">59&nbsp;€<small>plafond</small></div>
     </div>
   </header>
 
-  <section id="marche" aria-labelledby="t-marche">
+  <section id="bref" aria-labelledby="t-bref">
     <div class="head">
-      <p class="eyebrow">Délimitation du marché</p>
-      <h2 id="t-marche">Un besoin : sortir pour une journée immersive à un prix acceptable</h2>
+      <p class="eyebrow">En bref</p>
+      <h2 id="t-bref">Trois choses à retenir</h2>
     </div>
-    <p class="prose">Le Parc Astérix répond au besoin de <strong>sortir en famille ou entre amis pour vivre une journée ou un court séjour de loisirs immersifs, à un prix jugé acceptable</strong>, principalement en Île-de-France et dans le nord de la France.</p>
-    <div class="kpis">
-      <div class="kpi"><b>2,9 M</b><span>visiteurs annoncés par le Parc Astérix, saison 2024-2025</span></div>
-      <div class="kpi"><b>2,842 M</b><span>visites au Parc Astérix en 2024 (classement TEA)</span></div>
-      <div class="kpi"><b>10,214 M</b><span>visites au Parc Disneyland en 2024 (TEA)</span></div>
-      <div class="kpi"><b>5,598 M</b><span>visites au second parc Disney en 2024 (TEA)</span></div>
-    </div>
-    <p class="note">Le classement TEA compte des visites par parc, et non des visiteurs uniques du complexe Disney. Il porte sur l'année civile 2024, alors que le chiffre de 2,9 M concerne une saison.</p>
-    <p class="sources">Sources : <a href="https://newsroom.parcasterix.fr/entreprise/chiffres-cles/">chiffres clés Parc Astérix</a> · <a href="https://interpark.co.uk/latest-news/tea-2024-index-releases-visitor-attendance-report/">classement TEA 2024</a></p>
-  </section>
-
-  <section id="concurrence" aria-labelledby="t-conc">
-    <div class="head">
-      <p class="eyebrow">Les trois cercles de concurrence</p>
-      <h2 id="t-conc">Du parc à thème concurrent à la sortie gratuite</h2>
-    </div>
-    <div class="rings">
-      <div class="ring r3">
-        <div class="lbl"><h3>3. Alternatives qui captent le budget</h3><span class="eyebrow">temps libre et budget</span></div>
-        <div class="chips">
-          <span class="chip">Parcs publics <em>forêts et pique-nique</em></span>
-          <span class="chip">Cinéma <em>loisirs indoor</em></span>
-          <span class="chip">Sortie gratuite <em>ou activité à domicile</em></span>
-        </div>
-        <div class="ring r2">
-          <div class="lbl"><h3>2. Concurrents indirects</h3><span class="eyebrow">autre promesse</span></div>
-          <div class="chips">
-            <span class="chip">Puy du Fou <em>spectacles et séjours</em></span>
-            <span class="chip">Autres parcs de loisirs <em>sorties et week-ends</em></span>
-          </div>
-          <div class="ring r1">
-            <div class="lbl"><h3>1. Concurrents directs</h3><span class="eyebrow">même journée en parc</span></div>
-            <div class="chips">
-              <span class="chip">Disneyland Paris <em>destination premium, deux parcs</em></span>
-              <span class="chip">La Mer de Sable <em>parc familial régional, tarif plus bas</em></span>
-              <span class="chip">Parc Saint-Paul <em>parc familial régional, tarif plus bas</em></span>
-            </div>
-            <div class="core">Parc Astérix<small>Journée familiale, attractions et spectacles</small></div>
-          </div>
-        </div>
+    <div class="trio">
+      <div class="card ast">
+        <span class="eyebrow">Un parc qui bat des records</span>
+        <span class="big num">2,89&nbsp;M</span>
+        <p>de visiteurs en 2024/25, pour 215,8&nbsp;M€ de chiffre d'affaires. Les deux sont des records, d'après l'annexe des comptes. <a href="sources/grevin-comptes-sociaux-2025.pdf#page=15">Voir la page</a></p>
+      </div>
+      <div class="card">
+        <span class="eyebrow">Une marge qui baisse</span>
+        <span class="big num">19,2 → 12,3&nbsp;%</span>
+        <p>C'est la part du chiffre d'affaires qui reste en résultat d'exploitation, de 2021/22 à 2024/25 (calcul à partir des comptes, voir « Finances »).</p>
+      </div>
+      <div class="card">
+        <span class="eyebrow">Un prix plafond</span>
+        <span class="big num">59&nbsp;€</span>
+        <p>Le prix d'appel de Disneyland Paris limite la hausse du billet daté. Le parc peut monter sur les dates de forte demande et le billet flexible.</p>
       </div>
     </div>
-    <p class="prose">Disneyland Paris est le comparable premium pour une journée dans un parc à thème. La Mer de Sable et le Parc Saint-Paul exercent une pression surtout sur le budget des familles de la région ; leur taille et leur offre sont différentes. Le Puy du Fou répond davantage à une demande de spectacles et de séjours.</p>
   </section>
 
-  <section id="tarifs" aria-labelledby="t-tarifs">
+  <section id="concurrents" aria-labelledby="t-conc">
     <div class="head">
-      <p class="eyebrow">Comparaison des tarifs</p>
-      <h2 id="t-tarifs">Prix d'appel adulte pour une entrée à la journée</h2>
+      <p class="eyebrow">Concurrence</p>
+      <h2 id="t-conc">Qui concurrence le Parc Astérix ?</h2>
     </div>
-    <p class="note">Ce sont des points d'entrée et non des paniers comparables à date égale. La présence de deux parcs, la date choisie, la flexibilité et les services inclus changent la valeur de l'offre.</p>
+    <p class="prose">Le besoin : sortir en famille ou entre amis pour une journée immersive à un prix jugé acceptable, surtout en Île-de-France et dans le nord de la France.</p>
+    <div class="trio">
+      <div class="card ast">
+        <h3>Concurrents directs</h3>
+        <p>Même journée en parc d'attractions.</p>
+        <ul>
+          <li>Disneyland Paris <small>le comparable premium, deux parcs</small></li>
+          <li>La Mer de Sable <small>parc familial régional, prix plus bas</small></li>
+          <li>Parc Saint-Paul <small>parc familial régional, prix plus bas</small></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Concurrents indirects</h3>
+        <p>Une autre promesse, pour le même budget.</p>
+        <ul>
+          <li>Puy du Fou <small>spectacles et séjours</small></li>
+          <li>Autres parcs de loisirs <small>sorties et week-ends</small></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Alternatives</h3>
+        <p>Elles captent le temps libre et le budget.</p>
+        <ul>
+          <li>Parcs publics et forêts</li>
+          <li>Cinéma et loisirs en salle</li>
+          <li>Sorties gratuites ou activités à la maison</li>
+        </ul>
+      </div>
+    </div>
+    <p class="note">Ordre de grandeur : le Parc Astérix a reçu 2,89&nbsp;M de visiteurs en 2024/25 (<a href="sources/grevin-comptes-sociaux-2025.pdf#page=15">comptes 2025, p.&nbsp;15</a>). Le parc Disneyland Paris en a compté 10,2&nbsp;M en 2024 selon le classement TEA<sup><a href="#sources">web</a></sup>. Ce sont des périodes différentes : exercice du 1er octobre au 30 septembre d'un côté, année civile de l'autre.</p>
+  </section>
 
-    <figure class="chart" style="margin:0" aria-label="Graphique des prix d'appel adulte en euros, avec le plafond provisoire à 59 €">
+  <section id="prix" aria-labelledby="t-prix">
+    <div class="head">
+      <p class="eyebrow">Les prix</p>
+      <h2 id="t-prix">Prix d'appel adulte pour une journée</h2>
+    </div>
+    <p class="note">Ce sont des points d'entrée, pas des paniers comparables à date égale : le nombre de parcs, la date, la flexibilité et les services inclus changent la valeur de l'offre.</p>
+    <figure class="chart" aria-label="Graphique des prix d'appel adulte en euros, avec le plafond provisoire à 59 euros">
       <div class="legend">
         <span><i class="ast"></i>Parc Astérix</span>
         <span><i class="oth"></i>Concurrents</span>
         <span><i class="rng"></i>Fourchette selon la date</span>
-        <span><i class="ceil"></i>Plafond provisoire 59 €</span>
+        <span><i class="ceil"></i>Plafond provisoire 59&nbsp;€</span>
       </div>
       <div class="bars" id="bars"></div>
       <div class="axis" aria-hidden="true"><span></span><div class="ticks" id="ticks"></div></div>
     </figure>
-
-    <div class="tablebox">
-      <table>
-        <thead><tr><th>Acteur</th><th>Offre observée</th><th class="price">Prix adulte</th><th>Conditions et comparabilité</th></tr></thead>
-        <tbody>
-          <tr class="ast"><td>Parc Astérix</td><td>Billet Malin</td><td class="price">49 €</td><td>Tarif unique, quantité limitée, billet daté</td></tr>
-          <tr class="ast"><td>Parc Astérix</td><td>Billet Futé</td><td class="price">dès 56 €</td><td>Billet daté, réservation au plus tard à J-7</td></tr>
-          <tr class="ast"><td>Parc Astérix</td><td>Liberté Flex</td><td class="price">68 €</td><td>Billet adulte modifiable, réservation possible jusqu'au jour J</td></tr>
-          <tr><td>Disneyland Paris</td><td>Billet daté, 1 jour / 1 parc</td><td class="price">52 à 59 €</td><td>Période verte. Prix variable selon la date et la demande</td></tr>
-          <tr><td>Disneyland Paris</td><td>Billet daté, 1 jour / 2 parcs</td><td class="price">87 à 94 €</td><td>Période verte. Deux parcs : offre différente d'une journée Astérix</td></tr>
-          <tr><td>Disneyland Paris</td><td>Billet Liberté, 1 jour / 1 parc</td><td class="price">119 €</td><td>Date flexible</td></tr>
-          <tr><td>La Mer de Sable</td><td>Billet daté Citrouille</td><td class="price">dès 28 €</td><td>Achat web, places limitées <span class="muted">· guichet : 34,90 €</span></td></tr>
-          <tr><td>Parc Saint-Paul</td><td>Billet non daté</td><td class="price">dès 29 €</td><td>Parking gratuit ; plus de 35 attractions annoncées</td></tr>
-          <tr><td>Puy du Fou</td><td>Billet journée</td><td class="price">dès 47 €</td><td>Offre centrée sur les spectacles ; tarifs variables selon la date</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="prose" style="font-size:0.95rem">Le Billet Malin d'Astérix n'est pas une référence de prix garantie pour toutes les dates. Inversement, le minimum Disney est un tarif de période verte. Une comparaison rigoureuse demande de relever les calendriers le même jour, pour la même date de visite, les mêmes âges et la même flexibilité.</p>
-    <p class="sources">Sources : <a href="https://www.parcasterix.fr/offres/billets">billetterie Astérix</a> · <a href="https://tickets.disneylandparis.com/fr-fr/tickets">billetterie Disney</a> et <a href="https://disneyland-pratique.fr/tarifs-disneyland-paris-2026.html">grille 2026 indépendante</a> · <a href="https://www.merdesable.fr/tarifs-reservations">tarifs Mer de Sable</a> · <a href="https://www.parcsaintpaul.fr/">site Parc Saint-Paul</a> · <a href="https://www.puydufou.com/france/fr/billets-puy-du-fou-france">tarifs Puy du Fou</a></p>
+    <details class="plus">
+      <summary>Voir le détail des offres et leurs conditions</summary>
+      <div class="tablebox">
+        <table>
+          <thead><tr><th>Acteur</th><th>Offre</th><th class="price">Prix adulte</th><th>Conditions</th></tr></thead>
+          <tbody>
+            <tr class="ast"><td>Parc Astérix</td><td>Billet Malin</td><td class="price">49&nbsp;€</td><td>Tarif unique, quantité limitée, billet daté</td></tr>
+            <tr class="ast"><td>Parc Astérix</td><td>Billet Futé</td><td class="price">dès 56&nbsp;€</td><td>Billet daté, réservation au plus tard à J-7</td></tr>
+            <tr class="ast"><td>Parc Astérix</td><td>Liberté Flex</td><td class="price">68&nbsp;€</td><td>Billet modifiable, réservation possible jusqu'au jour J</td></tr>
+            <tr><td>Disneyland Paris</td><td>1 jour / 1 parc, daté</td><td class="price">52 à 59&nbsp;€</td><td>Période verte, prix variable selon la date et la demande</td></tr>
+            <tr><td>Disneyland Paris</td><td>1 jour / 2 parcs, daté</td><td class="price">87 à 94&nbsp;€</td><td>Période verte, deux parcs : offre différente d'une journée Astérix</td></tr>
+            <tr><td>Disneyland Paris</td><td>Billet Liberté, 1 parc</td><td class="price">119&nbsp;€</td><td>Date flexible</td></tr>
+            <tr><td>La Mer de Sable</td><td>Billet daté Citrouille</td><td class="price">dès 28&nbsp;€</td><td>Achat web, places limitées <span class="muted">· guichet : 34,90&nbsp;€</span></td></tr>
+            <tr><td>Parc Saint-Paul</td><td>Billet non daté</td><td class="price">dès 29&nbsp;€</td><td>Parking gratuit, plus de 35 attractions annoncées</td></tr>
+            <tr><td>Puy du Fou</td><td>Billet journée</td><td class="price">dès 47&nbsp;€</td><td>Offre centrée sur les spectacles, tarifs variables selon la date</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+    <p class="sources">Sources : sites de billetterie et de tarifs consultés le 1er octobre 2026, détaillés dans la partie « Sources » en bas de page (billetteries Astérix, Disney, Mer de Sable, Parc Saint-Paul, Puy du Fou).</p>
   </section>
 
   <section id="finances" aria-labelledby="t-fin">
     <div class="head">
-      <p class="eyebrow">Santé financière et capacité d'investissement</p>
-      <h2 id="t-fin">Qui a les moyens d'investir</h2>
+      <p class="eyebrow">Les finances du Parc Astérix</p>
+      <h2 id="t-fin">Un parc qui se porte bien, mais dont la marge baisse</h2>
     </div>
-    <div class="fin">
-      <article class="ast">
-        <h3>Parc Astérix · Compagnie des Alpes</h3>
-        <dl>
-          <dt>CA groupe 2024-2025</dt><dd>1 397 M€</dd>
-          <dt>EBO groupe</dt><dd>409 M€</dd>
-          <dt>Résultat net part du groupe</dt><dd>107 M€</dd>
-          <dt>EBO division Parcs de loisirs</dt><dd>176 M€</dd>
-          <dt>Marge d'EBO division</dt><dd>26 %</dd>
-        </dl>
-        <p class="caveat">Pas de comptes autonomes du parc dans les sources consultées : chiffres consolidés de groupe et de division.</p>
-      </article>
-      <article>
-        <h3>Disneyland Paris · Euro Disney Associés SAS</h3>
-        <dl>
-          <dt>CA 2024-2025</dt><dd>2,68 Md€</dd>
-          <dt>Résultat d'exploitation</dt><dd>271 M€</dd>
-          <dt>Résultat net</dt><dd>260 M€</dd>
-        </dl>
-        <p class="caveat">Comptes de l'exploitant de la destination. Le résultat net bénéficie aussi de pertes fiscales antérieures reportées.</p>
-      </article>
-      <article>
-        <h3>Puy du Fou France</h3>
-        <dl>
-          <dt>CA 2024</dt><dd>184,2 M€</dd>
-          <dt>EBE</dt><dd>48,2 M€</dd>
-          <dt>Résultat net</dt><dd>26,1 M€</dd>
-        </dl>
-        <p class="caveat">Comptes de la société Puy du Fou France ; la destination ne se résume pas à un seul billet de parc.</p>
-      </article>
-      <article>
-        <h3>La Mer de Sable · Looping</h3>
-        <dl>
-          <dt>CA annuel du parc</dt><dd>&gt; 12 M€</dd>
-          <dt>Visiteurs 2025</dt><dd>400 000</dd>
-          <dt>CA groupe Looping 2025</dt><dd>&gt; 250 M€</dd>
-          <dt>Sites européens Looping</dt><dd>21</dd>
-        </dl>
-        <p class="caveat">Chiffre du parc publié dans la presse, non audité ici ; Looping est le groupe, pas le seul parc.</p>
-      </article>
-      <article>
-        <h3>Parc Saint-Paul</h3>
-        <dl>
-          <dt>CA 2024</dt><dd>9,85 M€</dd>
-          <dt>CA 2025</dt><dd>7,49 M€</dd>
-          <dt>Variation</dt><dd>−24 %</dd>
-        </dl>
-        <p class="caveat">Baisse à surveiller ; les données ne suffisent pas à en établir la cause ni à conclure sur la rentabilité.</p>
-      </article>
-    </div>
-    <p class="sources">Sources : <a href="https://news.compagniedesalpes.com/resultats-2024-2025-perspectives/">résultats CDA 2024-2025</a> · <a href="https://www.lechotouristique.com/article/en-2025-disneyland-paris-a-triple-son-resultat-net">L'Écho touristique</a> · <a href="https://www.lejournaldesentreprises.com/breve/la-mer-de-sable-conserve-son-niveau-de-frequentation-apres-un-printemps-complique-2145363">Mer de Sable en 2026</a> · <a href="https://www.lejournaldesentreprises.com/breve/le-breton-looping-acquiert-le-parc-saint-paul-dans-loise-2117693">acquisition de Saint-Paul par Looping</a> · <a href="https://www.lejournaldesentreprises.com/breve/le-parc-saint-paul-investit-5-millions-deuros-pour-accelerer-sa-relance-2146434">investissements Saint-Paul 2026</a> · <a href="https://www.pappers.fr/entreprise/puy-du-fou-france-347490070">comptes Puy du Fou France</a></p>
-  </section>
+    <p class="prose">Le Parc Astérix est exploité par la société <strong>Grévin et compagnie</strong>, qui publie ses comptes. Les chiffres ci-dessous viennent directement de ces comptes.</p>
+    <p class="note"><strong>Comment vérifier :</strong> chaque chiffre souligné est un lien. Il ouvre le PDF des comptes à la page où le chiffre figure. Les lignes en italique sont calculées à partir de deux chiffres des comptes.</p>
 
-  <section id="investissements" aria-labelledby="t-inv">
-    <div class="head">
-      <p class="eyebrow">Investissements et stratégies</p>
-      <h2 id="t-inv">Chacun investit pour justifier son prix</h2>
+    <div class="tablebox"><table class="grevin">
+<caption>Comptes sociaux de Grévin et compagnie, société du Parc Astérix · exercices clos le 30 septembre</caption>
+<thead><tr><th scope="col">Indicateur</th><th scope="col" class="n">2020/21</th><th scope="col" class="n">2021/22</th><th scope="col" class="n">2022/23</th><th scope="col" class="n">2023/24</th><th scope="col" class="n">2024/25</th></tr></thead><tbody>
+<tr><th scope="row">Visiteurs <span class="unite">millions</span></th><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2021.pdf#page=11" title="annexe 2021, p. 11 : pandémie, l&#x27;activité ne reprend que le 9 juin 2021, pas de chiffre de visiteurs" aria-label="n.c. : annexe 2021, p. 11 : pandémie, l&#x27;activité ne reprend que le 9 juin 2021, pas de chiffre de visiteurs">n.c.</a></td><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2023.pdf#page=6" title="annexe 2023, p. 6 : 2,6 millions de visiteurs en 2021/2022" aria-label="2,6 : annexe 2023, p. 6 : 2,6 millions de visiteurs en 2021/2022">2,6</a></td><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2024.pdf#page=42" title="annexe 2024, p. 42 : 2 815 428 visiteurs en 2022/2023" aria-label="2,82 : annexe 2024, p. 42 : 2 815 428 visiteurs en 2022/2023">2,82</a></td><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2024.pdf#page=42" title="annexe 2024, p. 42 : 2 841 873 visiteurs en 2023/2024" aria-label="2,84 : annexe 2024, p. 42 : 2 841 873 visiteurs en 2023/2024">2,84</a></td><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2025.pdf#page=15" title="annexe 2025, p. 15 : 2 892 648 visiteurs en 2024/2025" aria-label="2,89 : annexe 2025, p. 15 : 2 892 648 visiteurs en 2024/2025">2,89</a></td></tr>
+<tr><th scope="row">Chiffre d'affaires <span class="unite">M€</span></th><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2021.pdf#page=9" title="compte de résultat 2021, p. 9 : chiffre d&#x27;affaires net 80 386 286 €" aria-label="80,4 : compte de résultat 2021, p. 9 : chiffre d&#x27;affaires net 80 386 286 €">80,4</a></td><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2022.pdf#page=10" title="compte de résultat 2022, p. 10 : chiffre d&#x27;affaires net 171 690 427 €" aria-label="171,7 : compte de résultat 2022, p. 10 : chiffre d&#x27;affaires net 171 690 427 €">171,7</a></td><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2023.pdf#page=4" title="compte de résultat 2023, p. 4 : chiffre d&#x27;affaires net 196 440 744 €" aria-label="196,4 : compte de résultat 2023, p. 4 : chiffre d&#x27;affaires net 196 440 744 €">196,4</a></td><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2024.pdf#page=3" title="compte de résultat 2024, p. 3 : chiffre d&#x27;affaires net 206 467 622 €" aria-label="206,5 : compte de résultat 2024, p. 3 : chiffre d&#x27;affaires net 206 467 622 €">206,5</a></td><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2025.pdf#page=13" title="compte de résultat 2025, p. 13 : chiffre d&#x27;affaires net 215 816 141 €" aria-label="215,8 : compte de résultat 2025, p. 13 : chiffre d&#x27;affaires net 215 816 141 €">215,8</a></td></tr>
+<tr><th scope="row">Résultat d'exploitation <span class="unite">M€</span></th><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2021.pdf#page=9" title="compte de résultat 2021, p. 9 : résultat d&#x27;exploitation −5 487 719 €" aria-label="−5,5 : compte de résultat 2021, p. 9 : résultat d&#x27;exploitation −5 487 719 €">−5,5</a></td><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2022.pdf#page=10" title="compte de résultat 2022, p. 10 : résultat d&#x27;exploitation 33 050 063 €" aria-label="33,1 : compte de résultat 2022, p. 10 : résultat d&#x27;exploitation 33 050 063 €">33,1</a></td><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2023.pdf#page=4" title="compte de résultat 2023, p. 4 : résultat d&#x27;exploitation 32 307 248 €" aria-label="32,3 : compte de résultat 2023, p. 4 : résultat d&#x27;exploitation 32 307 248 €">32,3</a></td><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2024.pdf#page=3" title="compte de résultat 2024, p. 3 : résultat d&#x27;exploitation 30 822 899 €" aria-label="30,8 : compte de résultat 2024, p. 3 : résultat d&#x27;exploitation 30 822 899 €">30,8</a></td><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2025.pdf#page=13" title="compte de résultat 2025, p. 13 : résultat d&#x27;exploitation 26 486 604 €" aria-label="26,5 : compte de résultat 2025, p. 13 : résultat d&#x27;exploitation 26 486 604 €">26,5</a></td></tr>
+<tr><th scope="row">Bénéfice net <span class="unite">M€</span></th><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2021.pdf#page=10" title="compte de résultat 2021, p. 10 : perte de 7 347 128 €" aria-label="−7,3 : compte de résultat 2021, p. 10 : perte de 7 347 128 €">−7,3</a></td><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2022.pdf#page=11" title="compte de résultat 2022, p. 11 : bénéfice 25 962 326 €" aria-label="26,0 : compte de résultat 2022, p. 11 : bénéfice 25 962 326 €">26,0</a></td><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2023.pdf#page=5" title="compte de résultat 2023, p. 5 : bénéfice 20 367 564 €" aria-label="20,4 : compte de résultat 2023, p. 5 : bénéfice 20 367 564 €">20,4</a></td><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2024.pdf#page=4" title="compte de résultat 2024, p. 4 : bénéfice 17 562 478 €" aria-label="17,6 : compte de résultat 2024, p. 4 : bénéfice 17 562 478 €">17,6</a></td><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2025.pdf#page=14" title="compte de résultat 2025, p. 14 : bénéfice 14 695 520 €" aria-label="14,7 : compte de résultat 2025, p. 14 : bénéfice 14 695 520 €">14,7</a></td></tr>
+<tr><th scope="row">Investissements de l'année <span class="unite">M€</span></th><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2021.pdf#page=15" title="annexe 2021, p. 15 : acquisitions d&#x27;immobilisations 11 175 999 €" aria-label="11,2 : annexe 2021, p. 15 : acquisitions d&#x27;immobilisations 11 175 999 €">11,2</a></td><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2022.pdf#page=16" title="annexe 2022, p. 16 : acquisitions d&#x27;immobilisations 33 600 462 €" aria-label="33,6 : annexe 2022, p. 16 : acquisitions d&#x27;immobilisations 33 600 462 €">33,6</a></td><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2023.pdf#page=10" title="annexe 2023, p. 10 : acquisitions d&#x27;immobilisations 41 827 877 €" aria-label="41,8 : annexe 2023, p. 10 : acquisitions d&#x27;immobilisations 41 827 877 €">41,8</a></td><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2024.pdf#page=46" title="annexe 2024, p. 46 : acquisitions d&#x27;immobilisations 45 738 969 €" aria-label="45,7 : annexe 2024, p. 46 : acquisitions d&#x27;immobilisations 45 738 969 €">45,7</a></td><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2025.pdf#page=19" title="annexe 2025, p. 19 : acquisitions d&#x27;immobilisations 44 114 311 €" aria-label="44,1 : annexe 2025, p. 19 : acquisitions d&#x27;immobilisations 44 114 311 €">44,1</a></td></tr>
+<tr><th scope="row">Dette financière nette <span class="unite">M€</span></th><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2021.pdf#page=20" title="annexe 2021, p. 20 : dettes financières nettes de la trésorerie 90,9 M€" aria-label="91 : annexe 2021, p. 20 : dettes financières nettes de la trésorerie 90,9 M€">91</a></td><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2022.pdf#page=21" title="annexe 2022, p. 21 : dettes financières nettes de la trésorerie 63 M€" aria-label="63 : annexe 2022, p. 21 : dettes financières nettes de la trésorerie 63 M€">63</a></td><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2023.pdf#page=15" title="annexe 2023, p. 15 : dettes financières nettes de la trésorerie 67 M€" aria-label="67 : annexe 2023, p. 15 : dettes financières nettes de la trésorerie 67 M€">67</a></td><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2024.pdf#page=51" title="annexe 2024, p. 51 : dettes financières nettes de la trésorerie 87 M€" aria-label="87 : annexe 2024, p. 51 : dettes financières nettes de la trésorerie 87 M€">87</a></td><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2025.pdf#page=24" title="annexe 2025, p. 24 : dettes financières nettes de la trésorerie 90 M€" aria-label="90 : annexe 2025, p. 24 : dettes financières nettes de la trésorerie 90 M€">90</a></td></tr>
+<tr><th scope="row">Capitaux propres <span class="unite">M€</span></th><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2021.pdf#page=8" title="bilan passif 2021, p. 8 : total capitaux propres 39 573 861 €" aria-label="39,6 : bilan passif 2021, p. 8 : total capitaux propres 39 573 861 €">39,6</a></td><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2022.pdf#page=9" title="bilan passif 2022, p. 9 : capitaux propres 65 536 188 €" aria-label="65,5 : bilan passif 2022, p. 9 : capitaux propres 65 536 188 €">65,5</a></td><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2023.pdf#page=3" title="bilan passif 2023, p. 3 : capitaux propres 78 962 020 €" aria-label="79,0 : bilan passif 2023, p. 3 : capitaux propres 78 962 020 €">79,0</a></td><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2024.pdf#page=2" title="bilan passif 2024, p. 2 : capitaux propres 84 307 051 €" aria-label="84,3 : bilan passif 2024, p. 2 : capitaux propres 84 307 051 €">84,3</a></td><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2025.pdf#page=12" title="bilan passif 2025, p. 12 : capitaux propres 88 451 138 €" aria-label="88,5 : bilan passif 2025, p. 12 : capitaux propres 88 451 138 €">88,5</a></td></tr>
+<tr><th scope="row">Effectif moyen <span class="unite">personnes</span></th><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2021.pdf#page=27" title="annexe 2021, p. 27 : effectif moyen 686" aria-label="686 : annexe 2021, p. 27 : effectif moyen 686">686</a></td><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2022.pdf#page=28" title="annexe 2022, p. 28 : effectif moyen 1 246" aria-label="1 246 : annexe 2022, p. 28 : effectif moyen 1 246">1 246</a></td><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2023.pdf#page=20" title="annexe 2023, p. 20 : effectif moyen 1 257" aria-label="1 257 : annexe 2023, p. 20 : effectif moyen 1 257">1 257</a></td><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2024.pdf#page=56" title="annexe 2024, p. 56 : effectif moyen 1 462" aria-label="1 462 : annexe 2024, p. 56 : effectif moyen 1 462">1 462</a></td><td class="n"><a class="n" href="sources/grevin-comptes-sociaux-2025.pdf#page=29" title="annexe 2025, p. 29 : effectif moyen 1 555" aria-label="1 555 : annexe 2025, p. 29 : effectif moyen 1 555">1 555</a></td></tr>
+<tr class="calcule"><th scope="row">Chiffre d'affaires par visiteur <span class="unite">€ · calculé</span></th><td class="n" title="Calcul : chiffre d'affaires ÷ visiteurs">—</td><td class="n" title="Calcul : chiffre d'affaires ÷ visiteurs">—</td><td class="n" title="Calcul : chiffre d'affaires ÷ visiteurs">69,8</td><td class="n" title="Calcul : chiffre d'affaires ÷ visiteurs">72,7</td><td class="n" title="Calcul : chiffre d'affaires ÷ visiteurs">74,6</td></tr>
+<tr class="calcule"><th scope="row">Marge d'exploitation <span class="unite">% du CA · calculé</span></th><td class="n" title="Calcul : résultat d'exploitation ÷ chiffre d'affaires">−6,8</td><td class="n" title="Calcul : résultat d'exploitation ÷ chiffre d'affaires">19,2</td><td class="n" title="Calcul : résultat d'exploitation ÷ chiffre d'affaires">16,4</td><td class="n" title="Calcul : résultat d'exploitation ÷ chiffre d'affaires">14,9</td><td class="n" title="Calcul : résultat d'exploitation ÷ chiffre d'affaires">12,3</td></tr>
+</tbody></table></div>
+
+    <div class="deux">
+      <figure class="chart" style="gap:0.7rem">
+        <h3>Chiffre d'affaires <span class="unite" style="display:inline;margin-left:0.4rem">M€</span></h3>
+        <div class="bars simple" role="img" aria-label="Chiffre d'affaires du Parc Astérix par exercice, en millions d'euros">
+<div class="name">2020/21</div><div class="track"><div class="bar ast" style="width:35.0%"></div><span class="val" style="left:35.0%">80,4&nbsp;M€</span></div>
+<div class="name">2021/22</div><div class="track"><div class="bar ast" style="width:74.7%"></div><span class="val" style="left:74.7%">171,7&nbsp;M€</span></div>
+<div class="name">2022/23</div><div class="track"><div class="bar ast" style="width:85.4%"></div><span class="val" style="left:85.4%">196,4&nbsp;M€</span></div>
+<div class="name">2023/24</div><div class="track"><div class="bar ast" style="width:89.8%"></div><span class="val" style="left:89.8%">206,5&nbsp;M€</span></div>
+<div class="name">2024/25</div><div class="track"><div class="bar ast" style="width:93.8%"></div><span class="val" style="left:93.8%">215,8&nbsp;M€</span></div>
+</div>
+      </figure>
+      <figure class="chart" style="gap:0.7rem">
+        <h3>Marge d'exploitation <span class="unite" style="display:inline;margin-left:0.4rem">% du CA · calculé</span></h3>
+        <div class="bars simple" role="img" aria-label="Marge d'exploitation du Parc Astérix par exercice, en pourcentage du chiffre d'affaires">
+<div class="name">2021/22</div><div class="track"><div class="bar ast" style="width:76.8%"></div><span class="val" style="left:76.8%">19,2&nbsp;%</span></div>
+<div class="name">2022/23</div><div class="track"><div class="bar ast" style="width:65.6%"></div><span class="val" style="left:65.6%">16,4&nbsp;%</span></div>
+<div class="name">2023/24</div><div class="track"><div class="bar ast" style="width:59.6%"></div><span class="val" style="left:59.6%">14,9&nbsp;%</span></div>
+<div class="name">2024/25</div><div class="track"><div class="bar ast" style="width:49.2%"></div><span class="val" style="left:49.2%">12,3&nbsp;%</span></div>
+</div>
+      </figure>
     </div>
-    <div class="inv">
-      <div class="row ast"><div class="amt">250 M€<small>à l'horizon 2030</small></div><div class="what"><h3>Parc Astérix</h3><p>Hôtel de 300 chambres ; capacité visée en hausse de 20 %, dont deux tiers en intérieur.</p><p class="why">Renouveler l'offre, augmenter la capacité, réduire la dépendance à la météo et accroître les séjours et les dépenses sur place.</p></div></div>
-      <div class="row"><div class="amt">2 Md€<small>second parc</small></div><div class="what"><h3>Disneyland Paris</h3><p>Disney Adventure World et World of Frozen ouverts le 29 mars 2026.</p><p class="why">Renforcer les licences propriétaires et l'attractivité internationale, notamment pour des séjours de plusieurs jours.</p></div></div>
-      <div class="row"><div class="amt">70 M€<small>programme 2026</small></div><div class="what"><h3>Puy du Fou</h3><p>Dont 50 M€ en France ; 100 chambres supplémentaires et saison portée à 196 jours.</p><p class="why">Étendre les séjours et la saison, augmenter la valeur dépensée par visiteur et monter en gamme.</p></div></div>
-      <div class="row"><div class="amt">5,5 M€<small>ouvert en 2025</small></div><div class="what"><h3>La Mer de Sable</h3><p>Coaster Wild Buffalo ; la direction vise 20 000 visiteurs supplémentaires.</p><p class="why">Rajeunir l'offre régionale avec une nouveauté à sensations accessible aux familles.</p></div></div>
-      <div class="row"><div class="amt">5 M€<small>annoncés pour 2026</small></div><div class="what"><h3>Parc Saint-Paul</h3><p>Dont 3 M€ pour la tour SkyFall de 60 mètres.</p><p class="why">Moderniser le parc et développer les sensations fortes en gardant un positionnement familial et des prix bas.</p></div></div>
+
+    <h3>Ce que disent les comptes</h3>
+    <ul class="points">
+      <li><strong>Les visiteurs progressent peu, le chiffre d'affaires monte davantage.</strong> Les visiteurs progressent de 0,9&nbsp;% puis de 1,8&nbsp;% (<a href="sources/grevin-comptes-sociaux-2024.pdf#page=42">2024, p.&nbsp;42</a> ; <a href="sources/grevin-comptes-sociaux-2025.pdf#page=15">2025, p.&nbsp;15</a>). Le chiffre d'affaires par visiteur passe de 69,8 à 74,6&nbsp;€ en deux ans (calculé : billet, repas, boutique et hôtels compris).</li>
+      <li><strong>Les coûts montent plus vite que les ventes.</strong> Le chiffre d'affaires gagne 25,7&nbsp;% entre 2021/22 et 2024/25, mais le résultat d'exploitation perd 19,9&nbsp;% (de 33,1 à 26,5&nbsp;M€). Pour 2022/23, l'annexe explique la hausse des charges de personnel (+17,7&nbsp;%) par les revalorisations de salaires, les jours et nocturnes d'ouverture en plus et le renforcement des équipes (<a href="sources/grevin-comptes-sociaux-2023.pdf#page=18">2023, p.&nbsp;18</a>).</li>
+      <li><strong>Le parc investit beaucoup.</strong> Environ 44&nbsp;M€ d'investissements en 2024/25 (<a href="sources/grevin-comptes-sociaux-2025.pdf#page=19">p.&nbsp;19</a>) et un 4<sup>e</sup> hôtel de 300 chambres, financé par crédit-bail, annoncé pour début 2027 (<a href="sources/grevin-comptes-sociaux-2025.pdf#page=15">p.&nbsp;15</a>).</li>
+      <li><strong>La dette nette remonte.</strong> Elle passe de 63&nbsp;M€ en 2021/22 à 90&nbsp;M€ en 2024/25 (<a href="sources/grevin-comptes-sociaux-2022.pdf#page=21">2022, p.&nbsp;21</a> ; <a href="sources/grevin-comptes-sociaux-2025.pdf#page=24">2025, p.&nbsp;24</a>). Elle repose surtout sur une ligne de crédit de CDA Financement et sur le « cash pooling » avec la Compagnie des Alpes (<a href="sources/grevin-comptes-sociaux-2025.pdf#page=24">2025, p.&nbsp;24</a>).</li>
+      <li><strong>Le dividende baisse aussi.</strong> 8,85&nbsp;M€ votés pour 2024/25 (2,55&nbsp;€ par action), contre 12,2&nbsp;M€ pour 2022/23 (<a href="sources/grevin-comptes-sociaux-2025.pdf#page=3">procès-verbal 2025, p.&nbsp;3</a> et <a href="sources/grevin-comptes-sociaux-2025.pdf#page=4">p.&nbsp;4</a>).</li>
+    </ul>
+
+    <h3>Et les concurrents ?</h3>
+    <div class="tablebox">
+      <table>
+        <thead><tr><th>Acteur</th><th class="n">Chiffre d'affaires</th><th class="n">Résultat net</th><th>Période</th><th>Source</th></tr></thead>
+        <tbody>
+          <tr class="ast"><td>Parc Astérix (Grévin et compagnie)</td><td class="n"><a href="sources/grevin-comptes-sociaux-2025.pdf#page=13">215,8&nbsp;M€</a></td><td class="n"><a href="sources/grevin-comptes-sociaux-2025.pdf#page=14">14,7&nbsp;M€</a></td><td>2024/25</td><td><span class="tag papier">comptes fournis</span></td></tr>
+          <tr><td>Disneyland Paris (Euro Disney Associés SAS)</td><td class="n">2&nbsp;680&nbsp;M€</td><td class="n">260&nbsp;M€</td><td>2024/25</td><td><a href="https://www.lechotouristique.com/article/en-2025-disneyland-paris-a-triple-son-resultat-net"><span class="tag">web</span> L'Écho touristique</a></td></tr>
+          <tr><td>Puy du Fou France</td><td class="n">184,2&nbsp;M€</td><td class="n">26,1&nbsp;M€</td><td>2024</td><td><a href="https://www.pappers.fr/entreprise/puy-du-fou-france-347490070"><span class="tag">web</span> Pappers</a></td></tr>
+          <tr><td>La Mer de Sable</td><td class="n">&gt;&nbsp;12&nbsp;M€</td><td class="n">n.c.</td><td>annuel</td><td><a href="https://www.lejournaldesentreprises.com/breve/la-mer-de-sable-conserve-son-niveau-de-frequentation-apres-un-printemps-complique-2145363"><span class="tag">web</span> Journal des entreprises</a></td></tr>
+          <tr><td>Parc Saint-Paul</td><td class="n">7,49&nbsp;M€</td><td class="n">n.c.</td><td>2025</td><td><a href="https://www.lejournaldesentreprises.com/breve/le-breton-looping-acquiert-le-parc-saint-paul-dans-loise-2117693"><span class="tag">web</span> Journal des entreprises</a></td></tr>
+        </tbody>
+      </table>
     </div>
-    <div class="head" style="margin-top:0.5rem"><p class="eyebrow">Logique du plan Astérix</p></div>
-    <div class="chain" aria-label="Chaîne de valeur du plan d'investissement Astérix">
-      <span>250 M€ investis</span><b>→</b>
-      <span>Nouvelles attractions</span><span>Hôtel, 750 chambres au total</span><span>Capacité +20 %, deux tiers en intérieur</span><b>→</b>
-      <span>Moins de dépendance à la météo</span><b>→</b>
-      <span>Séjours plus longs, dépenses sur place</span><b>→</b>
-      <span class="end">Valeur perçue plus forte pour justifier le prix</span>
-    </div>
-    <p class="sources">Sources : <a href="https://newsroom.parcasterix.fr/entreprise/projets-et-developpement/">plan de développement Astérix</a> · <a href="https://news.disneylandparis.com/en/disneyland-paris-enters-a-new-era-with-the-inauguration-of-world-of-frozen-and-the-many-new-experiences-at-disney-adventure-world-its-reimagined-second-park/">communiqué Disney</a> · <a href="https://www.lejournaldesentreprises.com/article/la-mer-de-sable-investit-55-millions-deuros-dans-une-nouvelle-attraction-2115029">Mer de Sable</a> · <a href="https://www.lejournaldesentreprises.com/article/le-puy-du-fou-investit-70-millions-deuros-pour-soutenir-sa-croissance-2140517">Puy du Fou</a></p>
+    <p class="note">Seuls les chiffres du Parc Astérix viennent de comptes fournis. Les autres viennent du web, sans les comptes eux-mêmes : à remplacer dès que les comptes de ces acteurs sont disponibles. Les périodes et les périmètres diffèrent (le chiffre de la Mer de Sable est celui du parc, annoncé par la presse ; Disneyland Paris est l'exploitant de toute la destination).</p>
+    <p class="prose">Les concurrents investissent aussi : 2&nbsp;Md€ pour le second parc de Disneyland Paris<sup><a href="https://news.disneylandparis.com/en/disneyland-paris-enters-a-new-era-with-the-inauguration-of-world-of-frozen-and-the-many-new-experiences-at-disney-adventure-world-its-reimagined-second-park/">web</a></sup>, 70&nbsp;M€ en 2026 pour le Puy du Fou<sup><a href="https://www.lejournaldesentreprises.com/article/le-puy-du-fou-investit-70-millions-deuros-pour-soutenir-sa-croissance-2140517">web</a></sup>. Le Parc Astérix annonce 250&nbsp;M€ d'ici 2030<sup><a href="https://newsroom.parcasterix.fr/entreprise/projets-et-developpement/">web</a></sup>.</p>
   </section>
 
   <section id="plafond" aria-labelledby="t-plaf">
     <div class="head">
       <p class="eyebrow">Prix plafond provisoire</p>
-      <h2 id="t-plaf">59 € pour un billet daté en période verte, pas toute l'année</h2>
+      <h2 id="t-plaf">59&nbsp;€ pour un billet daté en période verte, pas toute l'année</h2>
     </div>
-    <p class="prose">Le prix plafond ne peut pas être unique pour toutes les dates. Pour un adulte, un billet daté 1 jour / 1 parc en période verte, le repère Disney publié est de 52 à 59 €. Ce plafond est à vérifier à date égale dans la billetterie officielle Disney, dont les tarifs varient avec la date et la demande.</p>
+    <p class="prose">Le prix plafond ne peut pas être unique pour toutes les dates. Pour un adulte, un billet daté 1 jour / 1 parc en période verte, le repère Disney publié va de 52 à 59&nbsp;€. À vérifier à date égale dans la billetterie officielle Disney.</p>
     <div class="ceiling-grid">
-      <div class="cmp warn"><span class="eyebrow">Billet daté</span><span class="big num">56 €</span><p>Le Billet Futé est déjà proche du plafond de 59 €. Une hausse générale effacerait l'avantage prix sur les périodes calmes.</p></div>
-      <div class="cmp ok"><span class="eyebrow">Billet flexible</span><span class="big num">68 €</span><p>Le Liberté Flex reste nettement sous le billet flexible Disney à 119 €.</p></div>
-      <div class="cmp"><span class="eyebrow">Concurrents régionaux</span><span class="big num">28–29 €</span><p>La Mer de Sable et Saint-Paul contraignent l'image d'accessibilité, sans offre équivalente en taille ni en contenu.</p></div>
+      <div class="cmp warn"><span class="eyebrow">Billet daté</span><span class="big num">56&nbsp;€</span><p>Le Billet Futé est déjà proche du plafond. Une hausse générale effacerait l'avantage prix des périodes calmes.</p></div>
+      <div class="cmp ok"><span class="eyebrow">Billet flexible</span><span class="big num">68&nbsp;€</span><p>Le Liberté Flex reste très en dessous du billet flexible Disney, à 119&nbsp;€.</p></div>
+      <div class="cmp"><span class="eyebrow">Concurrents régionaux</span><span class="big num">28–29&nbsp;€</span><p>La Mer de Sable et Saint-Paul pèsent sur l'image d'accessibilité, sans offre équivalente en taille ni en contenu.</p></div>
     </div>
     <div class="verdict">
       <p class="eyebrow">Conclusion</p>
-      <p>Le Parc Astérix peut relever certains prix, plutôt sur les <strong>dates de forte demande</strong> et les <strong>options de flexibilité</strong>. Il devrait protéger un tarif d'appel visible et financer sa montée en gamme aussi par l'hôtellerie, la restauration et la hausse de fréquentation, plutôt que par le seul billet d'entrée.</p>
+      <p>Le Parc Astérix peut relever certains prix, plutôt sur les <strong>dates de forte demande</strong> et les <strong>options de flexibilité</strong>. Il devrait protéger un tarif d'appel visible. Ses comptes montrent une marge qui baisse et des investissements lourds : l'hôtellerie, la restauration et la fréquentation peuvent financer une partie de la montée en gamme, sans tout faire porter par le billet d'entrée.</p>
     </div>
   </section>
 
   <section id="offre" aria-labelledby="t-offre">
     <div class="head">
-      <p class="eyebrow">Première idée en trois lignes</p>
-      <h2 id="t-offre">Une offre à tester</h2>
+      <p class="eyebrow">Une idée à tester</p>
+      <h2 id="t-offre">Le Billet Gaulois Malin</h2>
     </div>
     <div class="offer">
       <div class="hd"><h3>Billet Gaulois Malin</h3><span class="eyebrow">daté · réservé à l'avance · jours calmes</span></div>
       <div class="bd">
-        <div><span class="eyebrow">Offre</span><p>Billet daté, réservé à l'avance, disponible en semaine ou les jours de faible affluence.</p></div>
-        <div><span class="eyebrow">Public</span><p>Familles sensibles au prix, capables d'adapter leur date, qui cherchent une journée complète d'attractions et de spectacles.</p></div>
-        <div><span class="eyebrow">Prix d'essai</span><strong class="num">49 €</strong><p>par personne, sur une sélection limitée de dates. Garder le billet standard dès 56 € et le Flex à 68 €, puis mesurer la réaction avant d'élargir.</p></div>
+        <div><span class="eyebrow">Offre</span><p>Billet daté, réservé à l'avance, valable en semaine ou les jours de faible affluence.</p></div>
+        <div><span class="eyebrow">Public</span><p>Familles sensibles au prix, capables d'adapter leur date, qui veulent une journée complète d'attractions et de spectacles.</p></div>
+        <div><span class="eyebrow">Prix d'essai</span><strong class="num">49&nbsp;€</strong><p>par personne, sur une sélection limitée de dates. Garder le billet standard dès 56&nbsp;€ et le Flex à 68&nbsp;€, puis mesurer la réaction avant d'élargir.</p></div>
       </div>
     </div>
   </section>
 
-  <section id="methode" aria-labelledby="t-meth">
+  <section id="resultats" aria-labelledby="t-res">
     <div class="head">
-      <p class="eyebrow">Méthode et limites</p>
-      <h2 id="t-meth">Comment lire ces chiffres</h2>
+      <p class="eyebrow">Questionnaire en ligne</p>
+      <h2 id="t-res">Ce que répondent les participants</h2>
     </div>
-    <ul class="limits">
-      <li>Tarifs relevés le 1er octobre 2026 sur les pages citées. Les offres « à partir de » dépendent des disponibilités et peuvent évoluer.</li>
-      <li>Pour la version finale du dossier, conserver une capture d'écran datée de chaque tarif et relever Disney pour exactement la même date.</li>
-      <li>Les fréquentations citées couvrent des périodes différentes : année civile 2024, saison 2024-2025 ou année 2025 selon la source.</li>
-      <li>Quand les comptes propres au parc ne sont pas accessibles, les résultats du groupe ou de sa division sont indiqués comme tels, sans les attribuer à l'établissement.</li>
-      <li>Les alternatives gratuites n'ont pas de comptes financiers comparables ; elles sont citées comme concurrence pour le temps libre et le budget, sans chiffres inventés.</li>
+    <p class="prose">Un questionnaire anonyme teste deux prix du Parc Astérix (49 et 54,50&nbsp;€) avec ou sans coupe-file, et mesure les seuils de prix acceptables pour Astérix et Disneyland Paris. L'analyse se met à jour toute seule à partir des réponses.</p>
+    <a class="cta" href="analyse/">Voir les résultats en direct →</a>
+  </section>
+
+  <section id="sources" aria-labelledby="t-src">
+    <div class="head">
+      <p class="eyebrow">Sources</p>
+      <h2 id="t-src">D'où viennent les chiffres</h2>
+    </div>
+
+    <h3>Les comptes de l'entreprise (papiers fournis)</h3>
+    <p class="prose" style="font-size:0.92rem">Société Grévin et compagnie (Plailly, Oise), qui exploite le Parc Astérix. Comptes sociaux, exercices clos le 30 septembre. Chaque PDF s'ouvre en entier ; les chiffres du site ouvrent la bonne page.</p>
+    <ul class="src">
+      <li><a href="sources/grevin-comptes-sociaux-2025.pdf">Comptes sociaux 2025</a> <small>(exercice 2024/25) · procès-verbal d'assemblée p.&nbsp;1-5, rapport des commissaires aux comptes, bilan p.&nbsp;11-12, compte de résultat p.&nbsp;13-14, annexe p.&nbsp;15 et suivantes</small></li>
+      <li><a href="sources/grevin-comptes-sociaux-2024.pdf">Comptes sociaux 2024</a> <small>(exercice 2023/24) · bilan p.&nbsp;1-2, compte de résultat p.&nbsp;3-4, annexe p.&nbsp;42 et suivantes</small></li>
+      <li><a href="sources/grevin-comptes-sociaux-2023.pdf">Comptes sociaux 2023</a> <small>(exercice 2022/23) · bilan p.&nbsp;2-3, compte de résultat p.&nbsp;4-5, annexe p.&nbsp;6 et suivantes</small></li>
+      <li><a href="sources/grevin-comptes-sociaux-2022.pdf">Comptes sociaux 2022</a> <small>(exercice 2021/22) · bilan p.&nbsp;8-9, compte de résultat p.&nbsp;10-11, annexe p.&nbsp;12 et suivantes</small></li>
+      <li><a href="sources/grevin-comptes-sociaux-2021.pdf">Comptes sociaux 2021</a> <small>(exercice 2020/21) · bilan p.&nbsp;7-8, compte de résultat p.&nbsp;9-10, annexe p.&nbsp;11 et suivantes</small></li>
     </ul>
+    <p class="sources">Les numéros de page sont ceux du fichier PDF, pas ceux imprimés sur les documents. Les comptes 2021, 2022 et une partie de 2024 et 2025 sont des scans : les chiffres ont été relus par reconnaissance de texte, puis recoupés d'un rapport à l'autre (le chiffre d'une année figure aussi comme « année précédente » dans le rapport suivant).</p>
+    <p class="sources"><strong>Calculs :</strong> chiffre d'affaires par visiteur = chiffre d'affaires net ÷ nombre de visiteurs de l'exercice ; marge d'exploitation = résultat d'exploitation ÷ chiffre d'affaires net ; croissance = valeur de l'année ÷ valeur de l'année précédente − 1.</p>
+
+    <h3>Sites web consultés (sans papier fourni)</h3>
+    <ul class="src">
+      <li><strong>Prix :</strong> <a href="https://www.parcasterix.fr/offres/billets">billetterie Parc Astérix</a> · <a href="https://tickets.disneylandparis.com/fr-fr/tickets">billetterie Disneyland Paris</a> · <a href="https://disneyland-pratique.fr/tarifs-disneyland-paris-2026.html">grille 2026 indépendante</a> · <a href="https://www.merdesable.fr/tarifs-reservations">tarifs Mer de Sable</a> · <a href="https://www.parcsaintpaul.fr/">Parc Saint-Paul</a> · <a href="https://www.puydufou.com/france/fr/billets-puy-du-fou-france">tarifs Puy du Fou</a> <small>(relevés du 1er octobre 2026)</small></li>
+      <li><strong>Visiteurs de Disneyland Paris :</strong> <a href="https://interpark.co.uk/latest-news/tea-2024-index-releases-visitor-attendance-report/">classement TEA 2024</a></li>
+      <li><strong>Finances des concurrents :</strong> <a href="https://www.lechotouristique.com/article/en-2025-disneyland-paris-a-triple-son-resultat-net">L'Écho touristique</a> · <a href="https://www.pappers.fr/entreprise/puy-du-fou-france-347490070">Pappers (Puy du Fou France)</a> · <a href="https://www.lejournaldesentreprises.com/breve/la-mer-de-sable-conserve-son-niveau-de-frequentation-apres-un-printemps-complique-2145363">Mer de Sable</a> · <a href="https://www.lejournaldesentreprises.com/breve/le-breton-looping-acquiert-le-parc-saint-paul-dans-loise-2117693">Parc Saint-Paul</a></li>
+      <li><strong>Investissements :</strong> <a href="https://newsroom.parcasterix.fr/entreprise/projets-et-developpement/">plan de développement Astérix</a> · <a href="https://news.disneylandparis.com/en/disneyland-paris-enters-a-new-era-with-the-inauguration-of-world-of-frozen-and-the-many-new-experiences-at-disney-adventure-world-its-reimagined-second-park/">communiqué Disney</a> · <a href="https://www.lejournaldesentreprises.com/article/le-puy-du-fou-investit-70-millions-deuros-pour-soutenir-sa-croissance-2140517">Puy du Fou</a></li>
+    </ul>
+    <p class="sources">Les tarifs « à partir de » dépendent des disponibilités. Pour la version finale du dossier, garder une capture d'écran datée de chaque tarif et relever Disney pour exactement la même date.</p>
   </section>
 </main>
 
 <footer>
-  <div class="wrap">Projet prix marketing · Données : étude de marché du dépôt <a href="https://github.com/axelfp-ctrl/Asterix">axelfp-ctrl/Asterix</a>, relevé du 1er octobre 2026.</div>
+  <div class="wrap">Projet prix marketing · <a href="analyse/">Résultats du questionnaire</a> · Comptes : Grévin et compagnie, exercices 2020/21 à 2024/25.</div>
 </footer>
 
 <script>
@@ -493,7 +454,10 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem 3rem; color: var
   rows.forEach(function (r, i) {
     var name = document.createElement("div");
     name.className = "name" + (r.ast ? " ast" : "");
-    name.innerHTML = r.n + "<small>" + r.s + "</small>";
+    name.textContent = r.n;
+    var petit = document.createElement("small");
+    petit.textContent = r.s;
+    name.appendChild(petit);
     var track = document.createElement("div");
     track.className = "track";
     var top = r.hi || r.v;
