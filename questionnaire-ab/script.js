@@ -11,7 +11,7 @@
 
 // Adresse de ton script Google Apps Script (voir README.md, étape 3).
 // Colle-la entre les guillemets. Elle se termine par /exec.
-const URL_GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbxfNRhGbhrHVOyy7_yTZtaWk4Z5uluFBhy6ou11u8ZQx_IhCJ86MDqNEb2-56LBsXIy/exec";
+const URL_GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbwtrnfIMmf2FBcTQQjy87iXsiss4yNRIe2K-cdjKLz340ftiXWvxKqwvOM4kLkDij8U/exec";
 
 // TEST A/B (2 facteurs croisés) : offres affichées dans la question « quel parc choisiriez-vous ? ».
 // Disneyland est toujours à 79 €. Deux facteurs, chacun tiré au sort indépendamment :
