@@ -80,7 +80,7 @@ Les montants extrêmes (0 €, 10 000 €…) sont acceptés tels quels : comme 
 
 ## Le tirage au sort A/B
 
-- À l'ouverture du questionnaire, `script.js` tire au sort la version : une chance sur deux pour A, une chance sur deux pour B (`Math.random`).
+- À l'ouverture du questionnaire, `script.js` tire au sort la version (A, B, C ou D) selon les poids `POIDS_TIRAGE`, tout en haut de `script.js`. `{ A: 1, B: 1, C: 1, D: 1 }` = une chance sur quatre chacune. Pour rattraper un retard, mets 0 aux versions déjà assez remplies, puis remets 1 partout quand les quatre sont au même niveau.
 - La version tirée est gardée dans la mémoire de l'onglet (`sessionStorage`) : si la personne recharge la page, elle revoit la **même** version.
 - Un nouvel onglet ou une nouvelle personne = un nouveau tirage.
 - Chaque répondant reçoit aussi un **numéro au hasard** (`id_aleatoire`) qui ne dit rien sur lui. Il sert seulement à repérer un éventuel doublon (même numéro sur deux lignes).

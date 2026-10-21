@@ -31,6 +31,13 @@ const VERSIONS = {
 };
 const VERSIONS_VALIDES = ["A", "B", "C", "D"];
 
+// Poids du tirage au sort : plus le nombre est grand, plus la version est tirée souvent.
+// 0 = jamais tirée. Exemple : { A: 1, B: 1, C: 1, D: 1 } = une chance sur quatre chacune (équilibré).
+// Pour rattraper un retard : donne un poids 0 aux versions déjà assez remplies, puis
+// remets 1, 1, 1, 1 quand les quatre versions ont autant de réponses.
+// Point de départ (21/10) : A = 19 réponses, B = 17, C = 0, D = 0 → on envoie seulement C et D.
+const POIDS_TIRAGE = { A: 0, B: 0, C: 1, D: 1 };
+
 // Ordre des colonnes dans la Google Sheet (une ligne par répondant).
 // Si tu ajoutes une question dans index.html, ajoute son nom ici :
 // la colonne apparaîtra toute seule dans la feuille.
@@ -82,10 +89,23 @@ function choisirVersion() {
   } else if (VERSIONS_VALIDES.includes(dejaTiree)) {
     choix = dejaTiree;                          // déjà tirée dans cet onglet
   } else {
-    choix = VERSIONS_VALIDES[Math.floor(Math.random() * VERSIONS_VALIDES.length)];  // une chance sur quatre
+    choix = tirerVersionPonderee();
   }
   ecrireMemoire("version", choix);
   return choix;
+}
+
+// Tirage au sort selon POIDS_TIRAGE (si tous les poids sont à 0, on retombe sur un tirage équilibré)
+function tirerVersionPonderee() {
+  const poids = VERSIONS_VALIDES.map(function (v) { return Math.max(0, Number(POIDS_TIRAGE[v]) || 0); });
+  const total = poids.reduce(function (a, b) { return a + b; }, 0);
+  if (total === 0) return VERSIONS_VALIDES[Math.floor(Math.random() * VERSIONS_VALIDES.length)];
+  let tirage = Math.random() * total;
+  for (let i = 0; i < VERSIONS_VALIDES.length; i++) {
+    tirage -= poids[i];
+    if (tirage < 0) return VERSIONS_VALIDES[i];
+  }
+  return VERSIONS_VALIDES[VERSIONS_VALIDES.length - 1];
 }
 
 // Numéro tiré au hasard qui distingue les répondants sans rien dire sur eux.
