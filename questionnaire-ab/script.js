@@ -35,8 +35,9 @@ const VERSIONS_VALIDES = ["A", "B", "C", "D"];
 // 0 = jamais tirée. Exemple : { A: 1, B: 1, C: 1, D: 1 } = une chance sur quatre chacune (équilibré).
 // Pour rattraper un retard : donne un poids 0 aux versions déjà assez remplies, puis
 // remets 1, 1, 1, 1 quand les quatre versions ont autant de réponses.
-// Point de départ (21/10) : A = 19 réponses, B = 17, C = 0, D = 0 → on envoie seulement C et D.
-const POIDS_TIRAGE = { A: 0, B: 0, C: 1, D: 1 };
+// 21/10 : A = 19 réponses, B = 17, C = 0, D = 0 → on a envoyé seulement C et D.
+// 04/11 : rattrapage terminé → tirage égal entre les quatre versions.
+const POIDS_TIRAGE = { A: 1, B: 1, C: 1, D: 1 };
 
 // Ordre des colonnes dans la Google Sheet (une ligne par répondant).
 // Si tu ajoutes une question dans index.html, ajoute son nom ici :
