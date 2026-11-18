@@ -175,6 +175,79 @@
   }
 
   // Générateur pseudo-aléatoire à graine fixe : les intervalles ne « bougent » pas d'une actualisation à l'autre
+  // Loi de Student : fonction bêta incomplète régularisée (méthode des fractions continues)
+  function logGamma(x) {
+    const c = [76.18009172947146, -86.50532032941677, 24.01409824083091, -1.231739572450155, 0.1208650973866179e-2, -0.5395239384953e-5];
+    let y = x, tmp = x + 5.5;
+    tmp -= (x + 0.5) * Math.log(tmp);
+    let ser = 1.000000000190015;
+    for (let j = 0; j < 6; j++) ser += c[j] / ++y;
+    return -tmp + Math.log(2.5066282746310005 * ser / x);
+  }
+  function fractionBeta(a, b, x) {
+    const MIN = 1e-300;
+    let c = 1, d = 1 - (a + b) * x / (a + 1);
+    if (Math.abs(d) < MIN) d = MIN;
+    d = 1 / d;
+    let h = d;
+    for (let m = 1; m <= 200; m++) {
+      const m2 = 2 * m;
+      let aa = m * (b - m) * x / ((a + m2 - 1) * (a + m2));
+      d = 1 + aa * d; if (Math.abs(d) < MIN) d = MIN;
+      c = 1 + aa / c; if (Math.abs(c) < MIN) c = MIN;
+      d = 1 / d; h *= d * c;
+      aa = -(a + m) * (a + b + m) * x / ((a + m2) * (a + m2 + 1));
+      d = 1 + aa * d; if (Math.abs(d) < MIN) d = MIN;
+      c = 1 + aa / c; if (Math.abs(c) < MIN) c = MIN;
+      d = 1 / d;
+      const delta = d * c;
+      h *= delta;
+      if (Math.abs(delta - 1) < 1e-12) break;
+    }
+    return h;
+  }
+  function betaIncomplete(a, b, x) {
+    if (x <= 0) return 0;
+    if (x >= 1) return 1;
+    const bt = Math.exp(logGamma(a + b) - logGamma(a) - logGamma(b) + a * Math.log(x) + b * Math.log(1 - x));
+    return x < (a + 1) / (a + b + 2) ? bt * fractionBeta(a, b, x) / a : 1 - bt * fractionBeta(b, a, 1 - x) / b;
+  }
+  // p-valeur bilatérale d'un t de Student à ddl degrés de liberté
+  function pStudent(t, ddl) { return betaIncomplete(ddl / 2, 0.5, ddl / (ddl + t * t)); }
+  // Valeur critique (bilatérale, 5 %) de la loi de Student
+  function tCritique(ddl) {
+    let bas = 0, haut = 50;
+    for (let i = 0; i < 80; i++) { const m = (bas + haut) / 2; if (pStudent(m, ddl) > 0.05) bas = m; else haut = m; }
+    return (bas + haut) / 2;
+  }
+
+  // Régression linéaire simple par les moindres carrés : y = a + b·x
+  function regression(xs, ys) {
+    const n = xs.length;
+    if (n < 3) return null;
+    const mx = moyenne(xs), my = moyenne(ys);
+    let sxx = 0, sxy = 0, syy = 0;
+    for (let i = 0; i < n; i++) {
+      sxx += (xs[i] - mx) * (xs[i] - mx);
+      sxy += (xs[i] - mx) * (ys[i] - my);
+      syy += (ys[i] - my) * (ys[i] - my);
+    }
+    if (!sxx) return null;   // une seule valeur de x : pas de pente possible
+    const b = sxy / sxx, a = my - b * mx;
+    let sce = 0;
+    for (let i = 0; i < n; i++) { const e = ys[i] - a - b * xs[i]; sce += e * e; }
+    const ddl = n - 2, s2 = sce / ddl, tc = tCritique(ddl);
+    const coef = function (valeur, et) {
+      const t = et ? valeur / et : NaN;
+      return { valeur: valeur, et: et, t: t, p: et ? pStudent(Math.abs(t), ddl) : NaN, ic: [valeur - tc * et, valeur + tc * et] };
+    };
+    return {
+      n: n, ddl: ddl, r2: syy ? 1 - sce / syy : 0,
+      constante: coef(a, Math.sqrt(s2 * (1 / n + mx * mx / sxx))),
+      pente: coef(b, Math.sqrt(s2 / sxx)),
+    };
+  }
+
   function generateur(graine) {
     return function () {
       graine |= 0; graine = graine + 0x6D2B79F5 | 0;
@@ -236,12 +309,16 @@
     const par = {};
     Object.keys(VERSIONS).forEach(function (v) { par[v] = { n: 0, k: 0, debut: null, fin: null }; });
     let total = 0, asterix = 0;
+    const obs = [];   // une ligne par répondant, pour les régressions
     completes.forEach(function (l) {
       const v = texte(l.version), choix = texte(l.choix_ab);
       if (!par[v] || (choix !== "Asterix" && choix !== "Disneyland")) return;
       const g = par[v];
       g.n++; total++;
       if (choix === "Asterix") { g.k++; asterix++; }
+      obs.push({ prix: VERSIONS[v].prix, coupe: VERSIONS[v].coupe ? 1 : 0, y: choix === "Asterix" ? 1 : 0, choix: choix, version: v,
+        budget: num(l.budget_total), importance: num(l.importance_prix), age: num(l.age),
+        tropCherAsterix: num(l.vw_trop_cher_asterix), tropCherDisney: num(l.vw_trop_cher_disney), date: new Date(l.horodatage) });
       const date = new Date(l.horodatage);
       if (!isNaN(date)) {
         if (!g.debut || date < g.debut) g.debut = date;
@@ -252,7 +329,7 @@
       return versions.reduce(function (a, v) { return { n: a.n + par[v].n, k: a.k + par[v].k }; }, { n: 0, k: 0 });
     };
     return {
-      par: par, total: total, asterix: asterix,
+      par: par, total: total, asterix: asterix, obs: obs,
       prix: { bas: somme(["A", "C"]), haut: somme(["B", "D"]) },
       coupe: { sans: somme(["A", "B"]), avec: somme(["C", "D"]) },
     };
@@ -645,6 +722,8 @@
       { nom: "Sans coupe-file (versions A + B)", g: ab.coupe.sans },
       "avec coupe-file que sans", "sans coupe-file qu'avec"));
     frag.appendChild(effets);
+    frag.appendChild(carteRegressions(ab.obs));
+    frag.appendChild(carteCook(ab.obs));
 
     // Collecte à des périodes différentes : l'écart peut venir de la période, pas seulement de l'offre
     const periodes = versions.map(function (v) { return ab.par[v]; }).filter(function (g) { return g.n && g.debut; });
@@ -656,6 +735,286 @@
       frag.appendChild(el("p", "note", "Les versions n'ont pas toutes été collectées sur la même période (voir « Réponses par version » plus haut). Si l'écart entre deux versions vient aussi de la période ou du public touché, on ne peut pas l'attribuer au seul prix ou au seul coupe-file."));
     }
     return frag;
+  }
+
+  // Régressions linéaires : choisir Astérix (1 = oui, 0 = Disneyland) expliqué par le prix, puis par le coupe-file
+  function nombreSigne(x, decimales) {
+    return (x > 0 ? "+" : x < 0 ? "−" : "") + Math.abs(x).toLocaleString("fr-FR", { minimumFractionDigits: decimales, maximumFractionDigits: decimales });
+  }
+  // Nuage de points + droite de régression (style « y = ax + b, R² »)
+  function nuageRegression(m, r, xs, ys, graine) {
+    const W = 520, H = 330, mg = { g: 92, d: 18, h: 52, b: 44 };
+    const pw = W - mg.g - mg.d, ph = H - mg.h - mg.b;
+    const X = function (v) { return mg.g + (v - m.dom[0]) / (m.dom[1] - m.dom[0]) * pw; };
+    const Y = function (v) { return mg.h + (1 - (v + 0.1) / 1.2) * ph; };   // de −0,1 à 1,1 pour laisser respirer les points
+    const svg = svgEl("svg", { viewBox: "0 0 " + W + " " + H, "class": "vw nuage", role: "img",
+      "aria-label": m.titre + " : nuage de points et droite de régression y = " + nombre(r.pente.valeur, m.dec) + " x + " + nombre(r.constante.valeur, m.dec) + ", R² = " + nombre(r.r2, 3) });
+    // Quadrillage et axe vertical
+    [0, 0.25, 0.5, 0.75, 1].forEach(function (v) {
+      svg.appendChild(svgEl("line", { "class": "grille-h", x1: mg.g, x2: mg.g + pw, y1: Y(v), y2: Y(v) }));
+      const t = svgEl("text", { x: mg.g - 8, y: Y(v) + 4, "text-anchor": "end" });
+      t.textContent = v === 1 ? "1 · Astérix" : v === 0 ? "0 · Disney" : nombre(v, 2);
+      svg.appendChild(t);
+    });
+    svg.appendChild(svgEl("line", { "class": "axe", x1: mg.g, x2: mg.g, y1: mg.h, y2: mg.h + ph }));
+    svg.appendChild(svgEl("line", { "class": "axe", x1: mg.g, x2: mg.g + pw, y1: mg.h + ph, y2: mg.h + ph }));
+    m.graduations.forEach(function (g) {
+      const t = svgEl("text", { x: X(g.v), y: mg.h + ph + 18, "text-anchor": "middle" });
+      t.textContent = g.nom;
+      svg.appendChild(t);
+    });
+    const tx = svgEl("text", { x: mg.g + pw / 2, y: H - 4, "text-anchor": "middle", "class": "titre-axe" });
+    tx.textContent = m.axeX;
+    svg.appendChild(tx);
+    const ty = svgEl("text", { x: 14, y: mg.h + ph / 2, "text-anchor": "middle", "class": "titre-axe", transform: "rotate(-90 14 " + (mg.h + ph / 2) + ")" });
+    ty.textContent = "Choix (1 = Astérix, 0 = Disney)";
+    svg.appendChild(ty);
+    // Les répondants, légèrement dispersés pour qu'on les voie tous
+    const hasard = generateur(graine);
+    const ecart = (m.dom[1] - m.dom[0]) * 0.07;
+    xs.forEach(function (x, i) {
+      svg.appendChild(svgEl("circle", { "class": "point", r: 3.2,
+        cx: X(x + (hasard() - 0.5) * 2 * ecart), cy: Y(ys[i] + (hasard() - 0.5) * 0.12) }));
+    });
+    // Droite de régression
+    const x0 = m.dom[0] + (m.dom[1] - m.dom[0]) * 0.04, x1 = m.dom[1] - (m.dom[1] - m.dom[0]) * 0.04;
+    const f = function (x) { return r.constante.valeur + r.pente.valeur * x; };
+    svg.appendChild(svgEl("line", { "class": "droite", x1: X(x0), y1: Y(f(x0)), x2: X(x1), y2: Y(f(x1)) }));
+    // Part qui choisit Astérix à chaque valeur de x
+    m.graduations.forEach(function (g) {
+      const groupe = ys.filter(function (y, i) { return xs[i] === g.v; });
+      if (!groupe.length) return;
+      const part = moyenne(groupe);
+      svg.appendChild(svgEl("circle", { "class": "moyenne", r: 6.5, cx: X(g.v), cy: Y(part) }));
+      const t = svgEl("text", { x: X(g.v) + 11, y: Y(part) - 9, "class": "pt-nom halo" });
+      t.textContent = pct(part);
+      svg.appendChild(t);
+    });
+    // Équation et R², en haut
+    const eq = svgEl("text", { x: mg.g + pw, y: 18, "text-anchor": "end", "class": "equation" });
+    eq.textContent = "y = " + nombre(r.pente.valeur, m.dec) + "x " + (r.constante.valeur < 0 ? "− " : "+ ") + nombre(Math.abs(r.constante.valeur), m.dec);
+    svg.appendChild(eq);
+    const r2 = svgEl("text", { x: mg.g + pw, y: 36, "text-anchor": "end", "class": "equation" });
+    r2.textContent = "R² = " + nombre(r.r2, 3);
+    svg.appendChild(r2);
+    const t0 = svgEl("text", { x: mg.g, y: 18, "class": "titre-nuage" });
+    t0.textContent = m.titre;
+    svg.appendChild(t0);
+    return svg;
+  }
+
+  function carteRegressions(obs) {
+    const c = carte("Régressions linéaires : prix, coupe-file et choix du Parc Astérix",
+      "Variable expliquée : 1 si le répondant choisit le Parc Astérix, 0 s'il choisit Disneyland Paris. Le coefficient se lit comme un changement de probabilité (0,10 = 10 points).");
+    c.classList.add("large");
+    const y = obs.map(function (o) { return o.y; });
+    const hausse = VERSIONS.B.prix - VERSIONS.A.prix;
+    const modeles = [
+      { titre: "Modèle 1 · Prix", variable: "Prix du billet Astérix (en €)", x: obs.map(function (o) { return o.prix; }), dec: 4,
+        axeX: "Prix du billet Astérix (en €)", dom: [VERSIONS.A.prix - 2.5, VERSIONS.B.prix + 2.5],
+        graduations: [{ v: VERSIONS.A.prix, nom: euros(VERSIONS.A.prix) }, { v: VERSIONS.B.prix, nom: euros(VERSIONS.B.prix) }],
+        effet: function (b) { return nombreSigne(b * hausse * 100, 1) + " pts (de " + euros(VERSIONS.A.prix) + " à " + euros(VERSIONS.B.prix) + ")"; },
+        lecture: function (b) { return "Prix : chaque euro de plus fait varier la probabilité de choisir Astérix de " + nombreSigne(b * 100, 2) + " points"; } },
+      { titre: "Modèle 2 · Coupe-file", variable: "Coupe-file (1 = oui, 0 = non)", x: obs.map(function (o) { return o.coupe; }), dec: 3,
+        axeX: "Coupe-file (0 = sans, 1 = avec)", dom: [-0.45, 1.45],
+        graduations: [{ v: 0, nom: "0 · sans" }, { v: 1, nom: "1 · avec" }],
+        effet: function (b) { return nombreSigne(b * 100, 1) + " pts (avec contre sans)"; },
+        lecture: function (b) { return "Coupe-file : avec un coupe-file, la probabilité de choisir Astérix varie de " + nombreSigne(b * 100, 1) + " points"; } },
+    ];
+    const res = modeles.map(function (m) { return regression(m.x, y); });
+    if (!res[0] && !res[1]) {
+      c.appendChild(el("p", "vide", "Pas assez de réponses (ou une seule version collectée) pour calculer les régressions."));
+      return c;
+    }
+    const nuages = el("div", "nuages");
+    modeles.forEach(function (m, i) { if (res[i]) nuages.appendChild(nuageRegression(m, res[i], m.x, y, 11 + i)); });
+    c.appendChild(nuages);
+    const legende = el("p", "legende-nuage");
+    [["point", "un répondant"], ["moyenne", "part qui choisit Astérix"], ["droite", "droite de régression"]].forEach(function (l) {
+      const item = el("span");
+      item.appendChild(el("i", "puce-" + l[0]));
+      item.appendChild(document.createTextNode(l[1]));
+      legende.appendChild(item);
+    });
+    c.appendChild(legende);
+    const cellule = function (i, f) { return res[i] ? f(res[i], modeles[i]) : "—"; };
+    const ligne = function (nom, f) { return [nom, cellule(0, f), cellule(1, f)]; };
+    const pente = function (r) { return r.pente; };
+    const tab = tableau(["", modeles[0].titre, modeles[1].titre], [
+      ligne("Variable explicative", function (r, m) { return m.variable; }),
+      ligne("Constante", function (r, m) { return nombreSigne(r.constante.valeur, m.dec); }),
+      ligne("Coefficient", function (r, m) { return nombreSigne(pente(r).valeur, m.dec); }),
+      ligne("Erreur type", function (r, m) { return nombre(pente(r).et, m.dec); }),
+      ligne("t de Student", function (r) { return nombreSigne(pente(r).t, 2); }),
+      ligne("p-valeur", function (r) { return formaterP(pente(r).p).replace("p = ", "").replace("p < ", "< "); }),
+      ligne("IC à 95 % du coefficient", function (r, m) { return "[" + nombreSigne(pente(r).ic[0], m.dec) + " ; " + nombreSigne(pente(r).ic[1], m.dec) + "]"; }),
+      ligne("Effet sur le choix d'Astérix", function (r, m) { return m.effet(pente(r).valeur); }),
+      ligne("Répondants", function (r) { return String(r.n); }),
+      ligne("R²", function (r) { return nombre(r.r2, 3); }),
+      ligne("H0 « pas d'effet » (seuil 5 %)", function (r) { return pente(r).p < 0.05 ? "Rejetée" : "Non rejetée"; }),
+    ]);
+    tab.classList.add("tableau-regression");
+    c.appendChild(tab);
+    const liste = el("ul", "lecture-regression");
+    modeles.forEach(function (m, i) {
+      const r = res[i];
+      if (!r) return;
+      const signif = r.pente.p < 0.05;
+      liste.appendChild(el("li", null, m.lecture(r.pente.valeur) + (signif
+        ? " ; c'est significatif (" + formaterP(r.pente.p) + "), on rejette H0."
+        : " ; ce n'est pas significatif (" + formaterP(r.pente.p) + "), on ne peut pas rejeter H0" + (r.n < 2 * MIN_FIABLE ? " et l'échantillon est encore petit." : "."))));
+    });
+    c.appendChild(liste);
+    c.appendChild(el("p", "note", "Comme le prix ne prend que deux valeurs et le coupe-file deux aussi, ces régressions donnent le même écart que les cartes ci-dessus, exprimé autrement : le modèle 1 le ramène à un effet par euro. Le R² est toujours faible quand la variable expliquée vaut 0 ou 1 ; on regarde surtout le coefficient et sa p-valeur."));
+    return c;
+  }
+
+  /* --- Distance de Cook --- */
+
+  // Régression linéaire multiple (moindres carrés) : renvoie coefficients, p-valeurs, R² et distance de Cook de chaque ligne
+  function regressionMultiple(X, y) {
+    const n = y.length, p = X[0].length;
+    if (n <= p + 1) return null;
+    // X'X et son inverse (méthode de Gauss-Jordan)
+    const a = [];
+    for (let i = 0; i < p; i++) {
+      a.push([]);
+      for (let j = 0; j < p; j++) { let s = 0; for (let k = 0; k < n; k++) s += X[k][i] * X[k][j]; a[i].push(s); }
+      for (let j = 0; j < p; j++) a[i].push(i === j ? 1 : 0);
+    }
+    for (let c = 0; c < p; c++) {
+      let piv = c;
+      for (let r = c + 1; r < p; r++) if (Math.abs(a[r][c]) > Math.abs(a[piv][c])) piv = r;
+      if (Math.abs(a[piv][c]) < 1e-10) return null;   // variables redondantes
+      const t = a[c]; a[c] = a[piv]; a[piv] = t;
+      const d = a[c][c];
+      for (let j = 0; j < 2 * p; j++) a[c][j] /= d;
+      for (let r = 0; r < p; r++) if (r !== c) { const f = a[r][c]; for (let j = 0; j < 2 * p; j++) a[r][j] -= f * a[c][j]; }
+    }
+    const inv = a.map(function (ligne) { return ligne.slice(p); });
+    const xty = [];
+    for (let i = 0; i < p; i++) { let s = 0; for (let k = 0; k < n; k++) s += X[k][i] * y[k]; xty.push(s); }
+    const b = inv.map(function (ligne) { return ligne.reduce(function (s, v, j) { return s + v * xty[j]; }, 0); });
+    const my = moyenne(y);
+    let sce = 0, sct = 0;
+    const res = [], levier = [];
+    for (let k = 0; k < n; k++) {
+      let pred = 0; for (let j = 0; j < p; j++) pred += X[k][j] * b[j];
+      const e = y[k] - pred; res.push(e); sce += e * e; sct += (y[k] - my) * (y[k] - my);
+      let h = 0;
+      for (let i = 0; i < p; i++) { let s = 0; for (let j = 0; j < p; j++) s += inv[i][j] * X[k][j]; h += X[k][i] * s; }
+      levier.push(h);
+    }
+    const ddl = n - p, s2 = sce / ddl;
+    const cook = res.map(function (e, k) { return e * e / (p * s2) * levier[k] / Math.pow(1 - levier[k], 2); });
+    const coef = b.map(function (v, j) {
+      const et = Math.sqrt(s2 * inv[j][j]);
+      return { valeur: v, et: et, p: et ? pStudent(Math.abs(v / et), ddl) : NaN };
+    });
+    return { n: n, coef: coef, r2: sct ? 1 - sce / sct : 0, cook: cook, levier: levier };
+  }
+
+  // Petit graphique : la distance de Cook de chaque répondant, avec le seuil 4/n
+  function tigesCook(cook, seuil, titre, etiquettes) {
+    const W = 760, H = 210, mg = { g: 52, d: 14, h: 30, b: 30 };
+    const pw = W - mg.g - mg.d, ph = H - mg.h - mg.b, n = cook.length;
+    const ymax = Math.max(seuil * 2.5, Math.max.apply(null, cook)) * 1.12;
+    const X = function (i) { return mg.g + (n === 1 ? pw / 2 : i / (n - 1) * pw); };
+    const Y = function (v) { return mg.h + (1 - v / ymax) * ph; };
+    const svg = svgEl("svg", { viewBox: "0 0 " + W + " " + H, "class": "vw nuage tiges", role: "img",
+      "aria-label": titre + " : distance de Cook de chaque répondant ; " + cook.filter(function (c) { return c > seuil; }).length + " au-dessus du seuil 4/n." });
+    [0, ymax / 2].forEach(function (v) {
+      svg.appendChild(svgEl("line", { "class": "grille-h", x1: mg.g, x2: mg.g + pw, y1: Y(v), y2: Y(v) }));
+      const t = svgEl("text", { x: mg.g - 8, y: Y(v) + 4, "text-anchor": "end" });
+      t.textContent = nombre(v, 2);
+      svg.appendChild(t);
+    });
+    cook.forEach(function (c, i) {
+      const classe = c > seuil ? "tige haute" : "tige";
+      svg.appendChild(svgEl("line", { "class": classe, x1: X(i), x2: X(i), y1: Y(0), y2: Y(c) }));
+      svg.appendChild(svgEl("circle", { "class": classe, cx: X(i), cy: Y(c), r: 2.6 }));
+    });
+    // les trois plus fortes, nommées
+    cook.map(function (c, i) { return { c: c, i: i }; }).filter(function (o) { return o.c > seuil && o.c > ymax * 0.12; })
+      .sort(function (a, b) { return b.c - a.c; }).slice(0, 3).forEach(function (o) {
+        const t = svgEl("text", { x: X(o.i) + 6, y: Y(o.c) - 4, "class": "pt-nom halo" });
+        t.textContent = etiquettes[o.i];
+        svg.appendChild(t);
+      });
+    svg.appendChild(svgEl("line", { "class": "seuil-cook", x1: mg.g, x2: mg.g + pw, y1: Y(seuil), y2: Y(seuil) }));
+    const ts = svgEl("text", { x: mg.g + pw, y: mg.h + 2, "text-anchor": "end", "class": "pt-nom halo" });
+    ts.textContent = "- - seuil 4/n = " + nombre(seuil, 3);
+    svg.appendChild(ts);
+    const t0 = svgEl("text", { x: mg.g, y: 16, "class": "titre-nuage" });
+    t0.textContent = titre;
+    svg.appendChild(t0);
+    const tx = svgEl("text", { x: mg.g + pw / 2, y: H - 6, "text-anchor": "middle", "class": "titre-axe" });
+    tx.textContent = "Répondants, dans l'ordre d'arrivée";
+    svg.appendChild(tx);
+    return svg;
+  }
+
+  function carteCook(obs) {
+    const c = carte("Valeurs aberrantes : la distance de Cook",
+      "Pour chaque répondant, on refait la régression sans lui et on mesure de combien elle bouge. Plus la distance de Cook est grande, plus ce répondant pèse sur le résultat. Au-dessus du seuil 4/n (n = nombre de répondants), on le regarde de près ; au-dessus de 1, il change à lui seul le résultat.");
+    c.classList.add("large");
+    const quand = function (o) { return isNaN(o.date) ? "—" : jour(o.date) + " " + o.date.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }); };
+    const modeles = [
+      { titre: "Modèle A · choix du Parc Astérix", 
+        sous: "Choix (1 = Astérix, 0 = Disney) expliqué par le prix, le coupe-file, le budget, l'importance donnée au prix (1 à 5) et l'âge.",
+        noms: ["Prix Astérix (€)", "Coupe-file (1 = oui)", "Budget (€)", "Importance du prix (1 à 5)", "Âge"],
+        garder: function (o) { return [o.budget, o.importance, o.age].every(function (v) { return !isNaN(v); }); },
+        x: function (o) { return [1, o.prix, o.coupe, o.budget, o.importance, o.age]; }, y: function (o) { return o.y; }, dec: 4,
+        profil: function (o) { return "version " + o.version + ", choisit " + (o.y ? "Astérix" : "Disney") + ", budget " + euros(o.budget) + ", importance du prix " + o.importance + "/5, " + o.age + " ans"; } },
+      { titre: "Modèle B · prix « trop cher » des deux parcs",
+        sous: "Prix jugé « trop cher » pour Astérix expliqué par le prix jugé « trop cher » pour Disneyland Paris.",
+        noms: ["Disney · trop cher (€)"],
+        garder: function (o) { return !isNaN(o.tropCherAsterix) && !isNaN(o.tropCherDisney); },
+        x: function (o) { return [1, o.tropCherDisney]; }, y: function (o) { return o.tropCherAsterix; }, dec: 3,
+        profil: function (o) { return "trop cher : Astérix " + euros(o.tropCherAsterix) + ", Disney " + euros(o.tropCherDisney); } },
+    ];
+    modeles.forEach(function (m) {
+      const bloc = el("div", "regression");
+      bloc.appendChild(el("h4", null, m.titre));
+      bloc.appendChild(el("p", "sous", m.sous));
+      const lignes = obs.filter(m.garder);
+      const r = lignes.length ? regressionMultiple(lignes.map(m.x), lignes.map(m.y)) : null;
+      if (!r) {
+        bloc.appendChild(el("p", "vide", "Pas assez de réponses pour calculer ce modèle."));
+        c.appendChild(bloc);
+        return;
+      }
+      const seuil = 4 / r.n;
+      const etiquettes = lignes.map(function (o, i) { return "n° " + (i + 1); });
+      bloc.appendChild(tigesCook(r.cook, seuil, m.titre.split(" · ")[0] + " · " + r.n + " répondants", etiquettes));
+      const hauts = r.cook.map(function (v, i) { return { v: v, i: i }; }).filter(function (o) { return o.v > seuil; })
+        .sort(function (a, b) { return b.v - a.v; });
+      bloc.appendChild(tableau(["Répondant au-dessus du seuil", "Arrivé le", "Distance de Cook", "Ses réponses"],
+        hauts.map(function (o) { return [etiquettes[o.i], quand(lignes[o.i]), nombre(o.v, 3), m.profil(lignes[o.i])]; }), null, false));
+      bloc.lastChild.classList.add("tableau-cook");
+      // Même régression sans ces répondants
+      const gardes = lignes.filter(function (o, i) { return r.cook[i] <= seuil; });
+      const r2 = gardes.length ? regressionMultiple(gardes.map(m.x), gardes.map(m.y)) : null;
+      const ligneCoefs = m.noms.map(function (nom, j) {
+        const a = r.coef[j + 1], b = r2 ? r2.coef[j + 1] : null;
+        return [nom, nombreSigne(a.valeur, m.dec), formaterP(a.p).replace("p = ", "").replace("p < ", "< "),
+          b ? nombreSigne(b.valeur, m.dec) : "—", b ? formaterP(b.p).replace("p = ", "").replace("p < ", "< ") : "—",
+          b ? ((a.p < 0.05) === (b.p < 0.05) ? "identique" : "change") : "—"];
+      });
+      ligneCoefs.push(["R²", nombre(r.r2, 3) + " (n = " + r.n + ")", "", r2 ? nombre(r2.r2, 3) + " (n = " + r2.n + ")" : "—", "", ""]);
+      ligneCoefs.push(["Plus grande distance de Cook", nombre(Math.max.apply(null, r.cook), 3), "", r2 ? nombre(Math.max.apply(null, r2.cook), 3) : "—", "", ""]);
+      const tab = tableau(["Variable", "Avec tous", "p", "Sans les valeurs aberrantes", "p", "Significativité"], ligneCoefs, null, false);
+      tab.classList.add("tableau-regression");
+      bloc.appendChild(tab);
+      const max1 = Math.max.apply(null, r.cook), changes = ligneCoefs.filter(function (l) { return l[5] === "change"; }).length;
+      bloc.appendChild(el("p", "verdict-court",
+        hauts.length + " " + pluriel(hauts.length, "répondant dépasse", "répondants dépassent") + " le seuil de " + nombre(seuil, 3) + ". " +
+        (max1 > 1 ? "Au moins un dépasse 1 : à lui seul, il change le résultat ; vérifie ses réponses. " : "Aucun ne dépasse 1 : aucun répondant ne fait basculer le résultat à lui seul. ") +
+        (r2 ? (changes ? "Sans eux, " + changes + " " + pluriel(changes, "coefficient change", "coefficients changent") + " de significativité : à signaler dans l'analyse." : "Sans eux, aucune conclusion ne change.") : "")));
+      c.appendChild(bloc);
+    });
+    c.appendChild(el("p", "note", "Un répondant au-dessus du seuil n'est pas forcément une erreur : 4/n est un seuil bas. On vérifie ses réponses (faute de frappe, réponse au hasard) et on ne l'écarte que si elle est impossible, en montrant les résultats avec et sans lui. Les numéros suivent l'ordre d'arrivée des réponses complètes utilisées par le modèle."));
+    return c;
   }
 
   function carteEffet(titre, sous, groupe1, groupe2, phrase1, phrase2) {
@@ -981,6 +1340,8 @@
       "Les intervalles de confiance des quatre prix clés viennent d'un rééchantillonnage de 300 tirages (graine fixe, donc stable d'une actualisation à l'autre) et ne s'affichent qu'à partir de " + MIN_INTERVALLES + " répondants retenus.",
       "Test A/B : on compare la part de répondants qui choisissent Astérix. Intervalle de confiance de chaque part par la méthode de Wilson, de l'écart par la méthode de Newcombe ; test exact de Fisher bilatéral, seuil de 5 %. Un écart non significatif ne prouve pas l'absence d'effet : il peut venir d'un effectif trop faible.",
       "Le coupe-file et le prix sont tirés au sort indépendamment, donc chaque effet se mesure sur toutes les réponses : prix = A + C contre B + D, coupe-file = C + D contre A + B. Cette comparaison n'est fiable que si les versions sont collectées sur la même période.",
+      "Régressions linéaires (modèle de probabilité linéaire, moindres carrés ordinaires) : la variable expliquée vaut 1 si le répondant choisit Astérix et 0 sinon ; la variable explicative est le prix du billet (en €) dans le modèle 1, la présence du coupe-file (1 ou 0) dans le modèle 2. Erreurs types classiques, test t de Student bilatéral, seuil de 5 %.",
+      "Distance de Cook : modèle A (choix d'Astérix selon le prix, le coupe-file, le budget, l'importance du prix et l'âge) et modèle B (prix « trop cher » d'Astérix selon celui de Disney), moindres carrés ordinaires. Seuil de 4/n ; « sans les valeurs aberrantes » = la même régression sans les répondants au-dessus de ce seuil.",
       "Budget : les montants hors de " + BORNES_BUDGET[0] + " à " + nombre(BORNES_BUDGET[1]) + " € sont repérés comme extrêmes et écartés si la case correspondante est cochée.",
       "Moins de " + MIN_FIABLE + " réponses : les résultats sont indicatifs. Les courbes ne se tracent qu'à partir de " + MIN_COURBES + " répondants retenus.",
     ].forEach(function (phrase) { liste.appendChild(el("li", null, phrase)); });
