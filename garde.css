@@ -1,0 +1,30 @@
+/* Page de garde et onglets : mêmes polices, couleurs et composants que le reste du site. */
+
+/* ---------- Onglets ---------- */
+nav.onglets a:not(.brand) { padding-block: 0.2rem; }
+nav.onglets a[aria-current="page"] { color: var(--fg); box-shadow: inset 0 -2px 0 var(--gold); }
+
+/* Un seul panneau visible à la fois (seulement si le script tourne) */
+.js-onglets main > section:not(.actif),
+.js-onglets [data-onglet]:not(.actif),
+.js-onglets #accueil:not(.actif) { display: none; }
+.js-onglets main > section { border-top: none; }
+.js-onglets body[data-vue="accueil"] main,
+.js-onglets body[data-vue="accueil"] footer { display: none; }
+
+/* ---------- Page de garde ---------- */
+.garde { border-top: none; padding: 0; min-height: calc(100svh - var(--hauteur-nav, 3rem)); display: grid; align-items: center; }
+.garde-contenu { width: 100%; display: grid; gap: 1.8rem; padding-block: clamp(2.5rem, 8vh, 5rem); }
+.garde h1 { font-size: clamp(3rem, 11vw, 7rem); font-weight: 900; font-stretch: 70%; text-transform: uppercase; line-height: 0.9; }
+.garde h1 mark { background: none; color: inherit; box-shadow: inset 0 -0.28em 0 var(--gold); }
+.garde h1 .vs { font-family: var(--mono); font-size: 0.22em; font-weight: 500; letter-spacing: 0.08em; color: var(--muted); vertical-align: middle; margin-inline: 0.5em; }
+
+.probleme { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 10px; padding: 1.2rem 1.4rem; display: grid; gap: 0.5rem; max-width: 46rem; }
+.probleme p { font-family: var(--display); font-weight: 700; font-stretch: 90%; font-size: clamp(1.15rem, 2.4vw, 1.45rem); line-height: 1.3; text-wrap: balance; }
+
+.garde-pied { display: flex; flex-wrap: wrap; gap: 1.5rem 3rem; align-items: end; justify-content: space-between; border-top: 1px solid var(--line); padding-top: 1.4rem; }
+.equipe { display: grid; gap: 0.5rem; }
+.equipe ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.3rem 1.4rem; font-size: 0.95rem; }
+
+/* ---------- Onglet Recommandation ---------- */
+.a-venir { border: 1px dashed var(--line); border-radius: 10px; padding: 1.6rem 1.3rem; display: grid; gap: 0.7rem; justify-items: start; color: var(--muted); max-width: 70ch; }
