@@ -61,6 +61,107 @@ main > section > section h2 { font-size: clamp(1.3rem, 2.6vw, 1.6rem); }
 .a-venir { border: 1px dashed var(--line); border-radius: 10px; padding: 1.6rem 1.3rem; display: grid; gap: 0.7rem; justify-items: start; color: var(--muted); max-width: 70ch; }
 
 /* Téléphone : la page de garde ne déborde pas de l écran */
-.garde > .wrap, .garde-contenu { min-width: 0; max-width: 100%; }
+.garde > .wrap, .garde-contenu { min-width: 0; max-width: min(100%, 60rem); }
 .garde-contenu { grid-template-columns: minmax(0, 1fr); }
 @media (max-width: 480px) { .garde h1 { font-size: clamp(2.2rem, 10.5vw, 3rem); } }
+
+/* =====================================================================
+   DA « BD gauloise » minimaliste (validée le 18 novembre 2026)
+   Fond parchemin, cases bordées d'encre avec ombre décalée, bulles,
+   Fraunces pour les titres et les chiffres, un petit menhir pour motif.
+   ===================================================================== */
+:root[data-theme="light"] {
+  --bg: #F5EEDC; --surface: #FFFBF1; --fg: #1C2541; --muted: #6B6457; --line: #DCCFB2;
+  --accent: #1D4E9E; --gold: #E9B21B; --ceiling: #B7352B; --gui: #4E7A3B;
+  --neutral-bar: #A79E8B; --neutral-bar-soft: #E9E0CB; --bar-hover: #153B78; --bar-track: #EDE3CC;
+  --display: "Fraunces", Georgia, serif;
+  --main: "Caveat Brush", "Segoe Print", cursive;
+  --ombre: 4px 4px 0 var(--fg);
+  --vw-tc: #4E7A3B; --vw-ba: #1D4E9E; --vw-ch: #D9822B; --vw-tt: #B7352B;
+}
+
+/* Titres : Fraunces, sans capitales forcées */
+h1, h2, h3, h4 { font-family: var(--display); font-stretch: 100% !important; letter-spacing: -0.01em; }
+h2 { font-weight: 800; }
+.garde h1, .hero h1 { text-transform: none !important; font-weight: 900; letter-spacing: -0.02em; }
+.garde h1 { font-size: clamp(3rem, 10vw, 6.2rem); line-height: 0.95; }
+.hero h1 { font-size: clamp(2.3rem, 6.5vw, 4.2rem); line-height: 1; }
+.garde h1 mark, .hero h1 mark, h2 mark { background: linear-gradient(transparent 60%, var(--gold) 60% 90%, transparent 90%); box-shadow: none; color: inherit; padding-inline: 0.06em; }
+.garde h1 .vs { font-family: var(--main); font-size: 0.4em; letter-spacing: 0; color: var(--ceiling); text-transform: none; }
+
+/* Étiquettes : Public Sans grasse, espacée (au lieu de la machine à écrire) */
+.eyebrow, thead th, .tag, .chiffres-garde dt, .ticket .stub small, .kpi em { font-family: var(--body); font-weight: 700; letter-spacing: 0.12em; }
+.eyebrow { font-size: 0.72rem; }
+
+/* Chiffres : Fraunces */
+.big, .chiffres-garde dd, .ticket .stub, .cmp .big, .offer .bd strong, .card .big, .kpi b, .effet .grand, .points-vw b { font-family: var(--display) !important; font-stretch: 100% !important; font-weight: 800; letter-spacing: -0.01em; }
+
+/* Navigation : trait d'encre, logo menhir */
+nav.top { background: color-mix(in srgb, var(--surface) 95%, transparent); border-bottom: 2px solid var(--fg); }
+nav.top .brand { font-family: var(--display); font-stretch: 100%; text-transform: none; font-weight: 900; letter-spacing: 0; display: inline-flex; align-items: center; gap: 0.45em; }
+nav.top .brand::before, nav.onglets .brand::before { content: ""; display: inline-block; width: 0.55em; height: 1em; margin: 0; background: var(--neutral-bar); border-radius: 50% 50% 18% 18% / 60% 60% 12% 12%; vertical-align: -0.1em; }
+nav.top a[aria-current="page"] { color: var(--fg); box-shadow: inset 0 -3px 0 var(--gold); }
+
+/* Cases de BD : fond papier, bord d'encre, ombre décalée */
+.card, .chart, .tablebox, details.plus, .verdict, .ticket, .carte, .effet, .kpis, .points-vw, .reglages, .frise a, .a-venir, .message-global {
+  background: var(--surface); border: 2px solid var(--fg) !important; border-radius: 14px; box-shadow: var(--ombre);
+}
+.card.ast, .effet.signif { box-shadow: 4px 4px 0 var(--accent); }
+.carte .tablebox, details.plus .tablebox, .effet .tablebox, .regression .tablebox, details.vue-tableau .tablebox { box-shadow: none; border-width: 1.5px !important; border-color: var(--line) !important; }
+.kpis { gap: 0; overflow: hidden; } .kpi { border-right: 1.5px solid var(--line); }
+.points-vw { overflow: hidden; }
+.offer { border-radius: 14px; box-shadow: var(--ombre); }
+.offer .hd h3 { text-transform: none; font-stretch: 100%; }
+.frise a:hover { box-shadow: 4px 4px 0 var(--gold); }
+svg.nuage { border: 1.5px solid var(--line); border-radius: 10px; }
+.a-venir { border-style: dashed !important; box-shadow: none; }
+
+/* Bulles : la problématique et l'hypothèse */
+.probleme, .bulle-bd {
+  position: relative; background: var(--surface); border: 2px solid var(--fg) !important; border-radius: 22px;
+  box-shadow: var(--ombre); padding: 1.1rem 1.4rem 1.2rem; margin-bottom: 14px;
+}
+.probleme::after, .bulle-bd::after {
+  content: ""; position: absolute; left: 2.2rem; bottom: -15px; width: 22px; height: 22px; background: var(--surface);
+  border-right: 2px solid var(--fg); border-bottom: 2px solid var(--fg); transform: skewX(-30deg) rotate(45deg);
+}
+.probleme p { font-family: var(--display); font-stretch: 100%; font-weight: 700; }
+
+/* Chiffres de la page de garde */
+.chiffres-garde div { border-top: 3px solid var(--gold); }
+.chiffres-garde div:last-child { border-top-color: var(--ceiling); }
+
+/* Boutons : pilule bleue bordée d'encre */
+.cta, .bouton { background: var(--accent); color: #fff; border: 2px solid var(--fg); box-shadow: 3px 3px 0 var(--fg); border-radius: 999px; font-weight: 700; transition: transform 120ms, box-shadow 120ms; }
+.cta:hover, .bouton:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--fg); }
+.cta:active, .bouton:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--fg); }
+
+/* Encadrés, notes, séparateurs */
+.note { border-left: 4px solid var(--gold); }
+section { border-top-color: var(--line); }
+.cmp { border-top-width: 4px; }
+.cmp.ok { border-top-color: var(--gui); }
+.frise .num { border: 2px solid var(--fg); }
+
+/* Annotation au pinceau (avec parcimonie) */
+.main-levee { font-family: var(--main); color: var(--ceiling); font-size: 1.35rem; line-height: 1.1; }
+
+/* Tableaux */
+thead th { background: color-mix(in srgb, var(--gold) 14%, var(--surface)); color: var(--fg); }
+tr.ast td:first-child { box-shadow: inset 4px 0 0 var(--gold); }
+[tabindex="-1"]:focus { outline: none; }
+
+/* En bref : le fil des six chiffres */
+.fil { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); gap: 1.2rem; counter-reset: fil; }
+.fil li { background: var(--surface); border: 2px solid var(--fg); border-radius: 14px; box-shadow: var(--ombre); padding: 1rem 1.2rem 0.9rem; display: grid; gap: 0.35rem; align-content: start; position: relative; border-top: 6px solid var(--accent) !important; }
+.fil li.ok { border-top-color: var(--gui) !important; }
+.fil li.alerte { border-top-color: var(--ceiling) !important; }
+.fil .big { font-size: clamp(1.9rem, 4vw, 2.4rem); line-height: 1.05; }
+.fil p { font-size: 0.93rem; color: var(--muted); }
+.fil p b { color: var(--fg); font-weight: 700; }
+.fil a { font-size: 0.82rem; font-weight: 700; text-decoration: none; justify-self: start; margin-top: 0.2rem; }
+.fil a::after { content: " →"; }
+.reponse { max-width: 46rem; display: grid; gap: 0.4rem; margin-top: 0.6rem; }
+.reponse p { font-family: var(--display); font-weight: 600; font-size: clamp(1.15rem, 2.4vw, 1.4rem); line-height: 1.35; }
+.reponse mark { background: linear-gradient(transparent 60%, var(--gold) 60% 92%, transparent 92%); color: inherit; }
+#bref .main-levee { margin: 0.4rem 0 0 1.4rem; }
