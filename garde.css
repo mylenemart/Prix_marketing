@@ -59,3 +59,8 @@ main > section > section h2 { font-size: clamp(1.3rem, 2.6vw, 1.6rem); }
 
 /* ---------- Encadrés « à compléter » ---------- */
 .a-venir { border: 1px dashed var(--line); border-radius: 10px; padding: 1.6rem 1.3rem; display: grid; gap: 0.7rem; justify-items: start; color: var(--muted); max-width: 70ch; }
+
+/* Téléphone : la page de garde ne déborde pas de l écran */
+.garde > .wrap, .garde-contenu { min-width: 0; max-width: 100%; }
+.garde-contenu { grid-template-columns: minmax(0, 1fr); }
+@media (max-width: 480px) { .garde h1 { font-size: clamp(2.2rem, 10.5vw, 3rem); } }

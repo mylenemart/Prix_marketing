@@ -243,3 +243,4 @@ svg.nuage .tige { stroke: var(--accent); fill: var(--accent); opacity: 0.55; str
 svg.nuage .tige.haute { stroke: var(--ceiling); fill: var(--ceiling); opacity: 1; }
 svg.nuage .seuil-cook { stroke: var(--gold); stroke-width: 1.6; stroke-dasharray: 5 4; }
 .tableau-cook td:last-child { text-align: left; font-family: var(--body); }
+.regression, .regression > *, .nuages > * { min-width: 0; }
