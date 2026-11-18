@@ -388,3 +388,37 @@ h2:focus { outline: none; }
   h1 { font-size: 1.75rem; }
   h2 { font-size: 1.4rem; }
 }
+
+/* ==========================================================================
+   DA « BD gauloise » du site (18 novembre 2026), version neutre pour le
+   questionnaire : même parchemin, même encre, mêmes cases bordées, mais
+   AUCUNE couleur du Parc Astérix (ni bleu ni or) pour ne pas influencer
+   le choix entre les deux parcs. Polices rangées dans polices/ : rien
+   n'est chargé depuis un autre site.
+   ========================================================================== */
+@font-face { font-family: "Fraunces DA"; font-style: normal; font-weight: 500 900; font-display: swap; src: url("polices/fraunces-variable.woff2") format("woff2"); }
+@font-face { font-family: "Public Sans"; font-style: normal; font-weight: 400 700; font-display: swap; src: url("polices/public-sans.woff2") format("woff2"); }
+:root {
+  --fond: #F5EEDC;          /* parchemin */
+  --carte: #FFFBF1;         /* papier */
+  --texte: #1C2541;         /* encre */
+  --texte-doux: #6B6457;
+  --bordure: #DCCFB2;
+  --principal: #1C2541;     /* encre : neutre, ni Astérix ni Disney */
+  --principal-survol: #2E3A5C;
+  --selection: #EFE5CC;
+  --accent: #6B6457;
+  --ombre: 4px 4px 0 #1C2541;
+}
+body { font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+h1, h2 { font-family: "Fraunces DA", "Fraunces", Georgia, serif; font-weight: 800; letter-spacing: -0.01em; }
+.carte { border: 2px solid var(--texte); box-shadow: var(--ombre); border-radius: 16px; }
+.option { border-width: 1.5px; }
+.option:has(input:checked) { border: 2px solid var(--texte); box-shadow: 3px 3px 0 var(--texte); }
+.pastille:has(input:checked) { border-color: var(--texte); box-shadow: 2px 2px 0 var(--texte); }
+.bouton { border: 2px solid var(--texte); border-radius: 999px; box-shadow: 3px 3px 0 var(--texte); font-weight: 700; transition: transform 120ms, box-shadow 120ms; }
+.bouton:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--texte); }
+.bouton:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--texte); }
+.prix-ab li { background: var(--selection); border: 1.5px solid var(--bordure); }
+.progression { height: 8px; border: 1.5px solid var(--texte); background: var(--carte); }
+.partie { letter-spacing: 0.12em; }
