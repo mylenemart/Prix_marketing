@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="fr" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Public+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="garde.css?v=2">
+<link rel="stylesheet" href="garde.css?v=3">
 <style>
 /* Une colonne de lecture, des chiffres clés et des tableaux sobres. Chaque chiffre des comptes est un lien vers sa page dans le PDF. */
 :root {
@@ -87,7 +87,7 @@ section { padding-block: 2.8rem; border-top: 1px solid var(--line); display: gri
 .bars .name.ast { font-weight: 600; }
 .track { position: relative; height: 26px; margin-right: 5rem; }
 .bars:not(.simple) .track { margin-right: 0; }
-.bars:not(.simple) .track::after { content: ""; position: absolute; top: -4px; bottom: -4px; left: calc(59 / 130 * 100%); border-left: 2px dashed var(--ceiling); }
+.bars:not(.simple) .track::after { content: ""; position: absolute; top: -4px; bottom: -4px; left: calc(64.5 / 130 * 100%); border-left: 2px dashed var(--ceiling); }
 .bar { position: absolute; top: 3px; height: 20px; left: 0; border-radius: 0 3px 3px 0; background: var(--neutral-bar); }
 .bar.ast { background: var(--accent); }
 .bar.range { background: var(--neutral-bar-soft); border: 1px solid var(--neutral-bar); border-left: none; }
@@ -187,14 +187,21 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem 3rem; color: var
       <p>Le Parc Astérix peut-il continuer à monter ses tarifs d'entrée pour financer ses investissements records, sans perdre son statut d'alternative abordable face à Disneyland Paris&nbsp;?</p>
     </div>
 
+    <dl class="chiffres-garde">
+      <div><dt>Investissement à financer</dt><dd class="num">36&nbsp;M€</dd></div>
+      <div><dt>Hausse testée du billet</dt><dd class="num">49 → 54,50&nbsp;€</dd></div>
+      <div><dt>Billets à vendre pour l'amortir</dt><dd class="num">6,5&nbsp;M</dd></div>
+      <div><dt>Prix max. accepté par les répondants</dt><dd class="num">64,50&nbsp;€</dd></div>
+    </dl>
+
     <div class="garde-pied">
       <div class="equipe">
         <span class="eyebrow">Équipe</span>
         <ul>
           <li>Mylène Martinez</li>
           <li>Pooya Safaoian</li>
-          <li>Axel Fouert-Pouret</li>
-          <li>Loïc Sabatini</li>
+          <li>Axel Fouert-pouret</li>
+          <li>Loic Sabatini</li>
           <li>Héloïse Despujos</li>
         </ul>
       </div>
@@ -208,13 +215,13 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem 3rem; color: var
     <p class="eyebrow">Étude de marché · prix relevés le 1er octobre 2026</p>
     <h1>Jusqu'où peut monter<br>le billet du <mark>Parc Astérix</mark>&nbsp;?</h1>
     <p class="lede">Que font les concurrents, combien gagne le parc, et quel prix de billet reste acceptable pour une sortie en famille ou entre amis ?</p>
-    <div class="ticket" role="group" aria-label="Plafond provisoire">
+    <div class="ticket" role="group" aria-label="Notre proposition de prix">
       <div class="main">
-        <span class="eyebrow">Plafond provisoire</span>
-        <strong style="font-size:1.05rem">Billet adulte daté, 1 jour / 1 parc, période verte</strong>
-        <span style="color:var(--muted);font-size:0.9rem">Repère : Disneyland Paris, de 52 à 59&nbsp;€<sup><a href="#sources">web</a></sup>. À recalculer pour la même date chez chaque concurrent.</span>
+        <span class="eyebrow">Notre proposition</span>
+        <strong style="font-size:1.05rem">Billet d'entrée à 54,50&nbsp;€ avec un coupe-file</strong>
+        <span style="color:var(--muted);font-size:0.9rem">Au lieu de 49&nbsp;€ aujourd'hui. Reste sous le prix plafond de 64,50&nbsp;€ mesuré auprès de 106 répondants.</span>
       </div>
-      <div class="stub num">59&nbsp;€<small>plafond</small></div>
+      <div class="stub num">54,50&nbsp;€<small>proposé</small></div>
     </div>
   </header>
 
@@ -236,8 +243,8 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem 3rem; color: var
       </div>
       <div class="card">
         <span class="eyebrow">Un prix plafond</span>
-        <span class="big num">59&nbsp;€</span>
-        <p>Le prix d'appel de Disneyland Paris limite la hausse du billet daté. Le parc peut monter sur les dates de forte demande et le billet flexible.</p>
+        <span class="big num">64,50&nbsp;€</span>
+        <p>Au-dessus, trop de répondants renoncent à acheter le billet (questionnaire, méthode Van Westendorp). Le billet à 54,50&nbsp;€ reste en dessous.</p>
       </div>
     </div>
   </section>
@@ -345,12 +352,12 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem 3rem; color: var
         <h2 id="t-prix">Prix d'appel adulte pour une journée</h2>
       </div>
       <p class="note">Ce sont des points d'entrée, pas des paniers comparables à date égale : le nombre de parcs, la date, la flexibilité et les services inclus changent la valeur de l'offre.</p>
-      <figure class="chart" aria-label="Graphique des prix d'appel adulte en euros, avec le plafond provisoire à 59 euros">
+      <figure class="chart" aria-label="Graphique des prix d'appel adulte en euros, avec le prix plafond mesuré à 64,50 euros">
         <div class="legend">
           <span><i class="ast"></i>Parc Astérix</span>
           <span><i class="oth"></i>Concurrents</span>
           <span><i class="rng"></i>Fourchette selon la date</span>
-          <span><i class="ceil"></i>Plafond provisoire 59&nbsp;€</span>
+          <span><i class="ceil"></i>Prix plafond mesuré 64,50&nbsp;€</span>
         </div>
         <div class="bars" id="bars"></div>
         <div class="axis" aria-hidden="true"><span></span><div class="ticks" id="ticks"></div></div>
@@ -429,71 +436,176 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem 3rem; color: var
       <p class="eyebrow">3 · Mesure du prix psychologique</p>
       <h2 id="t-res">Ce que répondent de vraies personnes</h2>
     </div>
-    <p class="prose">Un questionnaire anonyme teste deux prix du Parc Astérix (49 et 54,50&nbsp;€) avec ou sans coupe-file, et mesure les seuils de prix acceptables pour Astérix et Disneyland Paris. L'analyse se met à jour toute seule à partir des réponses.</p>
-    <a class="cta" href="analyse/">Voir les résultats en direct →</a>
+    <p class="prose">Un questionnaire anonyme mesure les seuils de prix acceptables pour le Parc Astérix et Disneyland Paris, et teste deux prix d'Astérix (49 et 54,50&nbsp;€), avec ou sans coupe-file, face à Disneyland Paris à 79&nbsp;€. Synthèse au 18 novembre 2026, sur 108 réponses complètes.</p>
+    <div class="trio">
+      <div class="card ast"><span class="eyebrow">Fourchette acceptable · Astérix</span><span class="big num">26,50 – 64,50&nbsp;€</span><p>Prix optimal 49,50&nbsp;€, prix d'indifférence 45&nbsp;€. Une fourchette de 38&nbsp;€ : les attentes varient beaucoup d'une personne à l'autre.</p></div>
+      <div class="card"><span class="eyebrow">Effet du prix · 49 contre 54,50&nbsp;€</span><span class="big num">76 → 69&nbsp;%</span><p>Part qui choisit Astérix plutôt que Disneyland. Écart de 7 points, non significatif (test exact de Fisher, p&nbsp;=&nbsp;0,52).</p></div>
+      <div class="card"><span class="eyebrow">Effet du coupe-file</span><span class="big num">64 → 79&nbsp;%</span><p>Part qui choisit Astérix sans puis avec coupe-file. Écart de 15 points, non significatif au seuil de 5&nbsp;% (p&nbsp;=&nbsp;0,088).</p></div>
+    </div>
+    <p class="note">Ces chiffres sont figés au 18 novembre 2026. La page des résultats détaillés lit le questionnaire en direct : ses chiffres peuvent bouger si de nouvelles réponses arrivent.</p>
+    <a class="cta" href="analyse/">Voir tous les résultats détaillés →</a>
   </section>
 
   <section id="proposition" aria-labelledby="t-proposition">
     <div class="head">
       <p class="eyebrow">4 · Notre proposition</p>
-      <h2 id="t-proposition">Ce que le Parc Astérix pourrait faire</h2>
+      <h2 id="t-proposition">Notre démarche en six étapes</h2>
     </div>
-    <section id="plafond" aria-labelledby="t-plaf">
+    <ol class="frise">
+      <li><a href="#etape1"><span class="num">1</span>Coût de l'investissement</a></li>
+      <li><a href="#etape2"><span class="num">2</span>Produit choisi</a></li>
+      <li><a href="#etape3"><span class="num">3</span>Hausse sur 10 ans</a></li>
+      <li><a href="#etape4"><span class="num">4</span>Prix psychologique</a></li>
+      <li><a href="#etape5"><span class="num">5</span>Alternative testée</a></li>
+      <li><a href="#recommandation"><span class="num">6</span>Recommandation</a></li>
+    </ol>
+
+    <section id="etape1" class="etape" aria-labelledby="t-etape1">
       <div class="head">
-        <p class="eyebrow">Prix plafond provisoire</p>
-        <h2 id="t-plaf">59&nbsp;€ pour un billet daté en période verte, pas toute l'année</h2>
+        <p class="eyebrow">Étape 1</p>
+        <h2 id="t-etape1">Le coût de l'investissement : 36&nbsp;M€</h2>
       </div>
-      <p class="prose">Le prix plafond ne peut pas être unique pour toutes les dates. Pour un adulte, un billet daté 1 jour / 1 parc en période verte, le repère Disney publié va de 52 à 59&nbsp;€. À vérifier à date égale dans la billetterie officielle Disney.</p>
-      <div class="ceiling-grid">
-        <div class="cmp warn"><span class="eyebrow">Billet daté</span><span class="big num">56&nbsp;€</span><p>Le Billet Futé est déjà proche du plafond. Une hausse générale effacerait l'avantage prix des périodes calmes.</p></div>
-        <div class="cmp ok"><span class="eyebrow">Billet flexible</span><span class="big num">68&nbsp;€</span><p>Le Liberté Flex reste très en dessous du billet flexible Disney, à 119&nbsp;€.</p></div>
-        <div class="cmp"><span class="eyebrow">Concurrents régionaux</span><span class="big num">28–29&nbsp;€</span><p>La Mer de Sable et Saint-Paul pèsent sur l'image d'accessibilité, sans offre équivalente en taille ni en contenu.</p></div>
+      <div class="trio">
+        <div class="card ast"><span class="eyebrow">À financer</span><span class="big num">36&nbsp;M€</span><p>Investissement retenu pour notre étude.</p></div>
+        <div class="card"><span class="eyebrow">Investissements 2024/25</span><span class="big num">44,1&nbsp;M€</span><p>Ce que le parc a investi sur un exercice (<a href="sources/grevin-comptes-sociaux-2025.pdf#page=19">comptes 2025, p.&nbsp;19</a>).</p></div>
+        <div class="card"><span class="eyebrow">Résultat d'exploitation 2024/25</span><span class="big num">26,5&nbsp;M€</span><p>En baisse depuis trois ans, avec une dette nette remontée à 90&nbsp;M€ (voir <a href="#finances">1. Finances</a>).</p></div>
       </div>
-      <div class="verdict">
-        <p class="eyebrow">Conclusion</p>
-        <p>Le Parc Astérix peut relever certains prix, plutôt sur les <strong>dates de forte demande</strong> et les <strong>options de flexibilité</strong>. Il devrait protéger un tarif d'appel visible. Ses comptes montrent une marge qui baisse et des investissements lourds : l'hôtellerie, la restauration et la fréquentation peuvent financer une partie de la montée en gamme, sans tout faire porter par le billet d'entrée.</p>
-      </div>
+      <p class="prose">36&nbsp;M€, c'est plus que le résultat d'exploitation d'une année entière. Le parc ne peut pas le payer sur sa marge, qui baisse déjà : il faut une recette nouvelle et durable.</p>
     </section>
 
-    <section id="offre" aria-labelledby="t-offre">
+    <section id="etape2" class="etape" aria-labelledby="t-etape2">
       <div class="head">
-        <p class="eyebrow">Une idée à tester</p>
-        <h2 id="t-offre">Le Billet Gaulois Malin</h2>
+        <p class="eyebrow">Étape 2</p>
+        <h2 id="t-etape2">Le produit choisi : le billet d'entrée à 54,50&nbsp;€ avec coupe-file</h2>
       </div>
       <div class="offer">
-        <div class="hd"><h3>Billet Gaulois Malin</h3><span class="eyebrow">daté · réservé à l'avance · jours calmes</span></div>
+        <div class="hd"><h3>Billet d'entrée + coupe-file</h3><span class="eyebrow">daté · 1 jour · coupe-file utilisable une fois</span></div>
         <div class="bd">
-          <div><span class="eyebrow">Offre</span><p>Billet daté, réservé à l'avance, valable en semaine ou les jours de faible affluence.</p></div>
-          <div><span class="eyebrow">Public</span><p>Familles sensibles au prix, capables d'adapter leur date, qui veulent une journée complète d'attractions et de spectacles.</p></div>
-          <div><span class="eyebrow">Prix d'essai</span><strong class="num">49&nbsp;€</strong><p>par personne, sur une sélection limitée de dates. Garder le billet standard dès 56&nbsp;€ et le Flex à 68&nbsp;€, puis mesurer la réaction avant d'élargir.</p></div>
+          <div><span class="eyebrow">Aujourd'hui</span><strong class="num">49&nbsp;€</strong><p>Billet Malin, daté, sans service en plus.</p></div>
+          <div><span class="eyebrow">Demain</span><strong class="num">54,50&nbsp;€</strong><p>+5,50&nbsp;€ par billet, avec un coupe-file utilisable une seule fois dans la journée.</p></div>
+          <div><span class="eyebrow">Pourquoi ce billet</span><p>C'est le billet d'entrée que nous avons testé auprès des répondants. Le coupe-file donne une contrepartie visible à la hausse.</p></div>
         </div>
       </div>
     </section>
 
-    <section id="recommandation" aria-labelledby="t-reco">
+    <section id="etape3" class="etape" aria-labelledby="t-etape3">
       <div class="head">
-        <p class="eyebrow">Ce que l'entreprise pourrait faire</p>
-        <h2 id="t-reco">Recommandation</h2>
+        <p class="eyebrow">Étape 3</p>
+        <h2 id="t-etape3">La hausse sur 10 ans et les ventes minimales</h2>
+      </div>
+      <p class="prose">Le supplément de 5,50&nbsp;€ par billet doit couvrir les 36&nbsp;M€ en 10 ans.</p>
+      <div class="ceiling-grid">
+        <div class="cmp ok"><span class="eyebrow">Billets à vendre en 10 ans</span><span class="big num">6,55&nbsp;M</span><p>36&nbsp;000&nbsp;000&nbsp;€ ÷ 5,50&nbsp;€ = 6&nbsp;545&nbsp;455 billets.</p></div>
+        <div class="cmp ok"><span class="eyebrow">Soit par an</span><span class="big num">654&nbsp;546</span><p>billets à 54,50&nbsp;€, soit 3,6&nbsp;M€ amortis chaque année.</p></div>
+        <div class="cmp"><span class="eyebrow">Part de la fréquentation</span><span class="big num">22,6&nbsp;%</span><p>des 2,89&nbsp;M de visiteurs de 2024/25 doivent acheter ce billet chaque année.</p></div>
+      </div>
+      <div class="tablebox">
+        <table>
+          <caption>Plan d'amortissement · hypothèse d'une seule hausse, prix stable pendant 10 ans</caption>
+          <thead><tr><th>Année</th><th class="price">Prix du billet</th><th class="price">Hausse par billet</th><th class="n">Ventes minimales</th><th class="price">Montant amorti cumulé</th></tr></thead>
+          <tbody>
+            <tr><td>Année 1</td><td class="price">54,50&nbsp;€</td><td class="price">5,50&nbsp;€</td><td class="n">654&nbsp;546</td><td class="price">3,6&nbsp;M€</td></tr>
+            <tr><td>Année 2</td><td class="price">54,50&nbsp;€</td><td class="price">5,50&nbsp;€</td><td class="n">654&nbsp;546</td><td class="price">7,2&nbsp;M€</td></tr>
+            <tr><td>Année 3</td><td class="price">54,50&nbsp;€</td><td class="price">5,50&nbsp;€</td><td class="n">654&nbsp;546</td><td class="price">10,8&nbsp;M€</td></tr>
+            <tr><td>Année 4</td><td class="price">54,50&nbsp;€</td><td class="price">5,50&nbsp;€</td><td class="n">654&nbsp;546</td><td class="price">14,4&nbsp;M€</td></tr>
+            <tr><td>Année 5</td><td class="price">54,50&nbsp;€</td><td class="price">5,50&nbsp;€</td><td class="n">654&nbsp;546</td><td class="price">18,0&nbsp;M€</td></tr>
+            <tr><td>Année 6</td><td class="price">54,50&nbsp;€</td><td class="price">5,50&nbsp;€</td><td class="n">654&nbsp;546</td><td class="price">21,6&nbsp;M€</td></tr>
+            <tr><td>Année 7</td><td class="price">54,50&nbsp;€</td><td class="price">5,50&nbsp;€</td><td class="n">654&nbsp;546</td><td class="price">25,2&nbsp;M€</td></tr>
+            <tr><td>Année 8</td><td class="price">54,50&nbsp;€</td><td class="price">5,50&nbsp;€</td><td class="n">654&nbsp;546</td><td class="price">28,8&nbsp;M€</td></tr>
+            <tr><td>Année 9</td><td class="price">54,50&nbsp;€</td><td class="price">5,50&nbsp;€</td><td class="n">654&nbsp;546</td><td class="price">32,4&nbsp;M€</td></tr>
+            <tr><td>Année 10</td><td class="price">54,50&nbsp;€</td><td class="price">5,50&nbsp;€</td><td class="n">654&nbsp;546</td><td class="price">36,0&nbsp;M€</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">Calcul sur le prix payé par le client (TTC). Si l'on retire une TVA de 10&nbsp;%, la hausse rapporte 5&nbsp;€ hors taxe par billet : il faut alors 7,2&nbsp;M de billets en 10 ans, soit 720&nbsp;000 par an (24,9&nbsp;% des visiteurs).</p>
+    </section>
+
+    <section id="plafond" class="etape" aria-labelledby="t-plafond">
+      <div class="head">
+        <p class="eyebrow">Étape 3 · repère</p>
+        <h2 id="t-plafond">Le prix plafond : 64,50&nbsp;€, mesuré auprès des répondants</h2>
+      </div>
+      <p class="prose">L'ancien repère était le prix d'appel de Disneyland Paris (52 à 59&nbsp;€). Le questionnaire donne maintenant un plafond mesuré auprès de 106 répondants&nbsp;: au-dessus de 64,50&nbsp;€, trop de personnes renoncent à acheter un billet du Parc Astérix.</p>
+      <div class="ceiling-grid">
+        <div class="cmp ok"><span class="eyebrow">Billet proposé</span><span class="big num">54,50&nbsp;€</span><p>Dans la fourchette acceptable, 10&nbsp;€ sous le plafond. 39&nbsp;% des répondants le trouvent cher, 7&nbsp;% trop cher.</p></div>
+        <div class="cmp warn"><span class="eyebrow">Prix plafond Astérix</span><span class="big num">64,50&nbsp;€</span><p>Intervalle de confiance à 95&nbsp;% : 60 à 69&nbsp;€. À ne pas dépasser sur le billet d'entrée.</p></div>
+        <div class="cmp"><span class="eyebrow">Prix optimal Astérix</span><span class="big num">49,50&nbsp;€</span><p>Le prix qui rebute le moins de monde. Le prix d'indifférence est de 45&nbsp;€.</p></div>
+        <div class="cmp"><span class="eyebrow">Prix plafond Disneyland</span><span class="big num">89,50&nbsp;€</span><p>Le billet du test, à 79&nbsp;€, reste sous ce plafond : l'écart avec Astérix reste net.</p></div>
+      </div>
+    </section>
+
+    <section id="etape4" class="etape" aria-labelledby="t-etape4">
+      <div class="head">
+        <p class="eyebrow">Étape 4</p>
+        <h2 id="t-etape4">Le prix psychologique valide-t-il la hausse&nbsp;?</h2>
+      </div>
+      <div class="deux">
+        <div class="verdict">
+          <p class="eyebrow">Seuils de prix (Van Westendorp)</p>
+          <p>Le billet à 54,50&nbsp;€ est <strong>dans la fourchette acceptable</strong> (26,50 à 64,50&nbsp;€). La hausse est donc possible du point de vue du prix psychologique.</p>
+        </div>
+        <div class="verdict">
+          <p class="eyebrow">Test A/B et test exact de Fisher</p>
+          <p>À 49&nbsp;€, 76&nbsp;% choisissent Astérix ; à 54,50&nbsp;€, 69&nbsp;%. Le test exact de Fisher donne p&nbsp;=&nbsp;0,52 : <strong>l'écart n'est pas significatif</strong>, on ne peut pas conclure que la hausse fait fuir les clients.</p>
+        </div>
+      </div>
+      <p class="note">Un test non significatif ne prouve pas que le prix n'a aucun effet : avec 108 réponses, seul un très gros écart serait détecté. C'est la limite de notre mesure.</p>
+      <p><a href="analyse/#prix">Voir les seuils de prix détaillés →</a> &nbsp; <a href="analyse/#ab">Voir le test A/B détaillé →</a></p>
+    </section>
+
+    <section id="etape5" class="etape" aria-labelledby="t-etape5">
+      <div class="head">
+        <p class="eyebrow">Étape 5</p>
+        <h2 id="t-etape5">L'alternative pour adoucir la hausse : le coupe-file</h2>
+      </div>
+      <p class="prose">Pour que la hausse soit mieux acceptée, nous l'avons associée à un coupe-file. Chaque répondant voit une des quatre versions, tirée au sort, face à Disneyland Paris à 79&nbsp;€.</p>
+      <div class="tablebox">
+        <table>
+          <caption>Part des répondants qui choisissent le Parc Astérix, par version (18 novembre 2026)</caption>
+          <thead><tr><th>Version</th><th class="price">Prix Astérix</th><th>Coupe-file</th><th class="n">Choisissent Astérix</th></tr></thead>
+          <tbody>
+            <tr><td>A</td><td class="price">49&nbsp;€</td><td>Non</td><td class="n">68&nbsp;% · 17/25</td></tr>
+            <tr><td>B</td><td class="price">54,50&nbsp;€</td><td>Non</td><td class="n">60&nbsp;% · 15/25</td></tr>
+            <tr><td>C</td><td class="price">49&nbsp;€</td><td>Oui</td><td class="n">83&nbsp;% · 24/29</td></tr>
+            <tr class="ast"><td>D · notre proposition</td><td class="price">54,50&nbsp;€</td><td>Oui</td><td class="n">76&nbsp;% · 22/29</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="prose">À 54,50&nbsp;€ avec coupe-file (D), plus de répondants choisissent Astérix qu'à 49&nbsp;€ sans coupe-file (A, le billet actuel) : 76&nbsp;% contre 68&nbsp;%. Le coupe-file fait plus que compenser la hausse, même si cet écart reste lui aussi non significatif (p&nbsp;=&nbsp;0,088 pour l'effet du coupe-file).</p>
+      <p class="sources"><a href="questionnaire-ab/">Voir le questionnaire</a></p>
+    </section>
+
+    <section id="recommandation" class="etape" aria-labelledby="t-recommandation">
+      <div class="head">
+        <p class="eyebrow">Étape 6</p>
+        <h2 id="t-recommandation">Analyse des résultats et recommandation</h2>
       </div>
       <div class="probleme">
         <span class="eyebrow">Rappel de la problématique</span>
         <p>Le Parc Astérix peut-il continuer à monter ses tarifs d'entrée pour financer ses investissements records, sans perdre son statut d'alternative abordable face à Disneyland Paris&nbsp;?</p>
       </div>
-      <div class="a-venir">
-        <span class="tag">En cours de rédaction</span>
-        <p>Notre recommandation sera ajoutée ici une fois l'analyse des réponses au questionnaire terminée.</p>
+      <h3>Notre hypothèse</h3>
+      <p class="prose">Les prix attendus par les personnes interrogées varient beaucoup d'une personne à l'autre : la fourchette acceptable va de 26,50 à 64,50&nbsp;€. Le consommateur n'a donc pas de fourchette de prix stricte en tête. Une hausse du prix d'un billet unique ne sera pas perçue comme assez importante pour changer ses habitudes de consommation.</p>
+      <h3>Ce que montrent les résultats</h3>
+      <p class="prose">La hausse ou la baisse du prix n'est pas un facteur assez fort pour faire changer de choix, ni dans un sens ni dans l'autre : entre 49 et 54,50&nbsp;€, l'écart de 7 points n'est pas significatif (test exact de Fisher, p&nbsp;=&nbsp;0,52).</p>
+      <div class="verdict">
+        <p class="eyebrow">Recommandation</p>
+        <p>Le Parc Astérix peut <strong>augmenter le prix de son billet d'entrée de 49 à 54,50&nbsp;€</strong>, en y ajoutant <strong>un coupe-file</strong>, pour absorber le coût de ses investissements sans que la fréquentation en souffre. À ce prix, il reste sous le plafond de 64,50&nbsp;€ et bien en dessous de Disneyland Paris : il garde son statut d'alternative abordable.</p>
       </div>
     </section>
 
-    <section id="risque" aria-labelledby="t-risque">
+    <section id="risque" class="etape" aria-labelledby="t-risque">
       <div class="head">
-        <p class="eyebrow">Si nous nous trompons</p>
-        <h2 id="t-risque">Ce que ça coûte à l'entreprise</h2>
+        <p class="eyebrow">Étape 6 · si nous nous trompons</p>
+        <h2 id="t-risque">Ce que ça coûte si nous nous trompons</h2>
       </div>
-      <div class="a-venir">
-        <span class="tag">En cours de rédaction</span>
-        <p>Nous chiffrerons ici le coût d'une erreur de prix : visiteurs perdus si le billet est trop cher, recettes manquées s'il est trop bas.</p>
+      <p class="prose">Chaque billet vendu à 54,50&nbsp;€ rapporte 5,50&nbsp;€ de plus. Chaque client perdu fait perdre tout son billet. La hausse reste rentable tant que <strong>moins d'environ 10&nbsp;% des acheteurs renoncent</strong> (5,50 ÷ 54,50).</p>
+      <div class="ceiling-grid">
+        <div class="cmp ok"><span class="eyebrow">Si nous avons raison</span><span class="big num">+3,6&nbsp;M€</span><p>par an, avec 654&nbsp;546 billets vendus : les 36&nbsp;M€ sont amortis en 10 ans.</p></div>
+        <div class="cmp warn"><span class="eyebrow">Si 10&nbsp;% renoncent</span><span class="big num">−4,9&nbsp;M€</span><p>de chiffre d'affaires par an : 65&nbsp;455 visiteurs perdus × 74,60&nbsp;€ dépensés en moyenne par visiteur (billet, repas, boutique, hôtel). La perte dépasse le gain.</p></div>
+        <div class="cmp"><span class="eyebrow">Sans coupe-file</span><span class="big num">−8&nbsp;pts</span><p>Dans le test, 54,50&nbsp;€ sans coupe-file (B, 60&nbsp;%) fait moins bien que 49&nbsp;€ (A, 68&nbsp;%) : la hausse seule est plus risquée.</p></div>
       </div>
+      <p class="note">Pour limiter ce risque : appliquer la hausse avec le coupe-file, d'abord sur une partie des dates, et suivre la fréquentation avant de la généraliser.</p>
     </section>
   </section>
 
@@ -527,10 +639,10 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem 3rem; color: var
 </main>
 
 <footer>
-  <div class="wrap">Astérix VS Disney · Mylène Martinez, Pooya Safaoian, Axel Fouert-Pouret, Loïc Sabatini, Héloïse Despujos · Comptes : Grévin et compagnie, exercices 2020/21 à 2024/25.</div>
+  <div class="wrap">Astérix VS Disney · Mylène Martinez, Pooya Safaoian, Axel Fouert-pouret, Loic Sabatini, Héloïse Despujos · Comptes : Grévin et compagnie, exercices 2020/21 à 2024/25.</div>
 </footer>
 
-<script src="onglets.js?v=2"></script>
+<script src="onglets.js?v=3"></script>
 
 <script>
 (function () {

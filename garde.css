@@ -1,6 +1,20 @@
-/* Page de garde et onglets : mêmes polices, couleurs et composants que le reste du site. */
+/* DA « Astérix vs Disney » : claire et minimaliste, aux couleurs du Parc Astérix (bleu, jaune or).
+   Chargé par la page d'accueil et par la page des résultats (analyse/). */
+
+/* ---------- Couleurs : un seul thème clair ---------- */
+:root[data-theme="light"] {
+  --bg: #FAF7F0; --surface: #FFFFFF; --fg: #12203D; --muted: #5C6475; --line: #E6DFCF;
+  --accent: #0A4DA2; --gold: #F2B705; --ceiling: #C8102E;
+  --neutral-bar: #B7BFCC; --neutral-bar-soft: #E8EBF0;
+  --bar-hover: #083B7D; --bar-track: #EFEAE0;
+  color-scheme: light;
+}
+body { -webkit-font-smoothing: antialiased; }
 
 /* ---------- Onglets ---------- */
+nav.top { background: color-mix(in srgb, var(--surface) 94%, transparent); }
+nav.onglets .brand { letter-spacing: 0.02em; }
+nav.onglets .brand::before { content: ""; display: inline-block; width: 0.55em; height: 0.55em; border-radius: 50%; background: var(--gold); margin-right: 0.45em; vertical-align: 0.08em; }
 nav.onglets a:not(.brand) { padding-block: 0.2rem; }
 nav.onglets a[aria-current="page"] { color: var(--fg); box-shadow: inset 0 -2px 0 var(--gold); }
 
@@ -14,7 +28,8 @@ nav.onglets a[aria-current="page"] { color: var(--fg); box-shadow: inset 0 -2px 
 
 /* ---------- Page de garde ---------- */
 .garde { border-top: none; padding: 0; min-height: calc(100svh - var(--hauteur-nav, 3rem)); display: grid; align-items: center; }
-.garde-contenu { width: 100%; display: grid; gap: 1.8rem; padding-block: clamp(2.5rem, 8vh, 5rem); }
+.garde-contenu { width: 100%; display: grid; gap: 1.7rem; padding-block: clamp(2.5rem, 7vh, 4.5rem); }
+.garde-contenu > .eyebrow::before { content: ""; display: block; width: 3.5rem; height: 4px; margin-bottom: 1rem; background: linear-gradient(90deg, var(--accent) 0 50%, var(--gold) 50% 100%); }
 .garde h1 { font-size: clamp(3rem, 11vw, 7rem); font-weight: 900; font-stretch: 70%; text-transform: uppercase; line-height: 0.9; }
 .garde h1 mark { background: none; color: inherit; box-shadow: inset 0 -0.28em 0 var(--gold); }
 .garde h1 .vs { font-family: var(--mono); font-size: 0.22em; font-weight: 500; letter-spacing: 0.08em; color: var(--muted); vertical-align: middle; margin-inline: 0.5em; }
@@ -22,13 +37,25 @@ nav.onglets a[aria-current="page"] { color: var(--fg); box-shadow: inset 0 -2px 
 .probleme { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 10px; padding: 1.2rem 1.4rem; display: grid; gap: 0.5rem; max-width: 46rem; }
 .probleme p { font-family: var(--display); font-weight: 700; font-stretch: 90%; font-size: clamp(1.15rem, 2.4vw, 1.45rem); line-height: 1.3; text-wrap: balance; }
 
+.chiffres-garde { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr)); gap: 1rem; max-width: 52rem; }
+.chiffres-garde div { border-top: 2px solid var(--line); padding-top: 0.6rem; display: grid; gap: 0.2rem; }
+.chiffres-garde div:first-child { border-top-color: var(--gold); }
+.chiffres-garde dt { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.chiffres-garde dd { margin: 0; font-family: var(--display); font-weight: 800; font-stretch: 80%; font-size: 1.9rem; line-height: 1.05; }
+
 .garde-pied { display: flex; flex-wrap: wrap; gap: 1.5rem 3rem; align-items: end; justify-content: space-between; border-top: 1px solid var(--line); padding-top: 1.4rem; }
 .equipe { display: grid; gap: 0.5rem; }
 .equipe ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.3rem 1.4rem; font-size: 0.95rem; }
 
-/* ---------- Onglet Recommandation ---------- */
-.a-venir { border: 1px dashed var(--line); border-radius: 10px; padding: 1.6rem 1.3rem; display: grid; gap: 0.7rem; justify-items: start; color: var(--muted); max-width: 70ch; }
-
-/* ---------- Parties regroupées (1 à 4) : sous-parties à l'intérieur d'un onglet ---------- */
+/* ---------- Sous-parties à l'intérieur d'un onglet ---------- */
 main > section > section { padding-block: 2.2rem 0.6rem; }
 main > section > section h2 { font-size: clamp(1.3rem, 2.6vw, 1.6rem); }
+
+/* ---------- Frise des six étapes (onglet 4) ---------- */
+.frise { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: 0.6rem; }
+.frise a { display: grid; gap: 0.35rem; height: 100%; padding: 0.8rem 0.9rem; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; color: var(--fg); text-decoration: none; font-size: 0.88rem; font-weight: 600; line-height: 1.25; }
+.frise a:hover { border-color: var(--accent); }
+.frise .num { display: inline-grid; place-items: center; width: 1.7rem; height: 1.7rem; border-radius: 50%; background: var(--gold); color: #12203D; font-family: var(--mono); font-size: 0.8rem; font-weight: 500; }
+
+/* ---------- Encadrés « à compléter » ---------- */
+.a-venir { border: 1px dashed var(--line); border-radius: 10px; padding: 1.6rem 1.3rem; display: grid; gap: 0.7rem; justify-items: start; color: var(--muted); max-width: 70ch; }
