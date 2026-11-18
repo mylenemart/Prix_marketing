@@ -3,11 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Prix Parc Astérix 2026</title>
-<meta name="description" content="Jusqu'où peut monter le billet du Parc Astérix ? Concurrents, prix relevés le 1er octobre 2026, comptes de Grévin et compagnie et plafond tarifaire provisoire.">
+<title>Astérix VS Disney</title>
+<meta name="description" content="Astérix VS Disney : le Parc Astérix peut-il continuer à monter ses tarifs d'entrée pour financer ses investissements records, sans perdre son statut d'alternative abordable face à Disneyland Paris ?">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Public+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="garde.css?v=1">
 <style>
 /* Une colonne de lecture, des chiffres clés et des tableaux sobres. Chaque chiffre des comptes est un lien vers sa page dans le PDF. */
 :root {
@@ -162,9 +163,9 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem 3rem; color: var
 </head>
 <body>
 
-<nav class="top" aria-label="Sections">
+<nav class="top onglets" aria-label="Onglets">
   <div class="wrap">
-    <a class="brand" href="#haut">Prix Astérix</a>
+    <a class="brand" href="#accueil">Astérix vs Disney</a>
     <a href="#bref">En bref</a>
     <a href="#concurrents">Concurrents</a>
     <a href="#prix">Prix</a>
@@ -173,11 +174,40 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem 3rem; color: var
     <a href="#offre">Offre test</a>
     <a href="#resultats">Résultats</a>
     <a href="#sources">Sources</a>
+    <a href="#recommandation">Recommandation</a>
   </div>
 </nav>
 
+<!-- Page de garde : seule vue affichée à l'arrivée. Le reste s'ouvre par les onglets. -->
+<section id="accueil" class="garde" aria-labelledby="t-garde">
+  <div class="wrap garde-contenu">
+    <p class="eyebrow">Étude de prix · Marketing · Novembre 2026</p>
+    <h1 id="t-garde"><mark>Astérix</mark><span class="vs">vs</span>Disney</h1>
+    <p class="lede">Le Parc Astérix face à Disneyland Paris : jusqu'où peut monter le billet d'entrée&nbsp;?</p>
+
+    <div class="probleme" role="group" aria-label="Problématique">
+      <span class="eyebrow">Problématique</span>
+      <p>Le Parc Astérix peut-il continuer à monter ses tarifs d'entrée pour financer ses investissements records, sans perdre son statut d'alternative abordable face à Disneyland Paris&nbsp;?</p>
+    </div>
+
+    <div class="garde-pied">
+      <div class="equipe">
+        <span class="eyebrow">Équipe</span>
+        <ul>
+          <li>Mylène Martinez</li>
+          <li>Pooya Safaoian</li>
+          <li>Axel Fouert-Pouret</li>
+          <li>Loïc Sabatini</li>
+          <li>Héloïse Despujos</li>
+        </ul>
+      </div>
+      <a class="cta" href="#bref">Entrer dans l'étude →</a>
+    </div>
+  </div>
+</section>
+
 <main class="wrap" id="haut">
-  <header class="hero">
+  <header class="hero" data-onglet="bref">
     <p class="eyebrow">Étude de marché · prix relevés le 1er octobre 2026</p>
     <h1>Jusqu'où peut monter<br>le billet du <mark>Parc Astérix</mark>&nbsp;?</h1>
     <p class="lede">Que font les concurrents, combien gagne le parc, et quel prix de billet reste acceptable pour une sortie en famille ou entre amis ?</p>
@@ -429,11 +459,28 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem 3rem; color: var
     </ul>
     <p class="sources">Les tarifs « à partir de » dépendent des disponibilités. Pour la version finale du dossier, garder une capture d'écran datée de chaque tarif et relever Disney pour exactement la même date.</p>
   </section>
+
+  <section id="recommandation" aria-labelledby="t-reco">
+    <div class="head">
+      <p class="eyebrow">Conclusion</p>
+      <h2 id="t-reco">Recommandation</h2>
+    </div>
+    <div class="probleme">
+      <span class="eyebrow">Rappel de la problématique</span>
+      <p>Le Parc Astérix peut-il continuer à monter ses tarifs d'entrée pour financer ses investissements records, sans perdre son statut d'alternative abordable face à Disneyland Paris&nbsp;?</p>
+    </div>
+    <div class="a-venir">
+      <span class="tag">En cours de rédaction</span>
+      <p>Notre recommandation sera ajoutée ici une fois l'analyse des réponses au questionnaire terminée.</p>
+    </div>
+  </section>
 </main>
 
 <footer>
-  <div class="wrap">Projet prix marketing · <a href="analyse/">Résultats du questionnaire</a> · Comptes : Grévin et compagnie, exercices 2020/21 à 2024/25.</div>
+  <div class="wrap">Astérix VS Disney · Mylène Martinez, Pooya Safaoian, Axel Fouert-Pouret, Loïc Sabatini, Héloïse Despujos · Comptes : Grévin et compagnie, exercices 2020/21 à 2024/25.</div>
 </footer>
+
+<script src="onglets.js?v=1"></script>
 
 <script>
 (function () {
