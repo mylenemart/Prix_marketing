@@ -28,3 +28,7 @@ nav.onglets a[aria-current="page"] { color: var(--fg); box-shadow: inset 0 -2px 
 
 /* ---------- Onglet Recommandation ---------- */
 .a-venir { border: 1px dashed var(--line); border-radius: 10px; padding: 1.6rem 1.3rem; display: grid; gap: 0.7rem; justify-items: start; color: var(--muted); max-width: 70ch; }
+
+/* ---------- Parties regroupées (1 à 4) : sous-parties à l'intérieur d'un onglet ---------- */
+main > section > section { padding-block: 2.2rem 0.6rem; }
+main > section > section h2 { font-size: clamp(1.3rem, 2.6vw, 1.6rem); }

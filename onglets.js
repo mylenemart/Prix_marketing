@@ -43,7 +43,11 @@
     });
 
     // le navigateur saute d'abord à l'ancre : on remonte en haut juste après
-    if (defiler) setTimeout(function () { window.scrollTo(0, 0); }, 0);
+    // une sous-partie (#canaux, #plafond…) : on descend jusqu'à elle, sinon on remonte en haut
+    var sousPartie = cible && cible !== id ? document.getElementById(cible) : null;
+    if (defiler) setTimeout(function () {
+      if (sousPartie) sousPartie.scrollIntoView(); else window.scrollTo(0, 0);
+    }, 0);
     return document.querySelector("#" + id + " h1, #" + id + " h2");
   }
 
@@ -52,7 +56,7 @@
     if (titre) { titre.setAttribute("tabindex", "-1"); titre.focus({ preventScroll: true }); }
   });
   window.addEventListener("resize", hauteurNav);
-  window.addEventListener("load", function () { hauteurNav(); if (location.hash) window.scrollTo(0, 0); });
+  window.addEventListener("load", function () { hauteurNav(); });
   hauteurNav();
   afficher(location.hash.slice(1), true);
 })();

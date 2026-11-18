@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Public+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="garde.css?v=1">
+<link rel="stylesheet" href="garde.css?v=2">
 <style>
 /* Une colonne de lecture, des chiffres clés et des tableaux sobres. Chaque chiffre des comptes est un lien vers sa page dans le PDF. */
 :root {
@@ -167,14 +167,11 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem 3rem; color: var
   <div class="wrap">
     <a class="brand" href="#accueil">Astérix vs Disney</a>
     <a href="#bref">En bref</a>
-    <a href="#concurrents">Concurrents</a>
-    <a href="#prix">Prix</a>
-    <a href="#finances">Finances</a>
-    <a href="#plafond">Plafond</a>
-    <a href="#offre">Offre test</a>
-    <a href="#resultats">Résultats</a>
+    <a href="#finances">1. Finances</a>
+    <a href="#concurrence">2. Concurrence</a>
+    <a href="#resultats">3. Prix psychologique</a>
+    <a href="#proposition">4. Proposition</a>
     <a href="#sources">Sources</a>
-    <a href="#recommandation">Recommandation</a>
   </div>
 </nav>
 
@@ -235,7 +232,7 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem 3rem; color: var
       <div class="card">
         <span class="eyebrow">Une marge qui baisse</span>
         <span class="big num">19,2 → 12,3&nbsp;%</span>
-        <p>C'est la part du chiffre d'affaires qui reste en résultat d'exploitation, de 2021/22 à 2024/25 (calcul à partir des comptes, voir « Finances »).</p>
+        <p>C'est la part du chiffre d'affaires qui reste en résultat d'exploitation, de 2021/22 à 2024/25 (calcul à partir des comptes, voir « 1. Finances »).</p>
       </div>
       <div class="card">
         <span class="eyebrow">Un prix plafond</span>
@@ -245,84 +242,9 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem 3rem; color: var
     </div>
   </section>
 
-  <section id="concurrents" aria-labelledby="t-conc">
-    <div class="head">
-      <p class="eyebrow">Concurrence</p>
-      <h2 id="t-conc">Qui concurrence le Parc Astérix ?</h2>
-    </div>
-    <p class="prose">Le besoin : sortir en famille ou entre amis pour une journée immersive à un prix jugé acceptable, surtout en Île-de-France et dans le nord de la France.</p>
-    <div class="trio">
-      <div class="card ast">
-        <h3>Concurrents directs</h3>
-        <p>Même journée en parc d'attractions.</p>
-        <ul>
-          <li>Disneyland Paris <small>le comparable premium, deux parcs</small></li>
-          <li>La Mer de Sable <small>parc familial régional, prix plus bas</small></li>
-          <li>Parc Saint-Paul <small>parc familial régional, prix plus bas</small></li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3>Concurrents indirects</h3>
-        <p>Une autre promesse, pour le même budget.</p>
-        <ul>
-          <li>Puy du Fou <small>spectacles et séjours</small></li>
-          <li>Autres parcs de loisirs <small>sorties et week-ends</small></li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3>Alternatives</h3>
-        <p>Elles captent le temps libre et le budget.</p>
-        <ul>
-          <li>Parcs publics et forêts</li>
-          <li>Cinéma et loisirs en salle</li>
-          <li>Sorties gratuites ou activités à la maison</li>
-        </ul>
-      </div>
-    </div>
-    <p class="note">Ordre de grandeur : le Parc Astérix a reçu 2,89&nbsp;M de visiteurs en 2024/25 (<a href="sources/grevin-comptes-sociaux-2025.pdf#page=15">comptes 2025, p.&nbsp;15</a>). Le parc Disneyland Paris en a compté 10,2&nbsp;M en 2024 selon le classement TEA<sup><a href="#sources">web</a></sup>. Ce sont des périodes différentes : exercice du 1er octobre au 30 septembre d'un côté, année civile de l'autre.</p>
-  </section>
-
-  <section id="prix" aria-labelledby="t-prix">
-    <div class="head">
-      <p class="eyebrow">Les prix</p>
-      <h2 id="t-prix">Prix d'appel adulte pour une journée</h2>
-    </div>
-    <p class="note">Ce sont des points d'entrée, pas des paniers comparables à date égale : le nombre de parcs, la date, la flexibilité et les services inclus changent la valeur de l'offre.</p>
-    <figure class="chart" aria-label="Graphique des prix d'appel adulte en euros, avec le plafond provisoire à 59 euros">
-      <div class="legend">
-        <span><i class="ast"></i>Parc Astérix</span>
-        <span><i class="oth"></i>Concurrents</span>
-        <span><i class="rng"></i>Fourchette selon la date</span>
-        <span><i class="ceil"></i>Plafond provisoire 59&nbsp;€</span>
-      </div>
-      <div class="bars" id="bars"></div>
-      <div class="axis" aria-hidden="true"><span></span><div class="ticks" id="ticks"></div></div>
-    </figure>
-    <details class="plus">
-      <summary>Voir le détail des offres et leurs conditions</summary>
-      <div class="tablebox">
-        <table>
-          <thead><tr><th>Acteur</th><th>Offre</th><th class="price">Prix adulte</th><th>Conditions</th></tr></thead>
-          <tbody>
-            <tr class="ast"><td>Parc Astérix</td><td>Billet Malin</td><td class="price">49&nbsp;€</td><td>Tarif unique, quantité limitée, billet daté</td></tr>
-            <tr class="ast"><td>Parc Astérix</td><td>Billet Futé</td><td class="price">dès 56&nbsp;€</td><td>Billet daté, réservation au plus tard à J-7</td></tr>
-            <tr class="ast"><td>Parc Astérix</td><td>Liberté Flex</td><td class="price">68&nbsp;€</td><td>Billet modifiable, réservation possible jusqu'au jour J</td></tr>
-            <tr><td>Disneyland Paris</td><td>1 jour / 1 parc, daté</td><td class="price">52 à 59&nbsp;€</td><td>Période verte, prix variable selon la date et la demande</td></tr>
-            <tr><td>Disneyland Paris</td><td>1 jour / 2 parcs, daté</td><td class="price">87 à 94&nbsp;€</td><td>Période verte, deux parcs : offre différente d'une journée Astérix</td></tr>
-            <tr><td>Disneyland Paris</td><td>Billet Liberté, 1 parc</td><td class="price">119&nbsp;€</td><td>Date flexible</td></tr>
-            <tr><td>La Mer de Sable</td><td>Billet daté Citrouille</td><td class="price">dès 28&nbsp;€</td><td>Achat web, places limitées <span class="muted">· guichet : 34,90&nbsp;€</span></td></tr>
-            <tr><td>Parc Saint-Paul</td><td>Billet non daté</td><td class="price">dès 29&nbsp;€</td><td>Parking gratuit, plus de 35 attractions annoncées</td></tr>
-            <tr><td>Puy du Fou</td><td>Billet journée</td><td class="price">dès 47&nbsp;€</td><td>Offre centrée sur les spectacles, tarifs variables selon la date</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </details>
-    <p class="sources">Sources : sites de billetterie et de tarifs consultés le 1er octobre 2026, détaillés dans la partie « Sources » en bas de page (billetteries Astérix, Disney, Mer de Sable, Parc Saint-Paul, Puy du Fou).</p>
-  </section>
-
   <section id="finances" aria-labelledby="t-fin">
     <div class="head">
-      <p class="eyebrow">Les finances du Parc Astérix</p>
+      <p class="eyebrow">1 · L'entreprise par ses documents financiers</p>
       <h2 id="t-fin">Un parc qui se porte bien, mais dont la marge baisse</h2>
     </div>
     <p class="prose">Le Parc Astérix est exploité par la société <strong>Grévin et compagnie</strong>, qui publie ses comptes. Les chiffres ci-dessous viennent directement de ces comptes.</p>
@@ -373,63 +295,206 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem 3rem; color: var
       <li><strong>La dette nette remonte.</strong> Elle passe de 63&nbsp;M€ en 2021/22 à 90&nbsp;M€ en 2024/25 (<a href="sources/grevin-comptes-sociaux-2022.pdf#page=21">2022, p.&nbsp;21</a> ; <a href="sources/grevin-comptes-sociaux-2025.pdf#page=24">2025, p.&nbsp;24</a>). Elle repose surtout sur une ligne de crédit de CDA Financement et sur le « cash pooling » avec la Compagnie des Alpes (<a href="sources/grevin-comptes-sociaux-2025.pdf#page=24">2025, p.&nbsp;24</a>).</li>
       <li><strong>Le dividende baisse aussi.</strong> 8,85&nbsp;M€ votés pour 2024/25 (2,55&nbsp;€ par action), contre 12,2&nbsp;M€ pour 2022/23 (<a href="sources/grevin-comptes-sociaux-2025.pdf#page=3">procès-verbal 2025, p.&nbsp;3</a> et <a href="sources/grevin-comptes-sociaux-2025.pdf#page=4">p.&nbsp;4</a>).</li>
     </ul>
-
-    <h3>Et les concurrents ?</h3>
-    <div class="tablebox">
-      <table>
-        <thead><tr><th>Acteur</th><th class="n">Chiffre d'affaires</th><th class="n">Résultat net</th><th>Période</th><th>Source</th></tr></thead>
-        <tbody>
-          <tr class="ast"><td>Parc Astérix (Grévin et compagnie)</td><td class="n"><a href="sources/grevin-comptes-sociaux-2025.pdf#page=13">215,8&nbsp;M€</a></td><td class="n"><a href="sources/grevin-comptes-sociaux-2025.pdf#page=14">14,7&nbsp;M€</a></td><td>2024/25</td><td><span class="tag papier">comptes fournis</span></td></tr>
-          <tr><td>Disneyland Paris (Euro Disney Associés SAS)</td><td class="n">2&nbsp;680&nbsp;M€</td><td class="n">260&nbsp;M€</td><td>2024/25</td><td><a href="https://www.lechotouristique.com/article/en-2025-disneyland-paris-a-triple-son-resultat-net"><span class="tag">web</span> L'Écho touristique</a></td></tr>
-          <tr><td>Puy du Fou France</td><td class="n">184,2&nbsp;M€</td><td class="n">26,1&nbsp;M€</td><td>2024</td><td><a href="https://www.pappers.fr/entreprise/puy-du-fou-france-347490070"><span class="tag">web</span> Pappers</a></td></tr>
-          <tr><td>La Mer de Sable</td><td class="n">&gt;&nbsp;12&nbsp;M€</td><td class="n">n.c.</td><td>annuel</td><td><a href="https://www.lejournaldesentreprises.com/breve/la-mer-de-sable-conserve-son-niveau-de-frequentation-apres-un-printemps-complique-2145363"><span class="tag">web</span> Journal des entreprises</a></td></tr>
-          <tr><td>Parc Saint-Paul</td><td class="n">7,49&nbsp;M€</td><td class="n">n.c.</td><td>2025</td><td><a href="https://www.lejournaldesentreprises.com/breve/le-breton-looping-acquiert-le-parc-saint-paul-dans-loise-2117693"><span class="tag">web</span> Journal des entreprises</a></td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="note">Seuls les chiffres du Parc Astérix viennent de comptes fournis. Les autres viennent du web, sans les comptes eux-mêmes : à remplacer dès que les comptes de ces acteurs sont disponibles. Les périodes et les périmètres diffèrent (le chiffre de la Mer de Sable est celui du parc, annoncé par la presse ; Disneyland Paris est l'exploitant de toute la destination).</p>
-    <p class="prose">Les concurrents investissent aussi : 2&nbsp;Md€ pour le second parc de Disneyland Paris<sup><a href="https://news.disneylandparis.com/en/disneyland-paris-enters-a-new-era-with-the-inauguration-of-world-of-frozen-and-the-many-new-experiences-at-disney-adventure-world-its-reimagined-second-park/">web</a></sup>, 70&nbsp;M€ en 2026 pour le Puy du Fou<sup><a href="https://www.lejournaldesentreprises.com/article/le-puy-du-fou-investit-70-millions-deuros-pour-soutenir-sa-croissance-2140517">web</a></sup>. Le Parc Astérix annonce 250&nbsp;M€ d'ici 2030<sup><a href="https://newsroom.parcasterix.fr/entreprise/projets-et-developpement/">web</a></sup>.</p>
   </section>
 
-  <section id="plafond" aria-labelledby="t-plaf">
+  <section id="concurrence" aria-labelledby="t-concurrence">
     <div class="head">
-      <p class="eyebrow">Prix plafond provisoire</p>
-      <h2 id="t-plaf">59&nbsp;€ pour un billet daté en période verte, pas toute l'année</h2>
+      <p class="eyebrow">2 · La concurrence</p>
+      <h2 id="t-concurrence">Prix pratiqués, canaux de vente et marché</h2>
     </div>
-    <p class="prose">Le prix plafond ne peut pas être unique pour toutes les dates. Pour un adulte, un billet daté 1 jour / 1 parc en période verte, le repère Disney publié va de 52 à 59&nbsp;€. À vérifier à date égale dans la billetterie officielle Disney.</p>
-    <div class="ceiling-grid">
-      <div class="cmp warn"><span class="eyebrow">Billet daté</span><span class="big num">56&nbsp;€</span><p>Le Billet Futé est déjà proche du plafond. Une hausse générale effacerait l'avantage prix des périodes calmes.</p></div>
-      <div class="cmp ok"><span class="eyebrow">Billet flexible</span><span class="big num">68&nbsp;€</span><p>Le Liberté Flex reste très en dessous du billet flexible Disney, à 119&nbsp;€.</p></div>
-      <div class="cmp"><span class="eyebrow">Concurrents régionaux</span><span class="big num">28–29&nbsp;€</span><p>La Mer de Sable et Saint-Paul pèsent sur l'image d'accessibilité, sans offre équivalente en taille ni en contenu.</p></div>
-    </div>
-    <div class="verdict">
-      <p class="eyebrow">Conclusion</p>
-      <p>Le Parc Astérix peut relever certains prix, plutôt sur les <strong>dates de forte demande</strong> et les <strong>options de flexibilité</strong>. Il devrait protéger un tarif d'appel visible. Ses comptes montrent une marge qui baisse et des investissements lourds : l'hôtellerie, la restauration et la fréquentation peuvent financer une partie de la montée en gamme, sans tout faire porter par le billet d'entrée.</p>
-    </div>
-  </section>
-
-  <section id="offre" aria-labelledby="t-offre">
-    <div class="head">
-      <p class="eyebrow">Une idée à tester</p>
-      <h2 id="t-offre">Le Billet Gaulois Malin</h2>
-    </div>
-    <div class="offer">
-      <div class="hd"><h3>Billet Gaulois Malin</h3><span class="eyebrow">daté · réservé à l'avance · jours calmes</span></div>
-      <div class="bd">
-        <div><span class="eyebrow">Offre</span><p>Billet daté, réservé à l'avance, valable en semaine ou les jours de faible affluence.</p></div>
-        <div><span class="eyebrow">Public</span><p>Familles sensibles au prix, capables d'adapter leur date, qui veulent une journée complète d'attractions et de spectacles.</p></div>
-        <div><span class="eyebrow">Prix d'essai</span><strong class="num">49&nbsp;€</strong><p>par personne, sur une sélection limitée de dates. Garder le billet standard dès 56&nbsp;€ et le Flex à 68&nbsp;€, puis mesurer la réaction avant d'élargir.</p></div>
+    <section id="concurrents" aria-labelledby="t-conc">
+      <div class="head">
+        <p class="eyebrow">Concurrence</p>
+        <h2 id="t-conc">Qui concurrence le Parc Astérix ?</h2>
       </div>
-    </div>
+      <p class="prose">Le besoin : sortir en famille ou entre amis pour une journée immersive à un prix jugé acceptable, surtout en Île-de-France et dans le nord de la France.</p>
+      <div class="trio">
+        <div class="card ast">
+          <h3>Concurrents directs</h3>
+          <p>Même journée en parc d'attractions.</p>
+          <ul>
+            <li>Disneyland Paris <small>le comparable premium, deux parcs</small></li>
+            <li>La Mer de Sable <small>parc familial régional, prix plus bas</small></li>
+            <li>Parc Saint-Paul <small>parc familial régional, prix plus bas</small></li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Concurrents indirects</h3>
+          <p>Une autre promesse, pour le même budget.</p>
+          <ul>
+            <li>Puy du Fou <small>spectacles et séjours</small></li>
+            <li>Autres parcs de loisirs <small>sorties et week-ends</small></li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Alternatives</h3>
+          <p>Elles captent le temps libre et le budget.</p>
+          <ul>
+            <li>Parcs publics et forêts</li>
+            <li>Cinéma et loisirs en salle</li>
+            <li>Sorties gratuites ou activités à la maison</li>
+          </ul>
+        </div>
+      </div>
+      <p class="note">Ordre de grandeur : le Parc Astérix a reçu 2,89&nbsp;M de visiteurs en 2024/25 (<a href="sources/grevin-comptes-sociaux-2025.pdf#page=15">comptes 2025, p.&nbsp;15</a>). Le parc Disneyland Paris en a compté 10,2&nbsp;M en 2024 selon le classement TEA<sup><a href="#sources">web</a></sup>. Ce sont des périodes différentes : exercice du 1er octobre au 30 septembre d'un côté, année civile de l'autre.</p>
+    </section>
+
+    <section id="prix" aria-labelledby="t-prix">
+      <div class="head">
+        <p class="eyebrow">Les prix</p>
+        <h2 id="t-prix">Prix d'appel adulte pour une journée</h2>
+      </div>
+      <p class="note">Ce sont des points d'entrée, pas des paniers comparables à date égale : le nombre de parcs, la date, la flexibilité et les services inclus changent la valeur de l'offre.</p>
+      <figure class="chart" aria-label="Graphique des prix d'appel adulte en euros, avec le plafond provisoire à 59 euros">
+        <div class="legend">
+          <span><i class="ast"></i>Parc Astérix</span>
+          <span><i class="oth"></i>Concurrents</span>
+          <span><i class="rng"></i>Fourchette selon la date</span>
+          <span><i class="ceil"></i>Plafond provisoire 59&nbsp;€</span>
+        </div>
+        <div class="bars" id="bars"></div>
+        <div class="axis" aria-hidden="true"><span></span><div class="ticks" id="ticks"></div></div>
+      </figure>
+      <details class="plus">
+        <summary>Voir le détail des offres et leurs conditions</summary>
+        <div class="tablebox">
+          <table>
+            <thead><tr><th>Acteur</th><th>Offre</th><th class="price">Prix adulte</th><th>Conditions</th></tr></thead>
+            <tbody>
+              <tr class="ast"><td>Parc Astérix</td><td>Billet Malin</td><td class="price">49&nbsp;€</td><td>Tarif unique, quantité limitée, billet daté</td></tr>
+              <tr class="ast"><td>Parc Astérix</td><td>Billet Futé</td><td class="price">dès 56&nbsp;€</td><td>Billet daté, réservation au plus tard à J-7</td></tr>
+              <tr class="ast"><td>Parc Astérix</td><td>Liberté Flex</td><td class="price">68&nbsp;€</td><td>Billet modifiable, réservation possible jusqu'au jour J</td></tr>
+              <tr><td>Disneyland Paris</td><td>1 jour / 1 parc, daté</td><td class="price">52 à 59&nbsp;€</td><td>Période verte, prix variable selon la date et la demande</td></tr>
+              <tr><td>Disneyland Paris</td><td>1 jour / 2 parcs, daté</td><td class="price">87 à 94&nbsp;€</td><td>Période verte, deux parcs : offre différente d'une journée Astérix</td></tr>
+              <tr><td>Disneyland Paris</td><td>Billet Liberté, 1 parc</td><td class="price">119&nbsp;€</td><td>Date flexible</td></tr>
+              <tr><td>La Mer de Sable</td><td>Billet daté Citrouille</td><td class="price">dès 28&nbsp;€</td><td>Achat web, places limitées <span class="muted">· guichet : 34,90&nbsp;€</span></td></tr>
+              <tr><td>Parc Saint-Paul</td><td>Billet non daté</td><td class="price">dès 29&nbsp;€</td><td>Parking gratuit, plus de 35 attractions annoncées</td></tr>
+              <tr><td>Puy du Fou</td><td>Billet journée</td><td class="price">dès 47&nbsp;€</td><td>Offre centrée sur les spectacles, tarifs variables selon la date</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+      <p class="sources">Sources : sites de billetterie et de tarifs consultés le 1er octobre 2026, détaillés dans l'onglet « Sources » (billetteries Astérix, Disney, Mer de Sable, Parc Saint-Paul, Puy du Fou).</p>
+    </section>
+
+    <section id="canaux" aria-labelledby="t-canaux">
+      <div class="head">
+        <p class="eyebrow">Les canaux</p>
+        <h2 id="t-canaux">Où et comment les billets sont vendus</h2>
+      </div>
+      <div class="trio">
+        <div class="card ast">
+          <h3>Parc Astérix</h3>
+          <p>Billetterie officielle en ligne. Trois billets selon l'engagement du visiteur : daté à quantité limitée (Malin), daté réservé à J-7 (Futé) et modifiable jusqu'au jour J (Liberté Flex).</p>
+        </div>
+        <div class="card">
+          <h3>Disneyland Paris</h3>
+          <p>Billetterie officielle en ligne, avec des prix qui varient selon la date et la demande, et un billet à date flexible beaucoup plus cher.</p>
+        </div>
+        <div class="card">
+          <h3>Parcs régionaux</h3>
+          <p>La Mer de Sable vend moins cher sur internet (dès 28&nbsp;€) qu'au guichet (34,90&nbsp;€) : le web sert à remplir les dates à l'avance.</p>
+        </div>
+      </div>
+      <div class="a-venir">
+        <span class="tag">À compléter</span>
+        <p>Autres canaux à documenter : revendeurs et billetteries partenaires, comités d'entreprise, offres groupes et scolaires, séjours avec hôtel.</p>
+      </div>
+    </section>
+
+    <section id="marche" aria-labelledby="t-marche">
+      <div class="head">
+        <p class="eyebrow">Le marché</p>
+        <h2 id="t-marche">Le poids de chaque acteur</h2>
+      </div>
+      <div class="tablebox">
+        <table>
+          <thead><tr><th>Acteur</th><th class="n">Chiffre d'affaires</th><th class="n">Résultat net</th><th>Période</th><th>Source</th></tr></thead>
+          <tbody>
+            <tr class="ast"><td>Parc Astérix (Grévin et compagnie)</td><td class="n"><a href="sources/grevin-comptes-sociaux-2025.pdf#page=13">215,8&nbsp;M€</a></td><td class="n"><a href="sources/grevin-comptes-sociaux-2025.pdf#page=14">14,7&nbsp;M€</a></td><td>2024/25</td><td><span class="tag papier">comptes fournis</span></td></tr>
+            <tr><td>Disneyland Paris (Euro Disney Associés SAS)</td><td class="n">2&nbsp;680&nbsp;M€</td><td class="n">260&nbsp;M€</td><td>2024/25</td><td><a href="https://www.lechotouristique.com/article/en-2025-disneyland-paris-a-triple-son-resultat-net"><span class="tag">web</span> L'Écho touristique</a></td></tr>
+            <tr><td>Puy du Fou France</td><td class="n">184,2&nbsp;M€</td><td class="n">26,1&nbsp;M€</td><td>2024</td><td><a href="https://www.pappers.fr/entreprise/puy-du-fou-france-347490070"><span class="tag">web</span> Pappers</a></td></tr>
+            <tr><td>La Mer de Sable</td><td class="n">&gt;&nbsp;12&nbsp;M€</td><td class="n">n.c.</td><td>annuel</td><td><a href="https://www.lejournaldesentreprises.com/breve/la-mer-de-sable-conserve-son-niveau-de-frequentation-apres-un-printemps-complique-2145363"><span class="tag">web</span> Journal des entreprises</a></td></tr>
+            <tr><td>Parc Saint-Paul</td><td class="n">7,49&nbsp;M€</td><td class="n">n.c.</td><td>2025</td><td><a href="https://www.lejournaldesentreprises.com/breve/le-breton-looping-acquiert-le-parc-saint-paul-dans-loise-2117693"><span class="tag">web</span> Journal des entreprises</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">Seuls les chiffres du Parc Astérix viennent de comptes fournis. Les autres viennent du web, sans les comptes eux-mêmes : à remplacer dès que les comptes de ces acteurs sont disponibles. Les périodes et les périmètres diffèrent (le chiffre de la Mer de Sable est celui du parc, annoncé par la presse ; Disneyland Paris est l'exploitant de toute la destination).</p>
+      <p class="prose">Les concurrents investissent aussi : 2&nbsp;Md€ pour le second parc de Disneyland Paris<sup><a href="https://news.disneylandparis.com/en/disneyland-paris-enters-a-new-era-with-the-inauguration-of-world-of-frozen-and-the-many-new-experiences-at-disney-adventure-world-its-reimagined-second-park/">web</a></sup>, 70&nbsp;M€ en 2026 pour le Puy du Fou<sup><a href="https://www.lejournaldesentreprises.com/article/le-puy-du-fou-investit-70-millions-deuros-pour-soutenir-sa-croissance-2140517">web</a></sup>. Le Parc Astérix annonce 250&nbsp;M€ d'ici 2030<sup><a href="https://newsroom.parcasterix.fr/entreprise/projets-et-developpement/">web</a></sup>.</p>
+    </section>
   </section>
 
   <section id="resultats" aria-labelledby="t-res">
     <div class="head">
-      <p class="eyebrow">Questionnaire en ligne</p>
-      <h2 id="t-res">Ce que répondent les participants</h2>
+      <p class="eyebrow">3 · Mesure du prix psychologique</p>
+      <h2 id="t-res">Ce que répondent de vraies personnes</h2>
     </div>
     <p class="prose">Un questionnaire anonyme teste deux prix du Parc Astérix (49 et 54,50&nbsp;€) avec ou sans coupe-file, et mesure les seuils de prix acceptables pour Astérix et Disneyland Paris. L'analyse se met à jour toute seule à partir des réponses.</p>
     <a class="cta" href="analyse/">Voir les résultats en direct →</a>
+  </section>
+
+  <section id="proposition" aria-labelledby="t-proposition">
+    <div class="head">
+      <p class="eyebrow">4 · Notre proposition</p>
+      <h2 id="t-proposition">Ce que le Parc Astérix pourrait faire</h2>
+    </div>
+    <section id="plafond" aria-labelledby="t-plaf">
+      <div class="head">
+        <p class="eyebrow">Prix plafond provisoire</p>
+        <h2 id="t-plaf">59&nbsp;€ pour un billet daté en période verte, pas toute l'année</h2>
+      </div>
+      <p class="prose">Le prix plafond ne peut pas être unique pour toutes les dates. Pour un adulte, un billet daté 1 jour / 1 parc en période verte, le repère Disney publié va de 52 à 59&nbsp;€. À vérifier à date égale dans la billetterie officielle Disney.</p>
+      <div class="ceiling-grid">
+        <div class="cmp warn"><span class="eyebrow">Billet daté</span><span class="big num">56&nbsp;€</span><p>Le Billet Futé est déjà proche du plafond. Une hausse générale effacerait l'avantage prix des périodes calmes.</p></div>
+        <div class="cmp ok"><span class="eyebrow">Billet flexible</span><span class="big num">68&nbsp;€</span><p>Le Liberté Flex reste très en dessous du billet flexible Disney, à 119&nbsp;€.</p></div>
+        <div class="cmp"><span class="eyebrow">Concurrents régionaux</span><span class="big num">28–29&nbsp;€</span><p>La Mer de Sable et Saint-Paul pèsent sur l'image d'accessibilité, sans offre équivalente en taille ni en contenu.</p></div>
+      </div>
+      <div class="verdict">
+        <p class="eyebrow">Conclusion</p>
+        <p>Le Parc Astérix peut relever certains prix, plutôt sur les <strong>dates de forte demande</strong> et les <strong>options de flexibilité</strong>. Il devrait protéger un tarif d'appel visible. Ses comptes montrent une marge qui baisse et des investissements lourds : l'hôtellerie, la restauration et la fréquentation peuvent financer une partie de la montée en gamme, sans tout faire porter par le billet d'entrée.</p>
+      </div>
+    </section>
+
+    <section id="offre" aria-labelledby="t-offre">
+      <div class="head">
+        <p class="eyebrow">Une idée à tester</p>
+        <h2 id="t-offre">Le Billet Gaulois Malin</h2>
+      </div>
+      <div class="offer">
+        <div class="hd"><h3>Billet Gaulois Malin</h3><span class="eyebrow">daté · réservé à l'avance · jours calmes</span></div>
+        <div class="bd">
+          <div><span class="eyebrow">Offre</span><p>Billet daté, réservé à l'avance, valable en semaine ou les jours de faible affluence.</p></div>
+          <div><span class="eyebrow">Public</span><p>Familles sensibles au prix, capables d'adapter leur date, qui veulent une journée complète d'attractions et de spectacles.</p></div>
+          <div><span class="eyebrow">Prix d'essai</span><strong class="num">49&nbsp;€</strong><p>par personne, sur une sélection limitée de dates. Garder le billet standard dès 56&nbsp;€ et le Flex à 68&nbsp;€, puis mesurer la réaction avant d'élargir.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="recommandation" aria-labelledby="t-reco">
+      <div class="head">
+        <p class="eyebrow">Ce que l'entreprise pourrait faire</p>
+        <h2 id="t-reco">Recommandation</h2>
+      </div>
+      <div class="probleme">
+        <span class="eyebrow">Rappel de la problématique</span>
+        <p>Le Parc Astérix peut-il continuer à monter ses tarifs d'entrée pour financer ses investissements records, sans perdre son statut d'alternative abordable face à Disneyland Paris&nbsp;?</p>
+      </div>
+      <div class="a-venir">
+        <span class="tag">En cours de rédaction</span>
+        <p>Notre recommandation sera ajoutée ici une fois l'analyse des réponses au questionnaire terminée.</p>
+      </div>
+    </section>
+
+    <section id="risque" aria-labelledby="t-risque">
+      <div class="head">
+        <p class="eyebrow">Si nous nous trompons</p>
+        <h2 id="t-risque">Ce que ça coûte à l'entreprise</h2>
+      </div>
+      <div class="a-venir">
+        <span class="tag">En cours de rédaction</span>
+        <p>Nous chiffrerons ici le coût d'une erreur de prix : visiteurs perdus si le billet est trop cher, recettes manquées s'il est trop bas.</p>
+      </div>
+    </section>
   </section>
 
   <section id="sources" aria-labelledby="t-src">
@@ -459,28 +524,13 @@ footer { border-top: 1px solid var(--line); padding-block: 2rem 3rem; color: var
     </ul>
     <p class="sources">Les tarifs « à partir de » dépendent des disponibilités. Pour la version finale du dossier, garder une capture d'écran datée de chaque tarif et relever Disney pour exactement la même date.</p>
   </section>
-
-  <section id="recommandation" aria-labelledby="t-reco">
-    <div class="head">
-      <p class="eyebrow">Conclusion</p>
-      <h2 id="t-reco">Recommandation</h2>
-    </div>
-    <div class="probleme">
-      <span class="eyebrow">Rappel de la problématique</span>
-      <p>Le Parc Astérix peut-il continuer à monter ses tarifs d'entrée pour financer ses investissements records, sans perdre son statut d'alternative abordable face à Disneyland Paris&nbsp;?</p>
-    </div>
-    <div class="a-venir">
-      <span class="tag">En cours de rédaction</span>
-      <p>Notre recommandation sera ajoutée ici une fois l'analyse des réponses au questionnaire terminée.</p>
-    </div>
-  </section>
 </main>
 
 <footer>
   <div class="wrap">Astérix VS Disney · Mylène Martinez, Pooya Safaoian, Axel Fouert-Pouret, Loïc Sabatini, Héloïse Despujos · Comptes : Grévin et compagnie, exercices 2020/21 à 2024/25.</div>
 </footer>
 
-<script src="onglets.js?v=1"></script>
+<script src="onglets.js?v=2"></script>
 
 <script>
 (function () {
