@@ -70,9 +70,9 @@
   ];
   const POINTS_VW = [
     { cle: "pmc", code: "PMC", nom: "Prix plancher", aide: "en dessous, trop de répondants doutent de la qualité" },
-    { cle: "opp", code: "OPP", nom: "Prix optimal", aide: "le moins de répondants rebutés, que ce soit par un prix trop bas ou trop haut" },
+    { cle: "opp", code: "OPP", nom: "Prix optimal", aide: "croisement trop bon marché / trop cher ; pas un optimum de bénéfice" },
     { cle: "ipp", code: "IPP", nom: "Prix d'indifférence", aide: "autant de répondants le trouvent bon marché que cher" },
-    { cle: "pme", code: "PME", nom: "Prix plafond", aide: "au-dessus, trop de répondants renoncent à acheter" },
+    { cle: "pme", code: "PME", nom: "Prix plafond", aide: "borne statistique de l’échantillon, sans prévision d’achat" },
   ];
 
 
@@ -313,6 +313,8 @@
     completes.forEach(function (l) {
       const v = texte(l.version), choix = texte(l.choix_ab);
       if (!par[v] || (choix !== "Asterix" && choix !== "Disneyland")) return;
+      if (num(l.prix_asterix_ab) !== VERSIONS[v].prix || num(l.prix_disney_ab) !== 79 ||
+          Boolean(texte(l.bonus_asterix_ab)) !== VERSIONS[v].coupe) return;
       const g = par[v];
       g.n++; total++;
       if (choix === "Asterix") { g.k++; asterix++; }
@@ -355,7 +357,7 @@
       const v = colonnes.map(function (c) { return num(l[c]); });
       if (v.some(isNaN)) return;
       resultat.total++;
-      const incoherent = texte(l["incoherent_vw_" + parc]) === "oui";
+      const incoherent = v.some(function (x, i) { return i > 0 && x < v[i - 1]; });
       const extreme = v.some(function (x) { return x < BORNES_BILLET[0] || x > BORNES_BILLET[1]; });
       if (incoherent) resultat.incoherents++;
       if (extreme) resultat.extremes++;
@@ -597,36 +599,10 @@
   /* ---------- 5. LES SECTIONS DE LA PAGE ---------- */
 
   function sectionEchantillon(a) {
+    const total = Object.values(a.ab.par).reduce((sum, g) => sum + g.n, 0);
     const frag = document.createDocumentFragment();
-    frag.appendChild(chiffres([
-      { valeur: nombre(a.recus), libelle: "lignes reçues dans la feuille" },
-      { valeur: nombre(a.tests), libelle: pluriel(a.tests, "ligne de test écartée", "lignes de test écartées") },
-      { valeur: nombre(a.doublons), libelle: pluriel(a.doublons, "doublon écarté", "doublons écartés"), petit: "même numéro de répondant" },
-      { valeur: nombre(a.filtrees.length), libelle: "filtrés : moins de 18 ans" },
-      { valeur: nombre(a.completes.length), libelle: pluriel(a.completes.length, "réponse complète", "réponses complètes"), petit: "base de l'analyse", cle: true },
-    ]));
-    if (a.completes.length && a.completes.length < MIN_FIABLE) {
-      frag.appendChild(el("p", "note", "Moins de " + MIN_FIABLE + " réponses complètes pour l'instant : les résultats ci-dessous sont indicatifs et vont bouger avec les nouvelles réponses."));
-    }
-
-    // Répartition des réponses entre les 4 versions du test
-    const c = carte("Réponses par version du test A/B", "Le tirage au sort vise autant de réponses pour chaque version.");
-    const versions = Object.keys(VERSIONS);
-    const maxN = Math.max.apply(null, versions.map(function (v) { return a.ab.par[v].n; }).concat([1]));
-    c.appendChild(barres(versions.map(function (v) {
-      const g = a.ab.par[v];
-      return {
-        nom: v + " · " + euros(VERSIONS[v].prix), detail: VERSIONS[v].coupe ? "avec coupe-file" : "sans coupe-file",
-        valeur: g.n, texte: String(g.n),
-        bulle: [{ valeur: String(g.n), libelle: pluriel(g.n, "réponse complète", "réponses complètes") }],
-      };
-    }), maxN));
-    c.appendChild(tableau(["Version", "Offre", "Réponses", "Première", "Dernière"],
-      versions.map(function (v) {
-        const g = a.ab.par[v];
-        return [v, euros(VERSIONS[v].prix) + (VERSIONS[v].coupe ? " + coupe-file" : ""), g.n, g.debut ? jour(g.debut) : "—", g.fin ? jour(g.fin) : "—"];
-      }), null, true));
-    frag.appendChild(c);
+    frag.appendChild(chiffres([{valeur: nombre(total), libelle: "réponses exploitables", cle: true}]));
+    frag.appendChild(el("p", "note", "Questionnaire diffusé auprès de proches et d’étudiants. Les résultats sont exploratoires et ne représentent pas tous les visiteurs du parc."));
     return frag;
   }
 
@@ -721,9 +697,15 @@
       { nom: "Avec coupe-file (versions C + D)", g: ab.coupe.avec },
       { nom: "Sans coupe-file (versions A + B)", g: ab.coupe.sans },
       "avec coupe-file que sans", "sans coupe-file qu'avec"));
+    effets.appendChild(carteEffet("Offre proposée contre référence", "D contre A",
+      { nom: "D : 54,50 € avec coupe-file", g: ab.par.D },
+      { nom: "A : 49 € sans coupe-file", g: ab.par.A }, "dans D que dans A", "dans A que dans D"));
     frag.appendChild(effets);
-    frag.appendChild(carteRegressions(ab.obs));
-    frag.appendChild(carteCook(ab.obs));
+    const exploratoire = el("details");
+    exploratoire.appendChild(el("summary", null, "Analyses exploratoires : régressions et influence (non utilisées pour décider)"));
+    exploratoire.appendChild(carteRegressions(ab.obs));
+    exploratoire.appendChild(carteCook(ab.obs));
+    frag.appendChild(exploratoire);
 
     // Collecte à des périodes différentes : l'écart peut venir de la période, pas seulement de l'offre
     const periodes = versions.map(function (v) { return ab.par[v]; }).filter(function (g) { return g.n && g.debut; });
@@ -865,7 +847,7 @@
         : " ; ce n'est pas significatif (" + formaterP(r.pente.p) + "), on ne peut pas rejeter H0" + (r.n < 2 * MIN_FIABLE ? " et l'échantillon est encore petit." : "."))));
     });
     c.appendChild(liste);
-    c.appendChild(el("p", "note", "Comme le prix ne prend que deux valeurs et le coupe-file deux aussi, ces régressions donnent le même écart que les cartes ci-dessus, exprimé autrement : le modèle 1 le ramène à un effet par euro. Le R² est toujours faible quand la variable expliquée vaut 0 ou 1 ; on regarde surtout le coefficient et sa p-valeur."));
+    c.appendChild(el("p", "note", "Comme le prix ne prend que deux valeurs et le coupe-file deux aussi, ces régressions donnent le même écart que les cartes ci-dessus, exprimé autrement : le modèle 1 le ramène à un effet par euro. Une variable binaire n’impose pas un R² faible. Les erreurs types classiques peuvent être inadaptées à ce modèle de probabilité ; les régressions sont exploratoires et ne fondent pas la décision. Le test de Fisher est présenté séparément."));
     return c;
   }
 
@@ -1003,7 +985,7 @@
       });
       ligneCoefs.push(["R²", nombre(r.r2, 3) + " (n = " + r.n + ")", "", r2 ? nombre(r2.r2, 3) + " (n = " + r2.n + ")" : "—", "", ""]);
       ligneCoefs.push(["Plus grande distance de Cook", nombre(Math.max.apply(null, r.cook), 3), "", r2 ? nombre(Math.max.apply(null, r2.cook), 3) : "—", "", ""]);
-      const tab = tableau(["Variable", "Avec tous", "p", "Sans les valeurs aberrantes", "p", "Significativité"], ligneCoefs, null, false);
+      const tab = tableau(["Variable", "Avec tous", "p", "Sans les observations influentes", "p", "Significativité"], ligneCoefs, null, false);
       tab.classList.add("tableau-regression");
       bloc.appendChild(tab);
       const max1 = Math.max.apply(null, r.cook), changes = ligneCoefs.filter(function (l) { return l[5] === "change"; }).length;
@@ -1066,8 +1048,8 @@
       "Prix plancher (PMC) : croisement de « trop bon marché » et de « pas une bonne affaire ». En dessous, trop de répondants doutent de la qualité.",
       "Prix optimal (OPP) : croisement de « trop bon marché » et de « trop cher ». C'est le prix qui rebute le moins de monde.",
       "Prix d'indifférence (IPP) : croisement de « bonne affaire » et de « cher ». Autant de répondants le trouvent bon marché que cher.",
-      "Prix plafond (PME) : croisement de « trop cher » et de « pas cher ». Au-dessus, trop de répondants renoncent.",
-      "La zone teintée, entre le prix plancher et le prix plafond, est la fourchette de prix acceptable.",
+      "Prix plafond (PME) : croisement de « trop cher » et de « pas cher ». Ce croisement ne constitue pas une limite commerciale absolue.",
+      "La zone teintée est un intervalle collectif d’acceptabilité estimé ; elle ne mesure pas la tolérance de chaque individu.",
     ].forEach(function (phrase) { liste.appendChild(el("li", null, phrase)); });
     aide.appendChild(liste);
     frag.appendChild(aide);
@@ -1334,14 +1316,14 @@
     const liste = document.getElementById("liste-methode");
     liste.replaceChildren();
     [
-      "Source : la Google Sheet du questionnaire, lue à chaque visite et toutes les " + SECONDES_ENTRE_ACTUALISATIONS + " secondes. Le script Google retire les lignes de test et les doublons (même numéro de répondant) avant d'envoyer les données ; il n'envoie pas ce numéro. Aucune donnée personnelle n'est collectée.",
+      "Source : copie figée le 24/11/2026 de l’export anonymisé du questionnaire. Le service retire les tests et les doublons par identifiant avant export ; cette déduplication ne garantit pas l’absence de participations multiples d’une personne. Les dates sont conservées au jour.",
       "Base de l'analyse : les réponses complètes. Les participants de moins de 18 ans, arrêtés au filtre, sont comptés à part.",
       "Seuils de prix : une réponse est « incohérente » si l'un des quatre prix est plus bas que le précédent pour le même parc. Un montant hors de " + BORNES_BILLET[0] + " à " + BORNES_BILLET[1] + " € est « extrême ». Ces réponses sont repérées et comptées ; les deux cases en haut de page permettent de les garder ou de les écarter. Rien n'est jamais effacé de la feuille.",
       "Les intervalles de confiance des quatre prix clés viennent d'un rééchantillonnage de 300 tirages (graine fixe, donc stable d'une actualisation à l'autre) et ne s'affichent qu'à partir de " + MIN_INTERVALLES + " répondants retenus.",
       "Test A/B : on compare la part de répondants qui choisissent Astérix. Intervalle de confiance de chaque part par la méthode de Wilson, de l'écart par la méthode de Newcombe ; test exact de Fisher bilatéral, seuil de 5 %. Un écart non significatif ne prouve pas l'absence d'effet : il peut venir d'un effectif trop faible.",
-      "Le coupe-file et le prix sont tirés au sort indépendamment, donc chaque effet se mesure sur toutes les réponses : prix = A + C contre B + D, coupe-file = C + D contre A + B. Cette comparaison n'est fiable que si les versions sont collectées sur la même période.",
+      "A/B : seules les réponses dont les prix et le bonus correspondent au protocole 49/54,50 € contre Disney 79 € sont retenues : 107 réponses. Une ancienne réponse 65/55 € est exclue. La pondération du tirage a changé pour remplir C et D (historique du questionnaire) ; les effets peuvent être confondus avec la période et le public. Les p-valeurs sont exploratoires.",
       "Régressions linéaires (modèle de probabilité linéaire, moindres carrés ordinaires) : la variable expliquée vaut 1 si le répondant choisit Astérix et 0 sinon ; la variable explicative est le prix du billet (en €) dans le modèle 1, la présence du coupe-file (1 ou 0) dans le modèle 2. Erreurs types classiques, test t de Student bilatéral, seuil de 5 %.",
-      "Distance de Cook : modèle A (choix d'Astérix selon le prix, le coupe-file, le budget, l'importance du prix et l'âge) et modèle B (prix « trop cher » d'Astérix selon celui de Disney), moindres carrés ordinaires. Seuil de 4/n ; « sans les valeurs aberrantes » = la même régression sans les répondants au-dessus de ce seuil.",
+      "Distance de Cook : modèle A (choix d'Astérix selon le prix, le coupe-file, le budget, l'importance du prix et l'âge) et modèle B (prix « trop cher » d'Astérix selon celui de Disney), moindres carrés ordinaires. Seuil de 4/n ; « sans les observations influentes » = la même régression sans les répondants au-dessus de ce seuil.",
       "Budget : les montants hors de " + BORNES_BUDGET[0] + " à " + nombre(BORNES_BUDGET[1]) + " € sont repérés comme extrêmes et écartés si la case correspondante est cochée.",
       "Moins de " + MIN_FIABLE + " réponses : les résultats sont indicatifs. Les courbes ne se tracent qu'à partir de " + MIN_COURBES + " répondants retenus.",
     ].forEach(function (phrase) { liste.appendChild(el("li", null, phrase)); });
@@ -1383,8 +1365,8 @@
       if (zones[nom]) zones[nom].replaceChildren(sections[nom](a));
     });
     remplirMethode();
-    afficherEtat("ok", nombre(a.completes.length) + " " + pluriel(a.completes.length, "réponse complète", "réponses complètes") +
-      " · mis à jour à " + heure(derniereMiseAJour));
+    afficherEtat("ok", nombre(Object.values(a.ab.par).reduce((sum, g) => sum + g.n, 0)) + " réponses exploitables" +
+      " · données figées le 24/11/2026");
   }
 
   function ouvrirMessage(titre, etapes) {
@@ -1406,8 +1388,7 @@
     const arret = new AbortController();
     const minuteur = setTimeout(function () { arret.abort(); }, 30000);
     try {
-      const reponse = await fetch(URL_GOOGLE_SCRIPT + "?action=donnees&t=" + Date.now(), { signal: arret.signal, cache: "no-store" });
-      const json = await reponse.json();
+      const json = window.PRIX_DONNEES_FIGEES;
       if (!json || json.ok === false) throw new Error((json && json.erreur) || "refusé");
       if (!Array.isArray(json.lignes) || !Array.isArray(json.colonnes)) {
         // L'ancienne version du script Google répond « ça marche » sans envoyer les données
@@ -1451,15 +1432,6 @@
   boutonActualiser.addEventListener("click", charger);
   [caseIncoherents, caseExtremes].forEach(function (c) {
     c.addEventListener("change", function () { if (donnees) afficher(); });
-  });
-
-  // Actualisation automatique, seulement quand la page est visible
-  setInterval(function () {
-    if (document.visibilityState === "visible") charger();
-  }, SECONDES_ENTRE_ACTUALISATIONS * 1000);
-  document.addEventListener("visibilitychange", function () {
-    if (document.visibilityState === "visible" && derniereMiseAJour &&
-        Date.now() - derniereMiseAJour.getTime() > SECONDES_ENTRE_ACTUALISATIONS * 1000) charger();
   });
 
   charger();

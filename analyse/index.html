@@ -4,18 +4,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Résultats du questionnaire · Prix Astérix</title>
-<meta name="description" content="Analyse en direct des réponses au questionnaire sur le prix d'une journée au Parc Astérix et à Disneyland Paris : test A/B, seuils de prix Van Westendorp, profil des répondants.">
+<meta name="description" content="Analyse figée des réponses au questionnaire sur le prix d'une journée au Parc Astérix et à Disneyland Paris : test A/B, seuils de prix Van Westendorp, profil des répondants.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500..900&family=Caveat+Brush&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="style.css?v=4">
 <link rel="stylesheet" href="../garde.css?v=6">
-</head>
-<body>
+<link rel="stylesheet" href="../ambiance.css?v=3"></head>
+<body class="analysis-page">
 
 <nav class="top" aria-label="Sections">
   <div class="wrap">
-    <a class="brand" href="../#accueil">Astérix vs Disney</a>
+    <a class="brand" href="../index.html">Astérix vs Disney</a>
     <a href="#haut">Résultats</a>
     <a href="#echantillon">Échantillon</a>
     <a href="#profil">Profil</a>
@@ -25,19 +25,19 @@
     <a href="#criteres">Critères</a>
     <a href="#budget">Budget</a>
     <a href="#methode">Méthode</a>
-    <a href="../#resultats">← Retour à l'étude</a>
+    <a href="../enquete.html">← Retour à l'étude</a>
   </div>
 </nav>
 
 <main class="wrap" id="haut">
   <header class="hero">
-    <p class="eyebrow">Questionnaire en ligne · analyse en direct</p>
+    <p class="eyebrow">Questionnaire en ligne · résultats figés</p>
     <h1>Ce que répondent<br>les <mark>participants</mark></h1>
-    <p class="lede">Cette page lit la Google Sheet du questionnaire et recalcule toute l'analyse à chaque visite : plus besoin de la mettre à jour à la main.</p>
+    <p class="lede"><strong>107 réponses exploitables</strong> à notre questionnaire auprès de proches et d’étudiants. Découvrez les préférences et les seuils de prix déclarés.</p>
     <div class="etat" id="etat-bandeau">
       <span class="pastille-etat" id="pastille-etat" aria-hidden="true"></span>
       <span id="etat-texte" role="status" aria-live="polite">Chargement des réponses…</span>
-      <button type="button" class="bouton" id="bouton-actualiser">Actualiser</button>
+      <button type="button" class="bouton" id="bouton-actualiser">Recalculer</button>
     </div>
   </header>
 
@@ -51,8 +51,8 @@
 
   <section id="echantillon" aria-labelledby="t-echantillon">
     <div class="head">
-      <p class="eyebrow">1 · Échantillon et nettoyage</p>
-      <h2 id="t-echantillon">Combien de réponses, et combien sont exploitables</h2>
+      <p class="eyebrow">1 · Notre enquête</p>
+      <h2 id="t-echantillon">Notre questionnaire</h2>
     </div>
     <div class="corps" data-corps="echantillon"><p class="vide">En attente des données…</p></div>
   </section>
@@ -78,7 +78,7 @@
       <p class="eyebrow">4 · Test A/B à deux facteurs</p>
       <h2 id="t-ab">Astérix ou Disneyland : l'effet du prix et du coupe-file</h2>
     </div>
-    <p class="prose">Chaque répondant voit une des quatre versions de l'offre, tirée au sort. Disneyland Paris est toujours à 79&nbsp;€ ; seuls le prix du Parc Astérix (49&nbsp;€ ou 54,50&nbsp;€) et la présence d'un coupe-file changent. On mesure la part de répondants qui choisissent Astérix.</p>
+    <p class="prose">Les réponses retenues correspondent aux quatre versions du protocole. Les pondérations de diffusion ont changé pendant la collecte ; les comparaisons restent exploratoires. Disneyland Paris est toujours à 79&nbsp;€ ; seuls le prix du Parc Astérix (49&nbsp;€ ou 54,50&nbsp;€) et la présence d'un coupe-file changent. On mesure la part de répondants qui choisissent Astérix.</p>
     <div class="corps" data-corps="ab"><p class="vide">En attente des données…</p></div>
   </section>
 
@@ -112,14 +112,15 @@
       <p class="eyebrow">Méthode et limites</p>
       <h2 id="t-methode">Comment lire ces résultats</h2>
     </div>
-    <ul class="limits" id="liste-methode"></ul>
+    <p>Questionnaire diffusé auprès de proches et d’étudiants (précision du groupe, 24 novembre 2026). Cet échantillon de convenance ne représente pas l’ensemble des visiteurs du parc.</p><ul class="limits" id="liste-methode"></ul>
   </section>
 </main>
 
 <footer>
-  <div class="wrap">Projet prix marketing · <a href="../">Étude de marché</a> · <a href="../questionnaire-ab/">Questionnaire</a> · Données : Google Sheet du questionnaire, lue à chaque visite.</div>
+  <div class="wrap">Projet prix marketing · <a href="../index.html">Étude de marché</a> · <a href="../questionnaire-ab/index.html">Questionnaire</a> · Données : export anonymisé figé le 24 novembre 2026.</div>
 </footer>
 
-<script src="analyse.js?v=2"></script>
-</body>
+<script src="donnees-figees.js?v=1"></script>
+<script src="analyse.js?v=3"></script>
+<script src="../ambiance.js?v=3"></script></body>
 </html>
