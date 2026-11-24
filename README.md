@@ -1,9 +1,7 @@
-# Prix Parc Astérix 2026
+# Dossier Parc Astérix — 24 novembre 2026
 
-Site statique présentant l'étude de marché du Parc Astérix : concurrence, tarifs comparés, finances, investissements et plafond tarifaire provisoire (relevé du 1er octobre 2026).
+Ouvrir index.html. Six pages reliées par des flèches : accueil, comptes, marché, enquête, décision, conclusion. Les chiffres soulignés renvoient à un document ou à un calcul ; leur source s’affiche au survol.
 
-Données : étude de marché du dépôt [axelfp-ctrl/Asterix](https://github.com/axelfp-ctrl/Asterix).
+Les résultats de l’enquête sont figés et fonctionnent hors connexion. Les PDF comptables sont inchangés. Les coûts hypothétiques ne sont pas des prévisions du parc. Les tarifs historiques déclarés par le groupe ne sont pas accompagnés de captures archivées.
 
-Pour le mettre en ligne : Settings → Pages → Deploy from a branch → `main` / racine.
-
-Questionnaire en ligne : dossier [`questionnaire/`](questionnaire/), publié à l'adresse `/questionnaire/` du site.
+Pour publier, transférer tout le contenu en conservant ses sous-dossiers. Cette copie locale ne modifie pas le site en ligne.
